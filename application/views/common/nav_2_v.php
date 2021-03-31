@@ -61,7 +61,6 @@
             },
             load_view_a: function(key){
                 app_cf = this.nav_2[key].cf;
-                //console.log(app_cf);
                 load_sections('nav_2'); //Función global
             },
             set_current: function(){

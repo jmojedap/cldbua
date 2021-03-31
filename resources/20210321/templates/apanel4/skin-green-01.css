@@ -1,0 +1,120 @@
+/* NavBar */
+/*-----------------------------------------------------------------------------*/
+
+.main_nav_col{
+	color: #E2EDE2;
+	background: #89CB4E;
+}
+
+.main_nav > li > a:hover, .main_nav > li > a.current{
+	box-shadow: inset 0px 0px 72px rgb(106, 161, 51);
+	background-color: #89CB4E;
+}
+
+.sub_nav{
+
+	background: #EAEFE1;
+	border-color: #CCC;
+	box-shadow: 4px 4px 8px 2px rgba(200,200,200,0.5);
+}
+
+.sub_nav li a{
+	color: #262821;
+	border-left: 0px solid #4B6334;
+}
+
+.sub_nav li a:hover, .sub_nav li a.current{
+	color: #FFF;
+	background: rgb(110, 165, 62);
+	border-left: 4px solid #4B6334;
+}
+
+.gossip{
+	color: #FFF;
+	box-shadow: inset 0px 4px 16px #577A2A;
+	border-bottom: 1px solid #A8D676;
+}
+
+/* Search Form */
+/*-----------------------------------------------------------------------------*/
+
+.search_container{
+	background: #89CB4E;
+}
+
+.search_container form{
+	background: #FFF;
+}
+
+.search_container i{
+	color: #999;
+}
+
+.search_box{
+	color: #CCC;
+}
+
+/* ------------------------------------ */
+/* ------ RESPONSIVE BEHAVIORS  ------- */
+/* ------------------------------------ */
+
+@media all and (max-width: 480px){
+	
+	.main_nav > li > a{
+		border-bottom: 1px solid #AED188;
+	}
+	
+	.sub_nav{
+		background: #7EBB48;
+	}
+	
+	.gossip{
+		display: none;
+	}
+
+	.sub_nav li a{
+		color: #FFF;
+		border-bottom: 1px solid #AED188;
+	}
+	
+	.sub_nav li a:hover, .sub_nav li a.current{
+		background: #73AA3D;
+	}
+}
+
+/* ------------------------------------------ */
+/* ----------- OVERRIDE BOOTSTRAP ----------- */
+/* ------------------------------------------ */
+
+.nav:first-child{
+	margin-top: 0px;
+}
+
+/* Adicionales */
+/*-----------------------------------------------------------------------------*/
+
+#head_subtitle{
+    color: #333;
+}
+
+/* Adaptación Bootstrap */
+/*-----------------------------------------------------------------------------*/
+
+.btn-light {
+	background-color: #fefefe;
+	border-color: #E4EAEC;
+	color: #444;
+}
+
+.btn-light:hover,
+.btn-light:active,
+.btn-light.hover {
+    background-color: #ffffff;
+    border-color: rgb(212, 217, 219);
+}
+
+.btn-light:disabled{
+	background-color: #ffffff;
+	border-color: #EEE;
+	color: #AAA;
+}

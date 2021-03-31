@@ -2,11 +2,13 @@
     <i class="fa fa-spin fa-spinner fa-3x text-muted"></i>
 </div>
 
+
+
 <div class="table-responsive" v-show="!loading">
     <table class="table bg-white">
         <thead>
             <th width="10px"><input type="checkbox" @change="select_all" v-model="all_selected"></th>
-            <th width="50px"></th>
+            <th width="40px"></th>
             <th>Nombre</th>
             <th>Rol</th>
             <th class="only-lg"></th>

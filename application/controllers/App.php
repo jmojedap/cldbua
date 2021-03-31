@@ -50,7 +50,7 @@ class App extends CI_Controller {
         $data['head_title'] = 'Acceso no permitido';
         $data['view_a'] = 'app/denied_v';
 
-        $this->load->view('templates/admin_pml/start_v', $data);
+        $this->load->view('templates/apanel4/start', $data);
     }
 
     

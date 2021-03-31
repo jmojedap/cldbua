@@ -1,0 +1,184 @@
+/* General */
+/*-----------------------------------------------------------------------------*/
+a{ color: #0048FF; }
+a:hover { color:#3F78FF; }
+
+.text-main{
+	color: #b60c67;
+}
+
+/* NavBar */
+/*-----------------------------------------------------------------------------*/
+
+.main_nav_col{
+	color: #E2EDE2;
+	background: #9C0062;
+}
+
+.main_nav > li > a:hover, .main_nav > li > a.active{
+	box-shadow: inset 0px 0px 72px #400535;
+	background-color: #9C0062;
+}
+
+.treeview-menu{
+	background: #EAEFE1;
+	border-color: #CCC;
+	box-shadow: 4px 4px 8px 2px rgba(200,200,200,0.5);
+}
+
+.treeview-menu li a{
+	color: #262821;
+	border-left: 0px solid #400535;
+}
+
+.treeview-menu li a:hover, .treeview-menu li a.active{
+	color: #FFF;
+	background: #9C0062;
+	border-left: 4px solid #400535;
+}
+
+.gossip{
+	color: #FFF;
+	box-shadow: inset 0px 4px 16px #400535;
+	border-bottom: 1px solid #9c2286;
+}
+
+/* Navs */
+/*-----------------------------------------------------------------------------*/
+
+.nav-item .nav-link{
+	color: #76838f;
+}
+
+.nav-tabs .nav-item .active {
+    color: #b60c67;
+    border-bottom: 2px solid #b60c67;
+}
+
+/* Search Form */
+/*-----------------------------------------------------------------------------*/
+
+.search_container{
+	background: #9C0062;
+}
+
+.search_container form{
+	background: #FFF;
+}
+
+.search_container i{
+	color: #999;
+}
+
+.search_box{
+	color: #CCC;
+}
+
+/* Pantalla de Inicio, START */
+/*-----------------------------------------------------------------------------*/
+.start_body{
+	background-color: #9C0092;
+}
+
+/* ------------------------------------ */
+/* ------ RESPONSIVE BEHAVIORS  ------- */
+/* ------------------------------------ */
+
+@media all and (max-width: 480px){
+	
+	.main_nav > li > a{
+		border-bottom: 1px solid #ec3c9a;
+	}
+	
+	.treeview-menu{
+		background: #AD035F;
+	}
+	
+	.gossip{
+		display: none;
+	}
+
+	.treeview-menu li a{
+		color: #FFF;
+		border-bottom: 1px solid #ec3c9a;
+	}
+	
+	.treeview-menu li a:hover, .treeview-menu li a.active{
+		background: #ec3c9a;
+	}
+
+	.start_body {
+		background-color: #FAFAFA;
+	}
+}
+
+/* ------------------------------------------ */
+/* ----------- OVERRIDE BOOTSTRAP ----------- */
+/* ------------------------------------------ */
+
+.nav:first-child{
+	margin-top: 0px;
+}
+
+/* Adicionales */
+/*-----------------------------------------------------------------------------*/
+
+#head_subtitle{
+    color: #333;
+}
+
+/* Adaptación Bootstrap */
+/*-----------------------------------------------------------------------------*/
+
+.btn {
+	border-radius: 6px;
+}
+
+.btn-lg {
+	border-radius: 8px;
+}
+
+.btn-light {
+	background-color: #fefefe;
+	border-color: #E4EAEC;
+	color: #444;
+}
+
+.btn-light:hover,
+.btn-light:active,
+.btn-light.hover {
+    background-color: #ffffff;
+    border-color: #CCC;
+}
+
+.btn-light:disabled{
+	background-color: #ffffff;
+	border-color: #AAA;
+	color: #AAA;
+}
+
+.btn-main{ background-color:#FECD19 }
+.btn-main:hover{ background-color:#ffd545; }
+
+.btn-primary{ background-color:#2B91FF; border-color: #2B91FF }
+.btn-primary:hover{ background-color:#4FA4FF; border-color: #4FA4FF }
+
+.btn-secondary{ background-color:#9C0092; border-color: #9C0092 }
+.btn-secondary:hover{ background-color:#C530BA; border-color: #C530BA }
+
+.btn-success{ background-color:#77E021; border-color: #77E021 }
+.btn-success:hover{ background-color:#8DF539; border-color: #8DF539 }
+
+.btn-danger{ background-color:#FE3A6A; border-color: #FE3A6A }
+.btn-danger:hover{ background-color:#FF527D; border-color: #FF527D }
+
+.btn-info{ background-color:#BC6FF1; border-color: #BC6FF1 }
+.btn-info:hover{ background-color:#CA7AFF; border-color: #CA7AFF }
+
+/* Formularios */
+/*-----------------------------------------------------------------------------*/
+
+.form-control{
+	border-color: #E4EAEC;
+	border-radius: 6px;
+}

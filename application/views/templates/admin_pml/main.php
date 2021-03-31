@@ -7,8 +7,6 @@
 <html lang="en">
     <head>
         <?php $this->load->view('templates/admin_pml/main/head') ?>
-
-        <?php //$this->load->view('templates/admin_pml/main/routes_script') ?>
     </head>
     <body class="skin-blue">
         <div class="wrapper">

@@ -1,0 +1,328 @@
+/* 
+    Created on : 2021-03-04
+    Author     : Pacarina Media Lab
+*/
+
+@import url('https://fonts.googleapis.com/css?family=Rubik:300,400,500,700,900');
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
+
+body{
+	color: #666;
+	font-size: 14px;
+	font-family: "Open Sans", sans-serif;
+	background: #FAFAFA;
+}
+
+.layout{
+	height: 100vh;
+	display: grid;
+	grid-template-columns: 112px auto;
+}
+
+.footer{
+	padding: 1em 1em 0.7em 1em;
+	background-color: #f6f6f6;
+	border-top: 1px solid #e9e9e9;
+	text-align: center;
+	color: #999;
+	font-size: 0.9em;
+	margin-top: 1em;
+}
+
+table{
+	background-color: white;
+}
+
+a, a:hover, a:active, a:focus { text-decoration: none; }
+a img { border: none; }
+
+h1, h2, h3, h4, h5, h6{ 
+	font-weight: 300;
+	font-family: "Rubik", sans-serif;
+}
+
+/* Estructura Layout */
+/*-----------------------------------------------------------------------------*/
+
+.main-nav{
+	background-color: #9C0062;
+}
+
+.main_nav_col{
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	color: #E2EDE2;
+	width: 112px;
+}
+
+.main_logo{
+	display: block;
+	margin: 0px auto;
+	padding: 12px;
+	text-align: center;
+}
+
+.main-content{
+	padding-top: 6px;
+	display: grid;
+	grid-template-rows: 1fr auto;
+}
+
+.menu_switch{
+	display: none;
+	position: absolute;
+	top: 12px;
+	right: 12px;
+	color: #9C0062;
+	padding: 4px 8px;
+	background: #F2F2F2;
+	border-radius: 2px;
+}
+
+.menu_switch:hover{
+	color: #000;
+	background: #FFF;
+}
+
+/* CONTENIDO ASIDE NAV 1 */
+/*-----------------------------------------------------------------------------*/
+
+.main_nav, .treeview-menu{
+	padding: 0px;
+	margin: 0px;
+	list-style: none;
+}
+
+.main_nav > li{
+	position: relative;
+}
+
+.main_nav > li > a{
+	display: block;
+	margin: 0px;
+	color: #FFF;
+	line-height: 22px;
+	font-size: 15px;
+	text-align: center;
+	padding: 15px 0px;
+	transition: all 125ms ease-out;
+	text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
+}
+
+.main_nav > li > a > span{
+	display: block;
+}
+
+.treeview-menu{
+	position: absolute;
+	left: 112px;
+	top: 0px;
+	width: 148px;
+	z-index: 9999;
+}
+
+.treeview-menu li a{
+	color: #262821;
+	display: block;
+	padding: 8px 10px;
+	margin: 6px 0px;
+	transition: border 125ms ease-out;
+}
+
+.treeview-menu li a:hover, .treeview-menu li a.active{
+	color: #FFF;
+}
+
+.treeview-menu li .fa{
+	padding-right: 6px;
+}
+
+.gossip{
+	display: block;
+	line-height: 18px;
+	overflow: hidden;
+	color: #FFF;
+	font-size: 10px;
+	text-align: center;
+	text-transform: uppercase;
+	letter-spacing: 1px;
+	padding: 2px;
+}
+
+/* Ajustes Bootstrap */
+/*-----------------------------------------------------------------------------*/
+
+/*.container-fluid{
+	padding-right: 6px;
+	padding-left: 6px;
+}
+
+.row{
+	margin-right: -6px;
+	margin-left: -6px;
+}*/
+
+/* Bootstrap Icons */
+/*-----------------------------------------------------------------------------*/
+.bi-2x{ font-size: 1.5em; }
+.bi-3x{ font-size: 2.5em; }
+
+/* ------------------------------------------ */
+/* ----------- OVERRIDE BOOTSTRAP ----------- */
+/* ------------------------------------------ */
+
+.nav:first-child{
+	margin-top: 0px;
+}
+
+/* Adicionales */
+/*-----------------------------------------------------------------------------*/
+
+#head_subtitle{
+    font-size: 0.7em;
+    color: #333;
+    padding-left: 0px;
+}
+
+/* Navs */
+/*-----------------------------------------------------------------------------*/
+
+/* NAV TABS */
+/* --------------------------------------------------- */
+.nav-tabs .nav-item {
+	background-color: transparent;
+}
+
+.nav-item{
+	border-color: transparent;
+}
+
+.nav-tabs .nav-item .active{
+	background-color: transparent;
+	border-color: transparent;
+}
+
+/* Pantalla de Inicio, START */
+/*-----------------------------------------------------------------------------*/
+
+.start_body{
+	text-align: center;
+  }
+  
+  .start_footer{
+	padding: 0.5em;
+	color: #FFFFFF;
+	text-align: center;
+  }
+  
+  .start_container{
+	background-color: #FFFFFF;
+	padding: 25px;
+	min-height: 450px;
+	width: 350px;
+	margin: 0 auto;
+	margin-top: 10vh;
+	-webkit-border-radius: 6px;
+	-moz-border-radius: 6px;
+	border-radius: 6px;
+	border: 1px solid #f1f1f1;
+  }
+  
+  .btn_google{
+	background-color: #FAFAFA;
+	border: 1px solid #DDDDDD;
+  }
+  
+  .btn_google:hover{
+	background-color: #f1f1f1;
+	border: 1px solid #AAAAAA;
+  }
+
+/* COMPORTAMIENTOS RESPONSIVE */
+/*-----------------------------------------------------------------------------*/
+
+@media all and (max-width: 730px){
+
+	.layout { 
+		grid-template-rows: auto 1fr;
+		grid-template-columns: 1fr;
+	}
+	
+	.menu_switch{
+		display: block;
+	}
+	
+	.fa-2x{
+		font-size: inherit;
+	}
+
+	.bi-2x, .bi-3x{
+		font-size: inherit;
+	}
+	
+	.main_nav_col{
+		position: relative;
+		top: 0px;
+		left: 0px;
+		width: auto;
+		/*min-width: 320px;*/
+	}
+	
+	.main_logo{
+		text-align: left;
+	}
+	
+	.main_nav > li > a{
+		height: auto;
+		padding: 12px 0px;
+		font-size: 18px;
+		text-align: left;
+		padding-left: 10px;
+	}
+	
+	.main_nav > li > a.active{
+		height: auto;
+	}
+	
+	.main_nav > li > a > span{
+		display: inline;
+		padding-left: 5px;
+	}
+	
+	.treeview-menu{
+		position: relative;
+		top: auto;
+		left: auto;
+		width: auto;
+		border: none;
+		box-shadow: none;
+		display: none;
+	}
+	
+	.gossip{
+		display: none;
+	}
+
+	.treeview-menu li a{
+		color: #FFF;
+		margin: 0px;
+		border: none;
+		padding-left: 35px;
+	}
+	
+	.main-content{
+		margin-left: 0px;
+	}
+
+	.start_container {
+		background-color: transparent;
+		border: transparent;
+		margin-top: 0px;
+	}
+
+	.start_footer{
+		color: #666;
+	}
+	
+}

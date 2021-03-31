@@ -58,9 +58,9 @@
                                 class="form-control"
                                 v-bind:class="{ 'is-invalid': validation.username_unique == 0, 'is-valid': validation.username_unique == 1 }"
                                 placeholder="username"
-                                title="Puede contener letras y números, entre 6 y 25 caractéres, no debe contener espacios ni caracteres especiales"
+                                title="Puede contener letras y números, entre 5 y 25 caractéres, no debe contener espacios ni caracteres especiales"
                                 required
-                                pattern="^[A-Za-z0-9_]{6,25}$"
+                                pattern="^[A-Za-z0-9_]{5,25}$"
                                 v-model="form_values.username"
                                 v-on:change="validate_form"
                                 >

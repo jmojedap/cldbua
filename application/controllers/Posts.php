@@ -86,8 +86,6 @@ class Posts extends CI_Controller{
         $destination = "posts/read/{$post_id}";
 
         if ( $row->type_id == 2 ) $destination = "noticias/leer/{$row->id}/{$row->slug}";
-        if ( $row->type_id == 5 ) $destination = "girls/album/{$row->related_1}/{$row->id}/{$meta_id}";
-        if ( $row->type_id == 8 ) $destination = "books/read/{$row->code}/{$row_meta->id}/{$row->slug}";
 
         redirect($destination);
     }
@@ -100,7 +98,7 @@ class Posts extends CI_Controller{
         //Datos básicos
         $data = $this->Post_model->basic($post_id);
         unset($data['nav_2']);
-        $data['view_a'] = $this->Post_model->type_folder($data['row']) . 'read_v';
+        $data['view_a'] = $data['type_folder'] . 'read_v';
 
         $this->App_model->view(TPL_ADMIN, $data);
     }
@@ -112,7 +110,7 @@ class Posts extends CI_Controller{
     {        
         //Datos básicos
         $data = $this->Post_model->basic($post_id);
-        $data['view_a'] = $this->Post_model->type_folder($data['row']) . 'info_v';
+        $data['view_a'] = $data['type_folder'] . 'info_v';
 
         $this->App_model->view(TPL_ADMIN, $data);
     }
@@ -125,8 +123,7 @@ class Posts extends CI_Controller{
     {        
         //Datos básicos
         $data = $this->Post_model->basic($post_id);
-        $data['view_a'] = 'posts/details_v';
-        $data['fields'] = $this->db->list_fields('posts');
+        $data['view_a'] = 'common/row_details_v';
 
         $this->App_model->view(TPL_ADMIN, $data);
     }
@@ -148,16 +145,11 @@ class Posts extends CI_Controller{
         $this->App_model->view(TPL_ADMIN, $data);
     }
 
-    /**
-     * Crea un nuevo registro en la tabla post
-     * 2019-11-29
-     */
-    function insert()
+    function save()
     {
-        $data = $this->Post_model->insert();
+        $data = $this->Post_model->save();
         $this->output->set_content_type('application/json')->set_output(json_encode($data));
     }
-    
     
     
 // EDICIÓN Y ACTUALIZACIÓN
@@ -175,21 +167,10 @@ class Posts extends CI_Controller{
         $data['options_type'] = $this->Item_model->options('category_id = 33', 'Todos');
         
         //Array data espefícicas
-            $data['nav_2'] = 'posts/menu_v';
             $data['head_subtitle'] = 'Editar';
-            $data['view_a'] = $this->Post_model->type_folder($data['row']) . 'edit_v';
+            $data['view_a'] = $data['type_folder'] . 'edit_v';
         
         $this->App_model->view(TPL_ADMIN, $data);
-    }
-
-    /**
-     * Guardar un registro en la tabla post, si post_id = 0, se crea nuevo registro
-     * 2019-11-29
-     */
-    function update($post_id)
-    {
-        $data = $this->Post_model->update($post_id);
-        $this->output->set_content_type('application/json')->set_output(json_encode($data));
     }
 
 // POST IMAGES

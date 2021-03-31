@@ -33,11 +33,11 @@
     $qty_login = $this->Db_model->num_rows('events', "user_id = {$row->id} AND type_id = 101");
 ?>
 
-<div class="container">
+<div class="center_box_750">
     <div class="row">
         <div class="col col-md-4">
             <!-- Page Widget -->
-            <div class="card text-center">
+            <div class="card text-center mb-2">
                 <img src="<?= $row->url_image ?>" alt="Imagen del usuario"  onerror="this.src='<?= URL_IMG ?>users/user.png'" class="w100pc">
                 <div class="card-body">
                     <h4 class="profile-user"><?= $this->Item_model->name(58, $row->role) ?></h4>

@@ -44,7 +44,7 @@ class Accounts extends CI_Controller {
                 $data['head_title'] = APP_NAME;
                 $data['view_a'] = 'accounts/login_v';
                 //$data['g_client'] = $this->Account_model->g_client(); //Para botón login con Google
-                $this->load->view('templates/admin_pml/start', $data);
+                $this->load->view('templates/apanel4/start', $data);
             }
     }
 
@@ -100,7 +100,7 @@ class Accounts extends CI_Controller {
         $data['recaptcha_sitekey'] = K_RCSK;    //config/constants.php
         //$data['g_client'] = $this->Account_model->g_client(); //Para botón login con Google
         //$data['max_date'] = strtotime(date('Y-m-d') . ' -18 year');
-        $this->load->view('templates/admin_pml/start', $data);
+        $this->load->view('templates/apanel4/start', $data);
     }
     
     /**
@@ -189,7 +189,7 @@ class Accounts extends CI_Controller {
         $data['activation_key'] = $activation_key;
         $data['view_a'] = 'accounts/activation_v';
 
-        $this->App_model->view('templates/admin_pml/start', $data);
+        $this->App_model->view('templates/apanel4/start', $data);
     }
 
     /**
@@ -230,7 +230,7 @@ class Accounts extends CI_Controller {
             $data['head_title'] = 'Accounts recovery';
             $data['view_a'] = 'accounts/recovery_v';
             $data['recaptcha_sitekey'] = K_RCSK;    //config/constants.php
-            $this->load->view('templates/admin_pml/start_v', $data);
+            $this->load->view('templates/apanel4/start_v', $data);
         }
     }
 
@@ -296,7 +296,7 @@ class Accounts extends CI_Controller {
 
         //Cargar vista
             $data['view_a'] = 'accounts/recover_v';
-            $this->load->view('templates/admin_pml/start_v', $data);
+            $this->load->view('templates/apanel4/start_v', $data);
     }
 
     /**
@@ -336,7 +336,7 @@ class Accounts extends CI_Controller {
         $data['nav_2'] = 'accounts/menu_v';
         $data['view_a'] = 'accounts/profile_v';
         
-        $this->App_model->view('templates/admin_pml/main', $data);
+        $this->App_model->view('templates/apanel4/main', $data);
     }
 
 // ACTUALIZACIÓN DE DATOS
@@ -374,7 +374,7 @@ class Accounts extends CI_Controller {
             $data['nav_3'] = 'accounts/edit/menu_v';
             $data['view_a'] = $view_a;
         
-        $this->App_model->view('templates/admin_pml/main', $data);
+        $this->App_model->view('templates/apanel4/main', $data);
     }
 
     /**

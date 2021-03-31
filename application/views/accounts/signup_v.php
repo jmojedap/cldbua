@@ -75,7 +75,7 @@
             </div>    
             
             <div class="form-group">
-                <button type="submit" class="btn btn-primary btn-block" v-bind:disabled="loading == true">Crear cuenta</button>
+                <button type="submit" class="btn btn-main btn-block btn-lg" v-bind:disabled="loading == true">Crear cuenta</button>
             </div>
         </form>
     </div>
@@ -103,9 +103,9 @@
     new Vue({
         el: '#signup_app',
         data: {
-            display_name: 'Juan Pérez',
+            display_name: '',
             username: '',
-            email: 'jmojedap@gmail.com.co',
+            email: '',
             pw: '',
             validated: -1,
             validation: {

@@ -6,9 +6,10 @@ class Post_model extends CI_Model{
         $row = $this->Db_model->row_id('posts', $post_id);
 
         $data['row'] = $row;
+        $data['type_folder'] = $this->type_folder($row->type_id);
         $data['head_title'] = $data['row']->post_name;
         $data['view_a'] = 'posts/post_v';
-        $data['nav_2'] = 'posts/menu_v';
+        $data['nav_2'] = $data['type_folder'] . 'menu_v';
 
         return $data;
     }
@@ -230,6 +231,12 @@ class Post_model extends CI_Model{
 
         return $row;
     }
+
+    function save()
+    {
+        $data['saved_id'] = $this->Db_model->save_id('posts');
+        return $data;
+    }
     
     /**
      * Insertar un registro en la tabla posts.
@@ -271,13 +278,14 @@ class Post_model extends CI_Model{
     /**
      * Nombre de la vista con el formulario para la edición del post. Puede cambiar dependiendo
      * del tipo (type_id).
-     * 2020-08-20
+     * 2021-03-26
      */
-    function type_folder($row)
+    function type_folder($type_id)
     {
         $type_folder = 'posts/';
-        if ( $row->type_id == 2 ) $type_folder = 'posts/types/news/';
-        if ( $row->type_id == 41 ) $type_folder = 'posts/types/encuestanl/';
+        $special_types = array(4110, 4130);
+
+        if ( in_array($type_id, $special_types) ) { $type_folder = "posts/types/{$type_id}/"; }
 
         return $type_folder;
     }
