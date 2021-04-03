@@ -223,46 +223,69 @@ class Courses extends CI_Controller{
 // Presentación del curso
 //-----------------------------------------------------------------------------
 
-    function open_element($course_id, $element_index = 0)
+    function open_element($course_id, $index = 0)
     {
         $destination = "courses/info/{$course_id}";
+        $num_class = $index + 1;
 
         $course = $this->Course_model->row($course_id);
-        $course_data = json_decode($course->content_json, true);
-        $index = $course_data['index'];
-        $element = $index[$element_index];
-        $row_element = $this->Db_model->row_id($element['type'], $element['row_id']);
+        $syllabus = $this->Course_model->syllabus($course);
+
+        if ( $index < 0 ) $destination = "courses/info/{$course->id}";   //Inicio del curso
+        if ( $index >= count($syllabus) ) $destination = "courses/info/{$course->id}";    //Final del curso
+
+        //Índice está en entre los elementos
+        if ( $index >= 0 && $index < count($syllabus) )
+        {
+            $element = $syllabus[$index];
+            $row_element = $this->Db_model->row_id($element['type'], $element['row_id']);
         
-        if ( $element['type'] == 'posts' ) {
-            $destination = "courses/class/{$course->id}/{$course->slug}/{$row_element->id}/{$element_index}";
-        } elseif ($element['type'] == 'exams' ){
-            $destination = "exams/preparation/{$row_element->id}/{$element_index}/{$course->id}/{$course->slug}";
+            if ( $element['type'] == 'posts' )
+            {
+                $destination = "courses/class/{$course->id}/{$course->slug}/$row_element->id/{$num_class}";
+            } elseif ($element['type'] == 'exams' ){
+                $destination = "exams/preparation/{$row_element->id}/{$num_class}/{$course->id}/{$course->slug}";
+            }
+
+            $row_meta = $this->Db_model->row('users_meta', "user_id = {$this->session->userdata('user_id')} AND type_id = 411010 AND related_1 = {$course_id}");
+            //Actualizar registro inscripción a curso
+            if ( ! is_null($row_meta) )
+            {
+                $arr_row['integer_1'] = $index;
+                $arr_row['updated_at'] = date('Y-m-d H:i:s');
+                $this->db->where('id', $row_meta->id);
+                $this->db->update('users_meta', $arr_row);
+            }
         }
 
         redirect($destination);
+
         
         //Verificación
         /*$data['index'] = $index;
-        $data['element_index'] = $element_index;
+        $data['row_meta'] = $row_meta;
+        $data['syllabus'] = $syllabus;
         $data['element'] = $element;
         $data['row_element'] = $row_element;
-        $data['destination'] = $destination;*/
+        $data['destination'] = $destination;
 
         //Salida JSON
-        //$this->output->set_content_type('application/json')->set_output(json_encode($data));
+        //$this->output->set_content_type('application/json')->set_output(json_encode($data));*/
     }
 
-    function class($course_id, $slug = '', $class_id = 0, $element_index = 0)
+    function class($course_id, $slug = '', $class_id = 0, $num_class = 1)
     {
-        $course = $this->Course_model->row($course_id);
+        $course = $this->Course_model->row($course_id);        
         $clase = $this->Db_model->row_id('posts', $class_id);
 
-        $user_id = $this->session->userdata('user_id');
-        $row_meta = $this->Db_model->row_id('users_meta', "type_id = 411010 AND user_id = {$user_id}"); //Registro de inscripción del usuario
+        $enrolling_id = 0;
+        $row_meta = $this->Db_model->row('users_meta', "user_id = {$this->session->userdata('user_id')} AND type_id = 411010 AND related_1 = {$course_id}");
+        if ( ! is_null($row_meta) ) { $enrolling_id = $row_meta->id; }
 
         $data['course'] = $course;
         $data['clase'] = $clase;
-        $data['row_meta'] = $row_meta;
+        $data['enrolling_id'] = $enrolling_id;
+        $data['index'] = $num_class - 1;
         $data['head_title'] = $course->post_name;
         $data['view_a'] = 'courses/classes/class/class_v';
 

@@ -17,7 +17,7 @@
         </div>
         
         <div class="form-group">
-            <button type="submit" class="btn btn-main btn-lg btn-block">Ingresar</button>
+            <button type="submit" class="btn btn-main btn-lg btn-block" v-bind:disabled="loading"><i v-show="loading" class="fa fa-spin fa-spinner"></i> Ingresar</button>
         </div>
         
         <div class="form-group">
@@ -48,10 +48,12 @@ var login_app = new Vue({
     el: '#login_app',
     data: {
         messages: [],
-        status: 1
+        status: 1,
+        loading: false
     },
     methods: {
         validate_login: function(){                
+            this.loading = true
             axios.post(url_app + 'accounts/validate_login', $('#login_form').serialize())
             .then(response => {
                 if ( response.data.status == 1 )
@@ -61,6 +63,7 @@ var login_app = new Vue({
                     this.messages = response.data.messages;
                     this.status = response.data.status;
                 }
+                this.loading = false
             })
             .catch(function (error) { console.log(error) })
         }

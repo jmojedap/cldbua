@@ -223,7 +223,6 @@ class File_model extends CI_Model{
             
             //Array resultado
                 $data = array('status' => 1);
-                //$data['upload_data'] = $this->upload->data();
                 $data['row'] = $row;
         }
         else    //No se cargó
@@ -466,13 +465,13 @@ class File_model extends CI_Model{
         $image_size = getimagesize($config['source_image']);
         if ( $image_size[0] > $image_size[1] )
         {
-            //Horizontal
+            //Es horizontal
             $config['y_axis'] = 0;
             $config['x_axis'] = intval(($image_size[0] - $image_size[1]) * 0.5);
             $config['width'] = $image_size[1];
             $config['height'] = $image_size[1];
         } else {
-            //Vertical
+            //Es vertical
             $config['y_axis'] = intval(($image_size[1] - $image_size[0]) * 0.5);
             $config['x_axis'] = 0;
             $config['width'] = $image_size[0];

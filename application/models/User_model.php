@@ -318,10 +318,17 @@ class User_model extends CI_Model{
 // ELIMINAR
 //-----------------------------------------------------------------------------
     
-    function deleteable()
+    /**
+     * Permiso para eliminar un usuario
+     * 2021-04-02
+     */
+    function deleteable($user_id)
     {
         $deleteable = 0;
-        if ( $this->session->userdata('role') <= 1 ) { $deleteable = 1; }
+        $user = $this->Db_model->row_id('users', $user_id);
+
+        if ( $this->session->userdata('role') <= 1 ) { $deleteable = 1; }   //El ususario que elimina es administrador
+        if ( $user->role <= 1 ) { $deleteable = 0; }                        //No se puede eliminar usuarios administradores
 
         return $deleteable;
     }
@@ -336,8 +343,8 @@ class User_model extends CI_Model{
 
         if ( $this->deleteable($user_id) ) 
         {
-            //Tablas relacionadas
-                $this->db->where('user_id', $user_id)->delete('users_meta');
+            //Tablas relacionadas (Sin triggers en MySQL)
+                //$this->db->where('user_id', $user_id)->delete('users_meta');
             
             //Tabla principal
                 $this->db->where('id', $user_id)->delete('users');

@@ -329,4 +329,47 @@ class Course_model extends CI_Model{
 
         return $data;
     }
+
+    function syllabus($row)
+    {
+        $syllabus = array();
+        $course_data = json_decode($row->content_json, true);
+
+        //Si existe el índice
+        if ( array_key_exists('syllabus', $course_data) )
+        {
+            $syllabus = $course_data['syllabus'];
+        }
+
+        return $syllabus;
+    }
+
+    function row_clase($row, $num_class)
+    {
+        $index = $num_class - 1;
+        $syllabus = $this->syllabus($row);
+
+        
+    }
+
+    function next_class_destination($row, $num_class)
+    {
+        $destination = "couses/info/{$row->id}/{$row->slug}";   //Valor por defecto
+
+        $course_index = $this->course_index($row);
+        $next_index = $num_class;   //-1 para índice desde 0, y luego +1 para siguiente
+
+        if ( array_key_exists($next_index, $course_index) ) {
+            $element = $course_index[$next_index];
+            $row_element = $this->Db_model->row_id($element['type'], $element['row_id']);
+            
+            if ( $element['type'] == 'posts' ) {
+                $destination = "courses/class/{$course->id}/{$course->slug}/{$row_element->id}";
+            } elseif ($element['type'] == 'exams' ){
+                $destination = "exams/preparation/{$row_element->id}/{$course->id}/{$course->slug}";
+            }
+        }
+
+        return $destination;
+    }
 }

@@ -46,9 +46,16 @@
         class: '<?= $cl_nav_2['posts_details'] ?>',
         cf: 'posts/details/' + element_id
     };
+
+    sections.images = {
+        icon: '',
+        text: 'Imágenes',
+        class: '<?= $cl_nav_2['posts_images'] ?>',
+        cf: 'posts/images/' + element_id
+    };
     
     //Secciones para cada rol
-    sections_rol[0] = ['explore', 'info', 'details', 'edit'];
+    sections_rol[0] = ['explore', 'info', 'details', 'images', 'edit'];
     sections_rol[1] = ['info', 'image', 'edit'];
     
     //Recorrer el sections del rol actual y cargarlos en el menú

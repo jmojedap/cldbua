@@ -98,7 +98,7 @@ class Users extends CI_Controller{
      * Formulario para la creación de un nuevo usuario
      * 2021-02-17
      */
-    function add($role_type = 'modelo')
+    function add($role_type = 'student')
     {
         //Variables específicas
             $data['role_type'] = $role_type;
@@ -113,7 +113,7 @@ class Users extends CI_Controller{
             $data['head_title'] = 'Usuarios';
             $data['head_subtitle'] = 'Nuevo';
             $data['nav_2'] = 'users/explore/menu_v';
-            $data['view_a'] = 'users/add_v';
+            $data['view_a'] = "users/add/{$role_type}/add_v";
 
         $this->App_model->view(TPL_ADMIN, $data);
     }

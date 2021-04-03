@@ -34,6 +34,7 @@ function before_send_load_sections(menu_type)
 //Al recibir datos con contenidos HTML, cargar las secciones
 function success_load_sections(result, menu_type)
 {
+    console.log('menu_type', menu_type)
     document.title = result.head_title;
     history.pushState(null, null, url_app + app_cf);
     

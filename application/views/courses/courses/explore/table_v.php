@@ -15,7 +15,7 @@
                     <input type="checkbox" v-bind:id="`check_` + element.id" v-model="selected" v-bind:value="element.id">
                 </td>                    
                 <td>
-                    <a v-bind:href="`<?= base_url("posts/info/") ?>` + element.id">
+                    <a v-bind:href="`<?= base_url("courses/info/") ?>` + element.id">
                         {{ element.post_name }}
                     </a>
                 </td>

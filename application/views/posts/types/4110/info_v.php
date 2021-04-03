@@ -4,7 +4,7 @@
             <tbody>
                 <tr>
                     <td class="td-title">Abir</td>
-                    <td><a href="<?= base_url("posts/open/{$row->id}") ?>" class="btn btn-sm btn-light w120p" target="_blank">Abrir</a></td>
+                    <td><a href="<?= base_url("courses/class/{$row->id}/{$row->slug}/1") ?>" class="btn btn-sm btn-light w120p" target="_blank">Abrir</a></td>
                 </tr>
                 <tr>
                     <td class="td-title">ID</td>

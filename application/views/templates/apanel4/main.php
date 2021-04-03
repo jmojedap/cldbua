@@ -8,6 +8,21 @@
 <html>
     <head>
         <?php $this->load->view('templates/apanel4/main/head'); ?>
+        <style>
+            .youtube-cointainer {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 */
+            height: 0;
+            margin-bottom: 1em;
+            }
+            .youtube-cointainer iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            }
+        </style>
     </head>
     <body>
         <div class="layout">

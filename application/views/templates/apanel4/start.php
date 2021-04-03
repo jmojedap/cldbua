@@ -8,7 +8,6 @@
     <head>
         <?php $this->load->view('templates/apanel4/main/head') ?>
     </head>
-
     <body class="start_body">
         <div class="start_container">
             <a href="<?= base_url() ?>"><img src="<?= URL_BRAND ?>logo-start.png" alt="Logo aplicación"></a>
@@ -18,7 +17,7 @@
             </a>
         </div>
         <footer class="fixed-bottom start_footer">
-            © 2021 &middot; CloudBook &middot; Colombia
+            © 2021 &middot; Pacarina Media Lab &middot; Colombia
         </footer>    
     </body>
 </html>

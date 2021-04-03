@@ -34,14 +34,15 @@
             v-for="(option_answer, option_key) in options_answer"
             v-bind:class="{'active': option_answer.value == curr_answer }"
             v-on:click="set_answer(option_answer.value)"
+            v-show="option_answer.text"
         >
         <p>{{ option_answer.text }}</p>
     </div>
 
 
     <div class="d-flex justify-content-between">
-        <button class="btn btn-secondary btn-lg w120p" v-on:click="change_question(-1)"><i class="fa fa-chevron-left"></i> Anterior</button>
-        <button class="btn btn-secondary btn-lg w120p" v-on:click="change_question(1)">Siguiente <i class="fa fa-chevron-right"></i></button>
+        <button class="btn btn-secondary btn-lg w120p" v-on:click="change_question(-1)"><i class="fa fa-chevron-left"></i></button>
+        <button class="btn btn-secondary btn-lg w120p" v-on:click="change_question(1)"><i class="fa fa-chevron-right"></i></button>
     </div>
 
 </div>
