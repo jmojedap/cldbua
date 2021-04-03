@@ -43,11 +43,11 @@ var nav_1_elements = [
         style: '',
         icon: 'bi-book',
         cf: '',
-        sections: ['courses/explore'],
+        sections: ['courses/browse'],
         subelements: [
             {
-                text: 'Cursos', active: false, icon: 'bi-book', cf: 'courses/explore',
-                sections: ['courses/explore', 'courses/add', 'courses/edit', 'courses/info', 'courses/classes']
+                text: 'Cursos', active: false, icon: 'bi-book', cf: 'courses/browse',
+                sections: ['courses/browse', 'courses/add', 'courses/edit', 'courses/info', 'courses/classes']
             },
             {
                 text: 'Clases', active: false, icon: 'bi-play-btn', cf: 'posts/explore',

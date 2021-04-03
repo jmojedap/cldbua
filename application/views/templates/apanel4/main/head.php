@@ -41,6 +41,8 @@
         <link type="text/css" rel="stylesheet" href="<?= URL_RESOURCES ?>templates/apanel4/skin-purple-01.css">
         <script type="text/javascript" src="<?= URL_RESOURCES ?>templates/apanel4/actions.js"></script>
 
+        <link type="text/css" rel="stylesheet" href="<?= URL_RESOURCES ?>css/courses.css">
+
         <!-- App General Vars -->
         <script>
             const url_app = '<?= URL_APP ?>';

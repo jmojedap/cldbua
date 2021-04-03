@@ -64,7 +64,7 @@ class Course_model extends CI_Model{
      */
     function select($format = 'general')
     {
-        $arr_select['general'] = 'id, post_name, excerpt, content, content_json, type_id, url_thumbnail, slug';
+        $arr_select['general'] = 'id, post_name, excerpt, content, content_json, type_id, url_thumbnail, url_image, slug';
         $arr_select['export'] = '*';
 
         return $arr_select[$format];
@@ -212,7 +212,7 @@ class Course_model extends CI_Model{
             $data['num_page'] = $num_page;                      //Número de la página
             
         //Vistas
-            $data['head_title'] = 'Cursos disponibles';
+            $data['head_title'] = 'Cursos';
             $data['head_subtitle'] = $data['search_num_rows'];
             $data['view_a'] = $data['views_folder'] . 'explore_v';
         

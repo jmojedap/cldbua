@@ -16,7 +16,7 @@
                         <input
                             name="first_name" class="form-control"
                             placeholder="Nombres" title="Nombres del usuario"
-                            required autofocus
+                            required
                             v-model="form_values.first_name"
                             >
                     </div>

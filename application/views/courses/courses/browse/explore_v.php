@@ -1,5 +1,5 @@
 <div id="app_explore">
-    <div class="row">
+    <div class="row d-none">
         <div class="col-md-5">
             <?php $this->load->view($views_folder . 'search_form_v'); ?>
         </div>

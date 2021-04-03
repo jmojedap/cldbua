@@ -378,10 +378,10 @@ class Post_model extends CI_Model{
         if ( ! is_null($row_file) )
         {
             //Quitar otro principal
-            $this->db->query("UPDATE file SET integer_1 = 0 WHERE table_id = 2000 AND related_1 = {$post_id} AND integer_1 = 1");
+            $this->db->query("UPDATE files SET integer_1 = 0 WHERE table_id = 2000 AND related_1 = {$post_id} AND integer_1 = 1");
 
             //Poner nuevo principal
-            $this->db->query("UPDATE file SET integer_1 = 1 WHERE id = {$file_id} AND related_1 = {$post_id}");
+            $this->db->query("UPDATE files SET integer_1 = 1 WHERE id = {$file_id} AND related_1 = {$post_id}");
 
             //Actualizar registro en tabla post
             $arr_row['image_id'] = $row_file->id;

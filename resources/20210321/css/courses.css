@@ -1,0 +1,41 @@
+/* Exploración de cursos */
+/*-----------------------------------------------------------------------------*/
+
+.courses_list{
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr;
+    gap: 1em;
+
+}
+
+.course_list .course{
+    height: 100%;
+}
+
+/* Clases */
+/*-----------------------------------------------------------------------------*/
+
+.youtube-cointainer {
+    position: relative;
+    padding-bottom: 56.25%; /* 16:9 */
+    height: 0;
+    margin-bottom: 1em;
+}
+.youtube-cointainer iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+/* DISPOSITIVOS MÓBILES */
+/*-----------------------------------------------------------------------------*/
+
+/* Pantallas pequeñas */
+@media (max-width: 730px) {
+    .courses_list { 
+        grid-template-columns: 1fr;
+    }
+}

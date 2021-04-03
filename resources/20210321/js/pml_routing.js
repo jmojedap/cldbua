@@ -25,8 +25,8 @@ function before_send_load_sections(menu_type)
     $('#view_a').html('Cargando...');
     $('#view_b').html('');
     
-    if ( menu_type === 'nav_1' ) { $('#nav_2').html(''); }
-    if ( menu_type === 'nav_2' ) { $('#nav_3').html(''); }
+    if ( menu_type == 'nav_1' ) { $('#nav_2').html(''); }
+    if ( menu_type == 'nav_2' ) { $('#nav_3').html(''); }
 
     $('.popover').remove(); //Especial, para quitar elementos de herramienta de edición enriquecida, plugin SummerNote
 }
@@ -43,15 +43,20 @@ function success_load_sections(result, menu_type)
     $('#view_a').html(result.view_a);
     
     //Si se requirió desde Nav 1
-    if ( menu_type === 'nav_1')
+    if ( menu_type == 'nav_1')
     {
         $('#nav_2').html(result.nav_2);
         $('#nav_3').html(result.nav_3);
     }
     
     //Si se requirió desde Nav 2
-    if ( menu_type === 'nav_2' )
+    if ( menu_type == 'nav_2' )
     {
-        $('#nav_3').html(result.nav_3);
+        console.log('soy nav 2, actualizo al 3')
+        //console.log(result.nav_3)
+        $('#nav_3').html(result.nav_3)
+        console.log('el nuevo valor:')
+        console.log($('#nav_3').html())
+
     }
 }

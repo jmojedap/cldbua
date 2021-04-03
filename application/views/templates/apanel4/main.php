@@ -8,21 +8,6 @@
 <html>
     <head>
         <?php $this->load->view('templates/apanel4/main/head'); ?>
-        <style>
-            .youtube-cointainer {
-            position: relative;
-            padding-bottom: 56.25%; /* 16:9 */
-            height: 0;
-            margin-bottom: 1em;
-            }
-            .youtube-cointainer iframe {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            }
-        </style>
     </head>
     <body>
         <div class="layout">
@@ -41,17 +26,10 @@
                         <?php $this->load->view('templates/apanel4/main/head_tools') ?>
                     </div>
 
-                    <?php if ( isset($nav_2) ): ?>
-                        <div id="nav_2"><?php $this->load->view($nav_2) ?></div>
-                    <?php endif ?>
+                    <div id="nav_2"><?php if ( ! is_null($nav_2) ) $this->load->view($nav_2); ?></div>
+                    <div id="nav_3"><?php if ( ! is_null($nav_3) ) $this->load->view($nav_3); ?></div>
 
-                    <?php if ( ! is_null($nav_3) ) { ?>
-                        <div id="nav_3"><?php $this->load->view($nav_3) ?></div>
-                    <?php } ?>
-
-                    <div id="view_a">
-                        <?php $this->load->view($view_a) ?>
-                    </div>
+                    <div id="view_a"><?php $this->load->view($view_a) ?></div>
                 </div>
                 <footer class="footer">
                     &copy; Pacarina Media Lab &middot; Colombia
