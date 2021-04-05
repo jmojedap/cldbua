@@ -64,8 +64,11 @@ class Course_model extends CI_Model{
      */
     function select($format = 'general')
     {
-        $arr_select['general'] = 'id, post_name, excerpt, content, content_json, type_id, url_thumbnail, url_image, slug';
+        $arr_select['general'] = 'id, post_name, excerpt, content, content_json, url_thumbnail, url_image, slug, text_1';
         $arr_select['export'] = '*';
+
+        //Hace referencia a un post tipo clase, no curso
+        $arr_select['course_class'] = 'id, post_name, excerpt, content, slug, type_id, text_1, related_1, position, related_2';
 
         return $arr_select[$format];
     }
@@ -193,7 +196,7 @@ class Course_model extends CI_Model{
         return $order_options;
     }
 
-// BROWSW EXPLORACIÓN DE CURSOS CATÁLOGO
+// BROWSE EXPLORACIÓN DE CURSOS CATÁLOGO
 //-----------------------------------------------------------------------------
 
     /**
@@ -286,8 +289,39 @@ class Course_model extends CI_Model{
         return $qty_deleted;
     }
 
+// Datos de un course
+//-----------------------------------------------------------------------------
+
+    function classes($course_id)
+    {
+        $this->db->select($this->select('course_class'));
+        $this->db->where('parent_id', $course_id);
+        $this->db->where('type_id > 4110 AND type_id < 4190'); //Tipos clase
+        $this->db->order_by('related_1', 'ASC');
+        $this->db->order_by('position', 'ASC');
+        $classes = $this->db->get('posts');
+
+        return $classes;
+    }
+
 // Inscripción de usuario
 //-----------------------------------------------------------------------------
+
+    /**
+     * Query, cursos a los que está inscrito un usuario
+     * 2021-04-05
+     */
+    function user_courses($user_id)
+    {
+        $this->db->select('posts.*, users_meta.user_id, users_meta.integer_1 AS current_element_index, users_meta.score_1 AS user_score, users_meta.score_2 AS enrolling_status, users_meta.score_3 AS user_progress');
+        $this->db->join('users_meta', 'posts.id = users_meta.related_1', 'left');    
+        $this->db->where('users_meta.user_id', $user_id);
+        $this->db->where('users_meta.type_id', 411010); //Inscripción a curso
+        $this->db->order_by('users_meta.updated_at', 'DESC');
+        $courses = $this->db->get('posts');
+
+        return $courses;
+    }
 
     /**
      * Asignar un contenido de la tabla posts a un usuario, lo agrega como metadato
@@ -298,6 +332,7 @@ class Course_model extends CI_Model{
     {
         //Construir registro
         $arr_row['type_id'] = 411010;       //Asignación de course a usuario
+        $arr_row['integer_2'] = 1;          //Num clase actual, 1 por defecto
         $arr_row['updater_id'] = $this->session->userdata('user_id');    //Usuario que inscribe
         $arr_row['creator_id'] = $this->session->userdata('user_id');    //Usuario que inscribe
 
@@ -328,48 +363,5 @@ class Course_model extends CI_Model{
         if ( $data['qty_deleted'] > 0) { $data['status'] = 1; }
 
         return $data;
-    }
-
-    function syllabus($row)
-    {
-        $syllabus = array();
-        $course_data = json_decode($row->content_json, true);
-
-        //Si existe el índice
-        if ( array_key_exists('syllabus', $course_data) )
-        {
-            $syllabus = $course_data['syllabus'];
-        }
-
-        return $syllabus;
-    }
-
-    function row_clase($row, $num_class)
-    {
-        $index = $num_class - 1;
-        $syllabus = $this->syllabus($row);
-
-        
-    }
-
-    function next_class_destination($row, $num_class)
-    {
-        $destination = "couses/info/{$row->id}/{$row->slug}";   //Valor por defecto
-
-        $course_index = $this->course_index($row);
-        $next_index = $num_class;   //-1 para índice desde 0, y luego +1 para siguiente
-
-        if ( array_key_exists($next_index, $course_index) ) {
-            $element = $course_index[$next_index];
-            $row_element = $this->Db_model->row_id($element['type'], $element['row_id']);
-            
-            if ( $element['type'] == 'posts' ) {
-                $destination = "courses/class/{$course->id}/{$course->slug}/{$row_element->id}";
-            } elseif ($element['type'] == 'exams' ){
-                $destination = "exams/preparation/{$row_element->id}/{$course->id}/{$course->slug}";
-            }
-        }
-
-        return $destination;
     }
 }

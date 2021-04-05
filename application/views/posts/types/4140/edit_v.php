@@ -1,16 +1,6 @@
-<?php $this->load->view('assets/summernote') ?>
 <?php
     $options_parent_id = $this->App_model->options_post('type_id = 4110', 'n', 'Seleccione el curso');
 ?>
-
-<script>
-    $(document).ready(function(){
-        $('#field-content').summernote({
-            lang: 'es-ES',
-            height: 300
-        });
-    })
-</script>
 
 <div id="edit_app">
     <div class="center_box_750">
@@ -28,7 +18,7 @@
                     </div>
 
                     <div class="form-group row">
-                        <label for="related_1" class="col-md-4 col-form-label text-right">Módulo / Clase</label>
+                        <label for="related_1" class="col-md-4 col-form-label text-right">Módulo / Orden</label>
                         <div class="col-md-4">
                             <input
                                 name="related_1" type="number" class="form-control"
@@ -45,7 +35,7 @@
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label for="post_name" class="col-md-4 col-form-label text-right">Nombre clase</label>
+                        <label for="post_name" class="col-md-4 col-form-label text-right">Nombre exámen</label>
                         <div class="col-md-8">
                             <input
                                 name="post_name" type="text" class="form-control"
@@ -57,32 +47,24 @@
                     </div>
 
                     <div class="form-group row">
-                        <label for="text_1" class="col-md-4 col-form-label text-right">ID vídeo YouTube</label>
+                        <label for="related_2" class="col-md-4 col-form-label text-right">ID Exámen</label>
                         <div class="col-md-8">
                             <input
-                                name="text_1" type="text" class="form-control"
+                                name="related_2" type="text" class="form-control"
                                 required
-                                title="ID vídeo YouTube" placeholder="ID vídeo YouTube"
-                                v-model="form_values.text_1"
+                                title="ID Exámen" placeholder="ID Exámen"
+                                v-model="form_values.related_2"
                             >
                         </div>
                     </div>
 
                     <div class="form-group row">
-                        <label for="excerpt" class="col-md-4 col-form-label text-right">Descripción de la clase</label>
+                        <label for="excerpt" class="col-md-4 col-form-label text-right">Descripción del exámen en el curso</label>
                         <div class="col-md-8">
                             <textarea
-                                name="excerpt" class="form-control"
-                                required rows="3"
-                                v-model="form_values.excerpt"
+                                name="excerpt" class="form-control" rows="3" v-model="form_values.excerpt"
                             ></textarea>
                         </div>
-                    </div>
-
-
-                    <div class="form-group">
-                        <label for="content">Contenido</label>
-                        <textarea name="content" class="form-control" id="field-content"><?= $row->content ?></textarea>
                     </div>
 
                     <div class="form-group">
@@ -102,8 +84,7 @@ var edit_app = new Vue({
             post_name: '<?= $row->post_name ?>',
             excerpt: '<?= $row->excerpt ?>',
             parent_id: '0<?= $row->parent_id ?>',
-            text_1: '<?= $row->text_1 ?>',
-            keywords: '<?= $row->keywords ?>',
+            related_2: '<?= $row->related_2 ?>',
             position: '<?= $row->position ?>',
             related_1: '<?= $row->related_1 ?>',
         },

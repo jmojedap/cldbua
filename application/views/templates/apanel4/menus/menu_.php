@@ -9,7 +9,6 @@
 
 ?>
 
-
 <aside class="main_nav_col">
     <ul class="main_nav">	
 

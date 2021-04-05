@@ -1,10 +1,18 @@
 var nav_1_elements = [
     {
-        text: 'Cursos',
+        text: 'Catálogo',
         active: false,
-        icon: 'bi-book',
+        icon: 'bi-grid',
         cf: 'courses/browse',
         sections: ['courses/browse', 'courses/info'],
+        subelements: []
+    },
+    {
+        text: 'Mis cursos',
+        active: false,
+        icon: 'bi-book',
+        cf: 'courses/my_courses',
+        sections: ['courses/my_courses'],
         subelements: []
     },
     {

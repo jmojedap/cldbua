@@ -65,7 +65,7 @@ var clase_app = new Vue({
             title: '<?= $clase->post_name ?>',
             content: '<?= $clase->content ?>',
             youtube_id: '<?= $clase->text_1 ?>',
-            module: '<?= $clase->integer_1 ?>',
+            module: '<?= $clase->related_1 ?>',
             position: '<?= $clase->position ?>',
         },
         course: {

@@ -115,7 +115,7 @@ class Courses extends CI_Controller{
         //Datos básicos
         $data = $this->Course_model->basic($post_id);
         unset($data['nav_2']);
-        $data['view_a'] = $data['type_folder'] . 'read_v';
+        $data['view_a'] = 'courses/courses/' . 'read_v';
 
         $this->App_model->view(TPL_ADMIN, $data);
     }
@@ -129,6 +129,7 @@ class Courses extends CI_Controller{
         $data['row'] = $this->Course_model->row($post_id);
         $data['head_title'] = $data['row']->post_name;
         $data['view_a'] = 'courses/courses/info_v';
+        if ( $this->session->userdata('role') <= 1 ) { $data['nav_2'] = 'courses/courses/menu_v'; }
 
         $this->App_model->view(TPL_ADMIN, $data);
     }
@@ -146,7 +147,7 @@ class Courses extends CI_Controller{
         $this->App_model->view(TPL_ADMIN, $data);
     }
 
-// CREACIÓN DE UN POST
+// CREACIÓN DE UN COURSE
 //-----------------------------------------------------------------------------
 
     /**
@@ -186,13 +187,49 @@ class Courses extends CI_Controller{
         
         //Array data espefícicas
             $data['head_subtitle'] = 'Editar';
-            $data['view_a'] = $data['type_folder'] . 'edit_v';
+            $data['view_a'] = 'posts/types/4110/edit_v';
         
         $this->App_model->view(TPL_ADMIN, $data);
     }
 
+    function edit_classes($post_id)
+    {
+        //Datos básicos
+        $data = $this->Course_model->basic($post_id);
+
+        //$data['options_type'] = $this->Item_model->options('category_id = 33', 'Todos');
+        $data['classes'] = $this->Course_model->classes($post_id);
+        $data['arr_types'] = $this->Item_model->arr_cod('category_id = 33');
+        
+        //Array data espefícicas
+            $data['head_subtitle'] = 'Editar clases';
+            $data['view_a'] = 'courses/courses/edit_classes_v';
+        
+        $this->App_model->view(TPL_ADMIN, $data);
+    }
+
+    function get_classes($post_id)
+    {
+        $classes = $this->Course_model->classes($post_id);
+        $data['list'] = $classes->result();
+        $this->output->set_content_type('application/json')->set_output(json_encode($data));
+    }
+
 // Asignación a usuario
 //-----------------------------------------------------------------------------
+
+    /**
+     * Cursos a los que está inscrito el usuario en sesión, y su estado de avance
+     * 2021-04-05
+     */
+    function my_courses()
+    {
+        $data['head_title'] = 'Mis cursos';
+        $data['view_a'] = 'courses/courses/my_courses_v';
+        $data['courses'] = $this->Course_model->user_courses($this->session->userdata('user_id'));
+
+        $this->App_model->view(TPL_ADMIN, $data);
+    }
 
     /**
      * Inscribe a un usuario en un curso
@@ -229,25 +266,21 @@ class Courses extends CI_Controller{
         $num_class = $index + 1;
 
         $course = $this->Course_model->row($course_id);
-        $syllabus = $this->Course_model->syllabus($course);
+        $classes = $this->Course_model->classes($course->id);
 
         if ( $index < 0 ) $destination = "courses/info/{$course->id}";   //Inicio del curso
-        if ( $index >= count($syllabus) ) $destination = "courses/info/{$course->id}";    //Final del curso
+        if ( $index >= $classes->num_rows() ) $destination = "courses/info/{$course->id}";    //Final del curso
 
         //Índice está en entre los elementos
-        if ( $index >= 0 && $index < count($syllabus) )
+        if ( $index >= 0 && $index < $classes->num_rows() )
         {
-            $element = $syllabus[$index];
-            $row_element = $this->Db_model->row_id($element['type'], $element['row_id']);
+            $row_class = $classes->row($index);
         
-            if ( $element['type'] == 'posts' )
-            {
-                $destination = "courses/class/{$course->id}/{$course->slug}/$row_element->id/{$num_class}";
-            } elseif ($element['type'] == 'exams' ){
-                $destination = "exams/preparation/{$row_element->id}/{$num_class}/{$course->id}/{$course->slug}";
-            }
+            $destination = "courses/class/{$course->id}/{$course->slug}/$row_class->id/{$num_class}";
 
+            //Verificar si hay inscripción a curso
             $row_meta = $this->Db_model->row('users_meta', "user_id = {$this->session->userdata('user_id')} AND type_id = 411010 AND related_1 = {$course_id}");
+
             //Actualizar registro inscripción a curso
             if ( ! is_null($row_meta) )
             {
@@ -264,15 +297,18 @@ class Courses extends CI_Controller{
         //Verificación
         /*$data['index'] = $index;
         $data['row_meta'] = $row_meta;
-        $data['syllabus'] = $syllabus;
-        $data['element'] = $element;
-        $data['row_element'] = $row_element;
+        $data['classes'] = $classes->result();
+        $data['row_class'] = $row_class;
         $data['destination'] = $destination;
 
         //Salida JSON
-        //$this->output->set_content_type('application/json')->set_output(json_encode($data));*/
+        $this->output->set_content_type('application/json')->set_output(json_encode($data));*/
     }
 
+    /**
+     * Vista para ejecución de clase, abrir vista de clase en el desarrollo del curso
+     * 2021-04-05
+     */
     function class($course_id, $slug = '', $class_id = 0, $num_class = 1)
     {
         $course = $this->Course_model->row($course_id);        
@@ -287,7 +323,7 @@ class Courses extends CI_Controller{
         $data['enrolling_id'] = $enrolling_id;
         $data['index'] = $num_class - 1;
         $data['head_title'] = $course->post_name;
-        $data['view_a'] = 'courses/classes/class/class_v';
+        $data['view_a'] = "courses/classes/read/type_{$clase->type_id}_v";
 
         $this->App_model->view(TPL_ADMIN, $data);
     }

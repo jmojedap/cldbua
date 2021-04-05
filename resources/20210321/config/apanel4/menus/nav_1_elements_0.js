@@ -47,7 +47,7 @@ var nav_1_elements = [
         subelements: [
             {
                 text: 'Cursos', active: false, icon: 'bi-book', cf: 'courses/browse',
-                sections: ['courses/browse', 'courses/add', 'courses/edit', 'courses/info', 'courses/classes']
+                sections: ['courses/browse', 'courses/explore', 'courses/add', 'courses/edit', 'courses/info', 'courses/edit_classes', 'courses/class']
             },
             {
                 text: 'Clases', active: false, icon: 'bi-play-btn', cf: 'posts/explore',
