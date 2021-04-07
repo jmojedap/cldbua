@@ -234,22 +234,29 @@ class Comment_model extends CI_Model{
 
         return $insertable;
     }
-    
-
 
 // INFO
 //-----------------------------------------------------------------------------
+
+    function element_comments_ant($table_id, $element_id, $parent_id, $num_page, $per_page)
+    {
+        $comments = $this->element_comments_query($table_id, $element_id, $parent_id, $num_page, $per_page);
+
+        $data = $this->element_comments_meta($table_id, $element_id, $parent_id, $per_page);
+        $data['comments'] = $comments->result();
+
+        return $data;
+    }
 
     /**
      * Query con listado de comentarios, si se agrega $parent_id se filtran los subcomentarios
      * hechos al comentario con ID = $parent_id.
      */
-    function element_comments($table_id, $element_id, $parent_id, $num_page)
+    function element_comments($table_id, $element_id, $parent_id, $num_page, $per_page)
     {
-        $per_page = 10;
         $offset = $per_page * ($num_page - 1);
 
-        $this->db->select('comments.id, comment_text, parent_id, score, qty_comments, comments.created_at, comments.creator_id, users.username, users.display_name');
+        $this->db->select('comments.id, comment_text, parent_id, score, qty_comments, comments.created_at, comments.creator_id, users.username, users.display_name, users.url_thumbnail AS user_thumbnail');
         $this->db->where('element_id', $element_id);
         $this->db->where('table_id', $table_id);
         $this->db->where('parent_id', $parent_id);
@@ -258,6 +265,55 @@ class Comment_model extends CI_Model{
         $comments = $this->db->get('comments', $per_page, $offset);
 
         return $comments;
+    }
+
+    /**
+     * Cantidad máxima de páginas en las que se podrían separar los comentarios de un elemento
+     * teniendo en cuenta una cantidad de comentarios por página ($per_page)
+     * 2021-04-06
+     */
+    function element_comments_meta($table_id, $element_id, $parent_id, $per_page)
+    {
+        $data = array('total_comments' => 0, 'max_page' => 1);
+
+        $this->db->select('comments.id');
+        $this->db->where('element_id', $element_id);
+        $this->db->where('table_id', $table_id);
+        $this->db->where('parent_id', $parent_id);
+        $comments = $this->db->get('comments');
+
+        if ( $comments->num_rows() > 0 && $per_page > 0 )
+        {
+            $data['total_comments'] = $comments->num_rows();
+            $data['max_page'] = ceil($comments->num_rows() / $per_page);
+        }
+
+        return $data;
+
+    }
+
+    /**
+     * Cantidad máxima de páginas en las que se podrían separar los comentarios de un elemento
+     * teniendo en cuenta una cantidad de comentarios por página ($per_page)
+     * 2021-04-06
+     */
+    function max_page($table_id, $element_id, $parent_id, $per_page)
+    {
+        $max_page = 1;  //Valor por defecto
+
+        $this->db->select('comments.id');
+        $this->db->where('element_id', $element_id);
+        $this->db->where('table_id', $table_id);
+        $this->db->where('parent_id', $parent_id);
+        $comments = $this->db->get('comments');
+
+        if ( $comments->num_rows() > 0 && $per_page > 0 )
+        {
+            $max_page = ceil($comments->num_rows() / $per_page);
+        }
+
+        return $max_page;
+
     }
 
 // ELIMINACIÓN DE COMENTARIOS

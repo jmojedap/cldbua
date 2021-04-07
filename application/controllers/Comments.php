@@ -78,7 +78,7 @@ class Comments extends CI_Controller{
     //Elimina un comentario, tabla comment
     function delete($comment_id, $element_id)
     {
-        $data = $this->Comment_model->delete($comment_id, $element_id);
+        $data['qty_deleted'] = $this->Comment_model->delete($comment_id, $element_id);
         $this->output->set_content_type('application/json')->set_output(json_encode($data));
     }
 
@@ -111,8 +111,6 @@ class Comments extends CI_Controller{
         $data = $this->Comment_model->save($table_id, $element_id);
         $this->output->set_content_type('application/json')->set_output(json_encode($data));
     }
-
-    
     
     /**
      * Formulario para la edición de los datos de un Comment. Los datos que se
@@ -169,14 +167,14 @@ class Comments extends CI_Controller{
      * Listado de comentarios de un elemento
      * 2020-06-08
      */
-    function element_comments($table_id, $element_id, $parent_id = 0, $num_page = 1)
+    function element_comments($table_id, $element_id, $parent_id = 0, $num_page = 1, $per_page = 3)
     {
-        $data = array('qty_comments' => 0, 'comments' => array());
-        $comments = $this->Comment_model->element_comments($table_id, $element_id, $parent_id, $num_page);
+        $data = $this->Comment_model->element_comments_meta($table_id, $element_id, $parent_id, $per_page);
+        $data['comments'] = array();
 
-        if ( $comments->num_rows() > 0 )
+        if ( $num_page <= $data['max_page'] )
         {
-            $data['qty_comments'] = $comments->num_rows();
+            $comments = $this->Comment_model->element_comments($table_id, $element_id, $parent_id, $num_page, $per_page);
             $data['comments'] = $comments->result();
         }
 

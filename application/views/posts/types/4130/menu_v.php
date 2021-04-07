@@ -40,6 +40,13 @@
         anchor: true
     };
 
+    sections.comments = {
+        icon: '',
+        text: 'Comentarios',
+        class: '<?= $cl_nav_2['posts_comments'] ?>',
+        cf: 'posts/comments/' + element_id
+    };
+
     sections.details = {
         icon: '',
         text: 'Detalles',
@@ -48,7 +55,7 @@
     };
     
     //Secciones para cada rol
-    sections_rol[0] = ['explore', 'info', 'details', 'edit'];
+    sections_rol[0] = ['explore', 'info', 'details', 'comments', 'edit'];
     sections_rol[1] = ['info', 'image', 'edit'];
     
     //Recorrer el sections del rol actual y cargarlos en el menú

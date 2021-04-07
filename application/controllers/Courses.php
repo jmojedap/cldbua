@@ -312,18 +312,20 @@ class Courses extends CI_Controller{
     function class($course_id, $slug = '', $class_id = 0, $num_class = 1)
     {
         $course = $this->Course_model->row($course_id);        
-        $clase = $this->Db_model->row_id('posts', $class_id);
+        $row = $this->Db_model->row_id('posts', $class_id);
 
         $enrolling_id = 0;
         $row_meta = $this->Db_model->row('users_meta', "user_id = {$this->session->userdata('user_id')} AND type_id = 411010 AND related_1 = {$course_id}");
         if ( ! is_null($row_meta) ) { $enrolling_id = $row_meta->id; }
 
         $data['course'] = $course;
-        $data['clase'] = $clase;
+        $data['clase'] = $row;
+        $data['row'] = $row;
+        $data['table_id'] = 2000;
         $data['enrolling_id'] = $enrolling_id;
         $data['index'] = $num_class - 1;
         $data['head_title'] = $course->post_name;
-        $data['view_a'] = "courses/classes/read/type_{$clase->type_id}_v";
+        $data['view_a'] = "courses/classes/read/type_{$row->type_id}_v";
 
         $this->App_model->view(TPL_ADMIN, $data);
     }

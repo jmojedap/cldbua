@@ -6,6 +6,7 @@
     $cl_nav_2['posts_edit'] = '';
     $cl_nav_2['posts_details'] = '';
     $cl_nav_2['posts_images'] = '';
+    $cl_nav_2['posts_comments'] = '';
     //$cl_nav_2['posts_import'] = '';
     
     $cl_nav_2[$app_cf_index] = 'active';
@@ -48,6 +49,13 @@
         cf: 'posts/images/' + element_id
     };
 
+    sections.comments = {
+        icon: '',
+        text: 'Comentarios',
+        class: '<?= $cl_nav_2['posts_comments'] ?>',
+        cf: 'posts/comments/' + element_id
+    };
+
     sections.details = {
         icon: '',
         text: 'Detalles',
@@ -56,7 +64,7 @@
     };
     
     //Secciones para cada rol
-    sections_rol[0] = ['explore', 'info', 'images', 'details', 'edit'];
+    sections_rol[0] = ['explore', 'info', 'images', 'details', 'comments', 'edit'];
     sections_rol[1] = ['info', 'image', 'edit'];
     
     //Recorrer el sections del rol actual y cargarlos en el menú
