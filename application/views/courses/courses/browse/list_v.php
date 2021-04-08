@@ -19,12 +19,6 @@
             <div>
                 <p>{{ element.excerpt }}</p>
             </div>
-            
-            <div>
-                <a class="btn btn-light btn-lg w120p" v-bind:href="`<?= base_url("courses/info/") ?>` + element.id + `/` + element.slug">
-                    Ver más
-                </a>
-            </div>
         </div>
     </div>
 </div>

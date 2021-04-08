@@ -68,7 +68,7 @@ class Course_model extends CI_Model{
         $arr_select['export'] = '*';
 
         //Hace referencia a un post tipo clase, no curso
-        $arr_select['course_class'] = 'id, post_name, excerpt, content, slug, type_id, text_1, related_1, position, related_2';
+        $arr_select['course_class'] = 'id, post_name, excerpt, content, slug, type_id, text_1, related_1, position, related_2, parent_id';
 
         return $arr_select[$format];
     }
@@ -363,5 +363,25 @@ class Course_model extends CI_Model{
         if ( $data['qty_deleted'] > 0) { $data['status'] = 1; }
 
         return $data;
+    }
+
+    /**
+     * Guarda evento (tabla events) de apertura de clase por un usuario inscrito
+     * 2021-04-08
+     */
+    function save_open_class_event($row_class, $row_enrolling)
+    {
+        $arr_event['type_id'] = 51; //Apertura de post
+        $arr_event['start'] = date('Y-m-d H:i:s');  //Momento de apertura
+        $arr_event['element_id'] = $row_class->id; //ID post, clase
+        $arr_event['related_1'] = $row_class->parent_id;       //ID curso
+        $arr_event['related_2'] = $row_enrolling->id;    //ID inscripción
+        $arr_event['related_3'] = $row_class->type_id;  //Tipo Post
+        $arr_event['user_id'] = $this->session->userdata('user_id');    //Usuario en sesión
+
+        $this->load->model('Event_model');
+        $event_id = $this->Event_model->save($arr_event, 'id = 0'); //Condición imposible, siempre se crea
+
+        return $event_id;
     }
 }

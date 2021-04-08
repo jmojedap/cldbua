@@ -260,6 +260,12 @@ class Courses extends CI_Controller{
 // Presentación del curso
 //-----------------------------------------------------------------------------
 
+    /**
+     * REDIRECT
+     * Abre un elemento específico de un curso, si hay inscripción registra el 
+     * evento de apertura para seguimiento
+     *
+     */
     function open_element($course_id, $index = 0)
     {
         $destination = "courses/info/{$course_id}";
@@ -279,15 +285,16 @@ class Courses extends CI_Controller{
             $destination = "courses/class/{$course->id}/{$course->slug}/$row_class->id/{$num_class}";
 
             //Verificar si hay inscripción a curso
-            $row_meta = $this->Db_model->row('users_meta', "user_id = {$this->session->userdata('user_id')} AND type_id = 411010 AND related_1 = {$course_id}");
+            $row_enrolling = $this->Db_model->row('users_meta', "user_id = {$this->session->userdata('user_id')} AND type_id = 411010 AND related_1 = {$course_id}");
 
-            //Actualizar registro inscripción a curso
-            if ( ! is_null($row_meta) )
+            if ( ! is_null($row_enrolling) )
             {
-                $arr_row['integer_1'] = $index;
-                $arr_row['updated_at'] = date('Y-m-d H:i:s');
-                $this->db->where('id', $row_meta->id);
-                $this->db->update('users_meta', $arr_row);
+                //Actualizar registro inscripción a curso
+                $arr_row = array('integer_1' => $index, 'updated_at' => date('Y-m-d H:i:s'));
+                $this->db->where('id', $row_enrolling->id)->update('users_meta', $arr_row);
+
+                //Crear evento de apertura de clase, tabla events
+                $event_id = $this->Course_model->save_open_class_event($row_class, $row_enrolling);
             }
         }
 
@@ -296,7 +303,7 @@ class Courses extends CI_Controller{
         
         //Verificación
         /*$data['index'] = $index;
-        $data['row_meta'] = $row_meta;
+        $data['row_enrolling'] = $row_enrolling;
         $data['classes'] = $classes->result();
         $data['row_class'] = $row_class;
         $data['destination'] = $destination;
