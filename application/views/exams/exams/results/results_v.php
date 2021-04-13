@@ -11,16 +11,16 @@
     </div>
     
     <h3>
-        <span v-show="row_eu.approved == 0"><i class="fa fa-info-circle text-warning"></i> No aprobado</span>
-        <span v-show="row_eu.approved == 1"><i class="fa fa-check text-success"></i> Aprobado</span>
+        <span v-show="row_answer.approved == 0"><i class="fa fa-info-circle text-warning"></i> Exámen No aprobado</span>
+        <span v-show="row_answer.approved == 1"><i class="fa fa-check text-success"></i> Exámen Aprobado</span>
     </h3>
     <div class="progress">
         <div class="progress-bar"
             role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"
-            v-bind:style="`width: ` + row_eu.pct_correct + `%;`"
-            v-bind:class="{'bg-success': row_eu.approved == 1, 'bg-danger': row_eu.approved == 0 }"
+            v-bind:style="`width: ` + row_answer.pct_correct + `%;`"
+            v-bind:class="{'bg-success': row_answer.approved == 1, 'bg-danger': row_answer.approved == 0 }"
             >
-            {{ row_eu.pct_correct }}%
+            {{ row_answer.pct_correct }}%
         </div>
     </div>
 
@@ -46,11 +46,10 @@
         <hr>
     </div>
 
-    <div class="text-center" v-show="row_eu.approved == 0">
+    <div class="text-center" v-show="row_answer.approved == 0">
         <a href="<?= base_url("exams/preparation/{$row->id}") ?>" class="btn btn-primary">
             INTENTARLO DE NUEVO
         </a>
     </div>
-
 </div>
 <?php $this->load->view('exams/exams/results/vue_v') ?>

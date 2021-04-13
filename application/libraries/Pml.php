@@ -3,7 +3,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Pml {
 
-    /** ACTUALIZADA 2021-03-19 */
+    /** ACTUALIZADA 2021-04-12 */
     
     /**
      * Converts codeigniter query object in an array
@@ -48,6 +48,27 @@ class Pml {
         
         //Se quita el separador final con substr
         return substr($str, 0, -strlen($separator));
+    }
+
+    /**
+     * Devuelve el valor correspondiente determinado para un rango
+     * el array $intervals tiene $key => $value :: $lower_limit => $value
+     * $lower_limit es el key del intervalo, se pone límite inferior ($lower_limit) desde el cual aplica el valor $value
+     * 2021-04-12
+     */
+    function interval_value($intervals, $key_value)
+    {
+        krsort($intervals, SORT_NUMERIC);  //Ordenar el array de mayor a menor, por key
+        $interval_value = 0;               //Valor por defecto
+        
+        //Recorrer intervalos
+        foreach ( $intervals as $key => $value ) 
+        {
+            $interval_value = $value;           //Asigna el valor
+            if ( $key_value >= $key ) break;    //Si el valor comparado el mayor a la llave, fin.
+        }
+        
+        return $interval_value;
     }
 
 // TOTALES

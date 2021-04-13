@@ -9,10 +9,12 @@ var results_app = new Vue({
             id: <?= $row->id ?>,
             title: '<?= $row->title ?>',
         },
-        row_eu: <?= json_encode($row_eu) ?>,
+        row_answer: <?= json_encode($row_answer) ?>,
+        course: <?= json_encode($course) ?>,
+        enrolling: <?= json_encode($row_enrolling) ?>,
         questions: <?= json_encode($questions->result()) ?>,
         correct_answers: [<?= $row->answers ?>],
-        answers: [<?= $row_eu->answers ?>],
+        answers: [<?= $row_answer->answers ?>],
     },
     methods: {
         

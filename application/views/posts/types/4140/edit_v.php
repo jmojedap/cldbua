@@ -59,6 +59,21 @@
                     </div>
 
                     <div class="form-group row">
+                        <label for="integer_1" class="col-md-4 col-form-label text-right">% peso en el curso</label>
+                        <div class="col-md-8">
+                            <input
+                                name="integer_1" type="number" class="form-control" min="1" max="100"
+                                required
+                                title="% peso en el curso" placeholder="% peso en el curso"
+                                v-model="form_values.integer_1"
+                            >
+                            <small class="form-text text-muted">
+                                Si hay un solo examen en el curso, el peso es 100.
+                            </small>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
                         <label for="excerpt" class="col-md-4 col-form-label text-right">Descripción del exámen en el curso</label>
                         <div class="col-md-8">
                             <textarea
@@ -68,7 +83,9 @@
                     </div>
 
                     <div class="form-group">
-                        <button class="btn btn-primary w120p" type="submit">Guardar</button>
+                        <div class="col-md-8 offset-md-4">
+                            <button class="btn btn-primary w120p" type="submit">Guardar</button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -87,6 +104,7 @@ var edit_app = new Vue({
             related_2: '<?= $row->related_2 ?>',
             position: '<?= $row->position ?>',
             related_1: '<?= $row->related_1 ?>',
+            integer_1: '<?= $row->integer_1 ?>',
         },
         options_parent_id: <?= json_encode($options_parent_id) ?>,
     },

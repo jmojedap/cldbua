@@ -57,9 +57,7 @@ class Admin extends CI_Controller {
         $data = array('status' => 0, 'message' => 'La opción no fue guardada');
         if ( ! is_null($option_id) ) { $data = array('status' => 1, 'message' => 'Opción guardada: ' . $option_id); }
 
-        $this->output
-        ->set_content_type('application/json')
-        ->set_output(json_encode($data));
+        $this->output->set_content_type('application/json')->set_output(json_encode($data));
     }
 
     /**
@@ -69,9 +67,7 @@ class Admin extends CI_Controller {
     {
         $data = $this->Admin_model->delete_option($option_id);
         
-        $this->output
-        ->set_content_type('application/json')
-        ->set_output(json_encode($data));
+        $this->output->set_content_type('application/json')->set_output(json_encode($data));
     }
 
 // Colores

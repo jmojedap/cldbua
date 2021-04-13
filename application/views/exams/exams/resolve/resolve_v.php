@@ -36,23 +36,23 @@
                 v-for="(option_answer, option_key) in options_answer"
                 v-bind:class="{'active': option_answer.value == curr_answer }"
                 v-on:click="set_answer(option_answer.value)"
+                v-show="option_answer.text"
             >
             {{ option_answer.text }}
         </div>
 
 
         <div class="d-flex justify-content-between mb-2">
-            <button class="btn btn-secondary btn-lg w120p" v-on:click="change_question(-1)" v-bind:disabled="num_question == 1">
+            <button class="btn btn-secondary w120p" v-on:click="change_question(-1)" v-bind:disabled="num_question == 1">
                 <i class="fa fa-chevron-left"></i>
-                Anterior
             </button>
-            <button class="btn btn-secondary btn-lg w120p" v-on:click="change_question(1)" v-bind:disabled="num_question == questions.length">
-                Siguiente <i class="fa fa-chevron-right"></i>
+            <button class="btn btn-secondary w120p" v-on:click="change_question(1)" v-bind:disabled="num_question == questions.length">
+                <i class="fa fa-chevron-right"></i>
             </button>
         </div>
 
         <div>
-            <button class="btn btn-warning btn-lg w120p" v-on:click="set_step('check')">
+            <button class="btn btn-warning w120p" v-on:click="set_step('check')">
                 Finalizar...
             </button>
         </div>
@@ -62,7 +62,7 @@
     <!-- Sección resumen de respuestas -->
     <div v-show="step == 'check'">
         <div class="text-center mb-3">
-            <button class="btn btn-secondary btn-lg w120p" v-on:click="set_step('resolve')">
+            <button class="btn btn-secondary" v-on:click="set_step('resolve')">
                 <i class="fa fa-arrow-left"></i> REGRESAR
             </button>
         </div>

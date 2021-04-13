@@ -53,12 +53,10 @@
         <div class="col-md-5">
             <div class="mb-2">
                 <button class="btn btn-primary w120p" v-on:click="clean_form">
-                    <i class="fa fa-plus"></i>
-                    Nuevo
+                    <i class="fa fa-plus"></i> Nuevo
                 </button> 
-                <button type="button" class="btn btn-secondary w120p" v-on:click="autocomplete" title="Completar automáticamente los campos secundarios faltantes">
-                    <i class="fa fa-magic"></i>
-                    Completar
+                <button type="button" class="btn btn-secondary" v-on:click="autocomplete" title="Completar automáticamente los campos secundarios faltantes">
+                    <i class="fa fa-magic"></i> Completar
                 </button>
             </div>
 

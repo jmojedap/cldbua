@@ -5,6 +5,7 @@ var preview_app = new Vue({
         this.set_question(<?= $num_question ?>)
     },
     data: {
+        enrolling_id: <?= $enrolling_id ?>,
         exam: {
             id: <?= $row->id ?>,
             title: '<?= $row->title ?>',
@@ -64,10 +65,12 @@ var preview_app = new Vue({
             var form_data = new FormData
             form_data.append('exam_id', this.exam.id)
             form_data.append('eu_id', this.eu_id)
+            form_data.append('enrolling_id', this.enrolling_id)
             form_data.append('answers', this.answers)
 
             axios.post(url_api + 'exams/finalize/', form_data)
             .then(response => {
+                console.log(response.data)
                 if ( response.data.status == 1 ) {
                     toastr['success'](response.data.message)
                 } else {
@@ -75,7 +78,7 @@ var preview_app = new Vue({
                 }
 
                 setTimeout(() => {
-                    window.location = url_app + 'exams/results/' + this.exam.id + '/' + this.eu_id
+                    window.location = url_app + 'exams/results/' + this.exam.id + '/' + this.eu_id + '/' + this.enrolling_id
                 }, 3000);
 
             }).catch(function(error) {console.log(error)})  

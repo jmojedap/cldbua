@@ -117,6 +117,13 @@ class Exams extends CI_Controller{
         $this->App_model->view(TPL_ADMIN, $data);
     }
 
+    function get_info($exam_id)
+    {
+        $data = $this->Exam_model->basic($exam_id);
+        //Salida JSON
+        $this->output->set_content_type('application/json')->set_output(json_encode($data));
+    }
+
     /**
      * Información detallada del exam desde la perspectiva de base de datos
      * 2020-08-18
@@ -235,6 +242,19 @@ class Exams extends CI_Controller{
         $this->App_model->view(TPL_ADMIN, $data);
     }
 
+    function get_preparation_info($exam_id)
+    {
+        $data['row'] = $this->Db_model->row_id('exams', $exam_id);
+        $data['row_eu'] = $this->Db_model->row('exam_user', "exam_id = {$exam_id} AND user_id = {$this->session->userdata('user_id')}");
+
+        //Cantidad de intentos
+        $data['qty_attempts'] = 1;
+        if ( ! is_null($data['row_eu']) ) $data['qty_attempts'] = $data['row_eu']->qty_attempts + 1;
+
+        //Salida JSON
+        $this->output->set_content_type('application/json')->set_output(json_encode($data));
+    }
+
     /**
      * Inicializar respuesta de un examen
      */
@@ -250,12 +270,13 @@ class Exams extends CI_Controller{
      * Vista de resolución del cuestionario
      * 2021-03-22
      */
-    function resolve($exam_id, $eu_id, $num_question = 1)
+    function resolve($exam_id, $eu_id, $enrolling_id = 0, $num_question = 1)
     {
         $data = $this->Exam_model->basic($exam_id);
         $data['row_eu'] = $this->Db_model->row_id('exam_user', $eu_id);
         $data['eu_id'] = $eu_id;    //ID tabla exam_user
         $data['questions'] = $this->Exam_model->questions($exam_id);
+        $data['enrolling_id'] = $enrolling_id;
         $data['num_question'] = $num_question;
 
         $data['view_a'] = 'exams/exams/resolve/resolve_v';
@@ -264,6 +285,7 @@ class Exams extends CI_Controller{
     }
 
     /**
+     * AJAX JSON
      * Guardar respuestas de un cuestionario en la tabla exame_user (eu)
      * 2021-03-22
      */
@@ -279,7 +301,7 @@ class Exams extends CI_Controller{
      */
     function finalize()
     {
-        //Guardar respuestas
+        //Primero guardar respuestas
         $data_save_answers = $this->Exam_model->save_answers();
 
         //Finalizar si se guardaron las respuestas
@@ -292,19 +314,34 @@ class Exams extends CI_Controller{
             $data['status'] = 0;
         }
 
+        //Calcular aprobación del curso
+        if ( $this->input->post('enrolling_id') > 0 )
+        {
+            $this->load->model('Course_model');
+            $enrolling_id = $this->input->post('enrolling_id');
+            $data['course_approval_status'] = $this->Course_model->update_approval_status($enrolling_id);
+        }
+
         $this->output->set_content_type('application/json')->set_output(json_encode($data));
     }
 
     /**
-     * Detalle resultados respuesta, pregunta a pregunta
+     * Vista detalle resultados respuesta, pregunta a pregunta
      * 2021-03-22
      */
-    function results($exam_id, $eu_id)
+    function results($exam_id, $eu_id, $enrolling_id)
     {
         $data = $this->Exam_model->basic($exam_id);
         $data['eu_id'] = $eu_id;    //ID tabla exam_user
-        $data['row_eu'] = $this->Db_model->row_id('exam_user', $eu_id);
+        $data['row_answer'] = $this->Db_model->row_id('exam_user', $eu_id);
         $data['questions'] = $this->Exam_model->questions($exam_id);
+
+        //Información sobre el curso e incripción
+        $data['row_enrolling'] = $this->Db_model->row_id('users_meta', $enrolling_id);
+        $data['course'] = null;
+        if ( ! is_null($data['row_enrolling']) ) {
+            $data['course'] = $this->Db_model->row_id('posts', $data['row_enrolling']->related_1);
+        }
 
         $data['view_a'] = 'exams/exams/results/results_v';
         unset($data['nav_2']);

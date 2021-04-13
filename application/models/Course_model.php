@@ -68,7 +68,7 @@ class Course_model extends CI_Model{
         $arr_select['export'] = '*';
 
         //Hace referencia a un post tipo clase, no curso
-        $arr_select['course_class'] = 'id, post_name, excerpt, content, slug, type_id, text_1, related_1, position, related_2, parent_id';
+        $arr_select['course_class'] = 'id, post_name, excerpt, content, slug, type_id, text_1, related_1, position, related_2, parent_id, integer_1';
 
         return $arr_select[$format];
     }
@@ -304,6 +304,21 @@ class Course_model extends CI_Model{
         return $classes;
     }
 
+    /**
+     * Exámenes que hacen parte de un curso
+     * 2021-04-09
+     */
+    function exams($course_id)
+    {
+        $this->db->select('exams.*');
+        $this->db->join('posts', 'exams.id = posts.related_2');
+        $this->db->where('posts.type_id', 4140);    //Clase tipo examen relacionado
+        $this->db->where('parent_id', $course_id);  //La clase-examen pertenece al curso
+        $exams = $this->db->get('exams');
+
+        return $exams;
+    }
+
 // Inscripción de usuario
 //-----------------------------------------------------------------------------
 
@@ -313,7 +328,7 @@ class Course_model extends CI_Model{
      */
     function user_courses($user_id)
     {
-        $this->db->select('posts.*, users_meta.user_id, users_meta.integer_1 AS current_element_index, users_meta.score_1 AS user_score, users_meta.score_2 AS enrolling_status, users_meta.score_3 AS user_progress');
+        $this->db->select('posts.*, users_meta.id AS enrolling_id, users_meta.user_id, users_meta.integer_1 AS current_element_index, users_meta.score_1 AS user_score, users_meta.score_2 AS enrolling_status, users_meta.score_3 AS user_progress');
         $this->db->join('users_meta', 'posts.id = users_meta.related_1', 'left');    
         $this->db->where('users_meta.user_id', $user_id);
         $this->db->where('users_meta.type_id', 411010); //Inscripción a curso
@@ -365,6 +380,9 @@ class Course_model extends CI_Model{
         return $data;
     }
 
+// Ejecución de un curso por parte de un usuario
+//-----------------------------------------------------------------------------
+
     /**
      * Guarda evento (tabla events) de apertura de clase por un usuario inscrito
      * 2021-04-08
@@ -383,5 +401,90 @@ class Course_model extends CI_Model{
         $event_id = $this->Event_model->save($arr_event, 'id = 0'); //Condición imposible, siempre se crea
 
         return $event_id;
+    }
+
+    function update_approval_status($enrolling_id)
+    {
+        //Obtener información sobre aprobación del curso
+        $approval_info = $this->approval_info($enrolling_id);
+
+        //Construir array para actualizar registro en tabla users_meta
+        $arr_row['score_1'] = $approval_info['score'];
+        $arr_row['score_2'] = $approval_info['enrolling_status'];
+        $arr_row['updated_at'] = date('Y-m-d');
+        $arr_row['updater_id'] = $this->session->userdata('user_id');
+
+        //Actualizar registro
+
+        $data['saved_id'] = $this->Db_model->save('users_meta', "id = {$enrolling_id}", $arr_row);
+        $data['approval_info'] = $approval_info;
+
+        return $data;
+    }
+
+    /**
+     * Calcular los valores que determinan si un curso fue aprobado o no por un usuario
+     * EN CONSTRUCCIÓN
+     */
+    function approval_info($enrolling_id)
+    {
+        //Resultado por defecto
+        $data = array('score' => 0, 'enrolling_status' => 10, 'qty_exams_answers' => 0, 'qty_approved_exams' => 0);
+        $sum_score = 0;
+
+        //Exámenes del curso, con datos de respuesta del usuario, si existen
+        $exams_answers = $this->enrolling_exams_answers($enrolling_id);                            //Clases del curso
+
+        //Cantidad de exámenes que tiene el curso
+        $data['qty_course_exams'] = $exams_answers->num_rows();
+
+        //Recorrer cada examen y su respuesta
+        foreach ($exams_answers->result() as $answer)
+        {
+            //Respondidos
+            if ( $answer->answer_id > 0 ) $data['qty_exams_answers']++;    //Fue respondido
+
+            //Aprobados
+            $data['qty_approved_exams'] += $answer->approved;         //Aprobado o no
+
+            $sum_score += $answer->pct_correct; //Sumar para calcular promedio
+        }
+
+        //Verificar resultado
+        if ( $exams_answers->num_rows() > 0 )
+        {
+            $data['score'] = $sum_score / $exams_answers->num_rows(); //Puntaje promedio
+
+            //Si respondió todos los exámenes
+            if ( $data['qty_course_exams'] == $data['qty_exams_answers'] ) {
+                $data['enrolling_status'] = 4;    //Curso finalizado
+            }
+
+            //Si aprobó todos los exámenes
+            if ( $data['qty_course_exams'] == $data['qty_approved_exams'] ) {
+                $data['enrolling_status'] = 1;    //Curso aprobado
+            }
+        }
+
+        return $data;
+    }
+
+    /**
+     * Listado de exámenes de un curso, y los resultados de respuesta hechas por el el usuario de la inscripción ($enrolling_id)
+     * 2021-04-09
+     */
+    function enrolling_exams_answers($enrolling_id)
+    {
+        $enrolling = $this->Db_model->row_id('users_meta', $enrolling_id);      //Info inscripción usuario en el curso
+        $exams = $this->exams($enrolling->related_1);                           //Query, exámenes asociados al curso
+        $str_exams = $this->pml->query_to_str($exams, 'id');                    //String con listado de ID de exámenes del curso
+
+        //Consulta
+        $this->db->select('exams.*, exam_user.id AS answer_id, exam_user.qty_attempts, qty_correct, pct_correct, exam_user.status AS answer_status, approved, exam_user.updated_at AS answer_updated_at');
+        $this->db->where("exams.id IN ({$str_exams})");
+        $this->db->join('exam_user', "exam_user.exam_id = exams.id AND exam_user.enrolling_id = {$enrolling_id}", 'left');
+        $answers = $this->db->get('exams');
+
+        return $answers;
     }
 }

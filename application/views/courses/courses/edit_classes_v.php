@@ -6,6 +6,7 @@
             <th>Tipo</th>
             <th>Módulo</th>
             <th>Orden</th>
+            <th>Peso</th>
             <th width="90px"></th>
         </thead>
         <tbody>
@@ -19,6 +20,9 @@
                 <td>{{ element.type_id | type_name }}</td>
                 <td>{{ element.related_1 }}</td>
                 <td>{{ element.position }}</td>
+                <td>
+                    <span v-show="element.type_id == 4140">{{ element.integer_1 }}%</span>
+                </td>
                 <td>
                     <a v-bind:href="`<?= base_url("courses/open_element/{$row->id}/") ?>` + key" class="a4" target="_blank">
                         <i class="fas fa-external-link-alt"></i>

@@ -227,6 +227,28 @@ class Courses extends CI_Controller{
         $data['head_title'] = 'Mis cursos';
         $data['view_a'] = 'courses/courses/my_courses_v';
         $data['courses'] = $this->Course_model->user_courses($this->session->userdata('user_id'));
+        $data['arr_enrolling_status'] = $this->Item_model->arr_cod('category_id = 401');
+
+        $this->App_model->view(TPL_ADMIN, $data);
+    }
+
+    /**
+     * Vista certificado de aprobación de un curso, link para descarga del certificado
+     * 2021-04-13
+     */
+    function certificate($course_id, $user_id, $enrolling_id)
+    {
+        //Si es estudiante, solo ve sus cursos e inscripciones
+        if ( $this->session->userdata('role') >= 20 ) {
+            $user_id = $this->session->userdata('user_id');
+        }
+
+        $data['course'] = $this->Db_model->row_id('posts', $course_id);
+        $data['enrolling'] = $this->Db_model->row('users_meta', "id = {$enrolling_id} AND user_id = {$user_id} AND related_1 = {$course_id}");
+        $data['user'] = $this->Db_model->row_id('users', $user_id);
+
+        $data['head_title'] = $data['course']->post_name;
+        $data['view_a'] = 'courses/courses/enrolling_status_v';
 
         $this->App_model->view(TPL_ADMIN, $data);
     }
@@ -257,7 +279,7 @@ class Courses extends CI_Controller{
         $this->output->set_content_type('application/json')->set_output(json_encode($data));
     }
 
-// Presentación del curso
+// Ejecución del curso por parte de un usuario
 //-----------------------------------------------------------------------------
 
     /**
@@ -299,17 +321,6 @@ class Courses extends CI_Controller{
         }
 
         redirect($destination);
-
-        
-        //Verificación
-        /*$data['index'] = $index;
-        $data['row_enrolling'] = $row_enrolling;
-        $data['classes'] = $classes->result();
-        $data['row_class'] = $row_class;
-        $data['destination'] = $destination;
-
-        //Salida JSON
-        $this->output->set_content_type('application/json')->set_output(json_encode($data));*/
     }
 
     /**
@@ -335,5 +346,32 @@ class Courses extends CI_Controller{
         $data['view_a'] = "courses/classes/read/type_{$row->type_id}_v";
 
         $this->App_model->view(TPL_ADMIN, $data);
+    }
+
+// Funciones de pruebas
+//-----------------------------------------------------------------------------
+
+    /**
+     * Función de pruebas
+     */
+    function get_approval_info($enrolling_id)
+    {
+        $data = $this->Course_model->approval_info($enrolling_id);
+
+        //Salida JSON
+        $this->output->set_content_type('application/json')->set_output(json_encode($data));
+    }
+
+    /**
+     * Repuestas de examen por parte de un usuario.
+     */
+    function get_enrolling_answers($enrolling_id)
+    {
+        $answers = $this->Course_model->enrolling_exams_answers($enrolling_id);
+        $data['answers'] = $answers->result();
+
+        //Salida JSON
+        $this->output->set_content_type('application/json')->set_output(json_encode($data));
+        //$this->output->enable_profiler(TRUE);
     }
 }
