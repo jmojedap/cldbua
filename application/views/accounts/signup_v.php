@@ -112,7 +112,7 @@
                 email_unique: -1,
                 username_unique: -1
             },
-            pw_type: 'text',
+            pw_type: 'password',
             loading: false,
             saved_id: 0,
         },

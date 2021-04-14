@@ -23,6 +23,21 @@
             {{ row_answer.pct_correct }}%
         </div>
     </div>
+    
+
+    <?php if ( $row_enrolling->score_2 == 1 ) : ?>
+        <div class="mt-2 card text-center">
+            <div class="card-body">
+                <h3 class="text-success">¡Muchas felicidades!</h3>
+                <p style="font-size: 1.2em;">Has finalizado y aprobado: <strong><?= $course->post_name ?></strong></p>
+                <p>
+                    <a href="<?= base_url("courses/certificate/{$course->id}/{$row_enrolling->user_id}/{$row_enrolling->id}") ?>" class="btn btn-success btn-sm">
+                        VER CERTIFICADO
+                    </a>
+                </p>
+            </div>
+        </div>
+    <?php endif; ?>
 
     <hr>
 

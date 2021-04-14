@@ -133,7 +133,7 @@ class Accounts extends CI_Controller {
                 
             //Enviar email con código de activación
                 $this->Account_model->activation_key($data['saved_id']);
-                if ( ENV == 'production' ) $this->Account_model->email_activation($data['user_id']);                
+                if ( ENV == 'production' ) $this->Account_model->email_activation($data['saved_id']);                
 
             //Iniciar sesión
                 $this->Account_model->create_session($arr_row['email']);
