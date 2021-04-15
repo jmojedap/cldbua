@@ -311,33 +311,26 @@ class Users extends CI_Controller{
     
     /**
      * AJAX
-     * Devuelve un valor de username sugerido disponible, dados los nombres y last_name
+     * Devuelve un valor de username sugerido disponible, da y last_name
      */
     function username()
     {
-        $first_name = $this->input->post('first_name');
-        $last_name = $this->input->post('last_name');
+        $first_name = 'usuario';
+        $last_name = APP_NAME;
+
+        if ( ! is_null($this->input->post('last_name')) )
+        {
+            $first_name = $this->input->post('first_name');
+            $last_name = $this->input->post('last_name');
+        } elseif ( ! is_null($this->input->post('display_name')) ) {
+            $name_parts = explode(' ', $this->input->post('display_name'));
+            if ( count($name_parts) > 0 ) $first_name = $name_parts[0];
+            if ( count($name_parts) > 0 ) $last_name = $name_parts[1];
+        }
+
         $username = $this->User_model->generate_username($first_name, $last_name);
         
         $this->output->set_content_type('application/json')->set_output(json_encode($username));
-    }
-    
-// ALBUMES DE USERS
-//-----------------------------------------------------------------------------
-
-    /**
-     * Albums de fotos
-     */
-    function albums($user_id)
-    {
-        $data = $this->User_model->basic($user_id);
-        
-        $this->load->model('Girl_model');
-        $data['albums'] = $this->Girl_model->albums($user_id);
-
-        $data['subtitle_head'] = 'Álbums';
-        $data['view_a'] = 'users/albums_v';
-        $this->App_model->view(TPL_ADMIN, $data);
     }
 
 // POSTS ASIGNADOS COMO CLIENTE
@@ -363,59 +356,6 @@ class Users extends CI_Controller{
         }
 
         $this->App_model->view(TPL_ADMIN, $data);
-    }
-
-// PRODUCTOS DE UN USUARIO
-//-----------------------------------------------------------------------------
-
-    /**
-     * Contenidos digitales asignados a un producto
-     * 2020-04-18
-     */
-    function products($user_id)
-    {
-        $data = $this->User_model->basic($user_id);
-
-        $data['products'] = $this->User_model->assigned_products($user_id);
-
-        $data['view_a'] = 'users/products_v';
-
-        $this->App_model->view(TPL_ADMIN, $data);
-    }
-
-    /**
-     * Agrega un producto a un usuario
-     * 2020-06-17
-     */
-    function add_product($user_id, $product_id)
-    {
-        $data = $this->User_model->add_product($user_id, $product_id);
-
-        //Salida JSON
-        $this->output->set_content_type('application/json')->set_output(json_encode($data));
-    }
-
-// PROCESOS MASIVOS
-//-----------------------------------------------------------------------------
-
-    function ajustar_image()
-    {
-        $this->db->where('image_id > 0');
-        $users = $this->db->get('users');
-
-        $data['actualizados'] = array();
-
-        foreach ($users->result() as $row_user) {
-            $arr_row['url_image'] = $row_user->url_image . $row_user->url_thumbnail;
-            $arr_row['url_thumbnail'] = $row_user->url_image . 'sm_' . $row_user->url_thumbnail;
-
-            $this->db->where('id', $row_user->id);
-            $this->db->update('users', $arr_row);
-            
-            $data['actualizados'][] = $row_user->id;
-        }
-
-        $this->output->set_content_type('application/json')->set_output(json_encode($data));
     }
 
 // SEGUIDORES

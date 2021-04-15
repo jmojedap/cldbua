@@ -19,7 +19,7 @@
             <div class="form-group">
                 <input
                     class="form-control" name="display_name"
-                    title="Debe tener al menos cinco letras" placeholder="¿Cómo te llamas?"
+                    title="Debe tener al menos cinco letras" placeholder="Nombres y apellidos"
                     minlength="5" required autofocus
                     v-model="display_name"
                     >
@@ -36,6 +36,9 @@
                 <div class="invalid-feedback">
                     Este nombre de usuario no está disponible
                 </div>
+                <small id="passwordHelpBlock" class="form-text text-muted">
+                    Ej. marta25
+                </small>
             </div>
 
             <div class="form-group">
@@ -46,7 +49,7 @@
                     required
                     v-model="email"
                     v-on:change="validate_form"
-                    v-bind:class="{'is-invalid': validation.email_unique == 0, 'is-valid': validation.email_unique == 1}"
+                    v-bind:class="{'is-invalid': validation.email_unique == 0}"
                     >
                 <div class="invalid-feedback" v-show="validation.email_unique == 0">
                     Ya existe una cuenta con este correo electrónico

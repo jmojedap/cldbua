@@ -109,7 +109,7 @@ class Accounts extends CI_Controller {
      * Recibe los datos POST del form en accounts/signup. Si se validan los 
      * datos, se registra el user. Se devuelve $data, con resultados de registro
      * o de validación (si falló).
-     * 2021-03-09
+     * 2021-04-15
      */
     function register()
     {
@@ -121,12 +121,17 @@ class Accounts extends CI_Controller {
         if ( $res_validation['status'] && $recaptcha->score > 0.5 )
         {
             //Construir registro del nuevo user
+                //$arr_row['firts_name'] = $this->input->post('first_name');
+                //$arr_row['last_name'] = $this->input->post('last_name');
+                //$arr_row['display_name'] = $this->input->post('first_name') . ' ' . $this->input->post('first_name');
+                //$arr_row['username'] = explode('@', $this->input->post('email'))[0] . rand(10,99);
+                
                 $arr_row['display_name'] = $this->input->post('display_name');
                 $arr_row['email'] = $this->input->post('email');
-                $arr_row['username'] = explode('@', $this->input->post('email'))[0] . rand(10,99);
+                $arr_row['username'] = $this->input->post('username');
                 $arr_row['password'] = $this->Account_model->crypt_pw($this->input->post('new_password'));
                 $arr_row['status'] = 2;     //Registrado sin confirmar email
-                $arr_row['role'] = 21;      //21: Cliente, default role
+                $arr_row['role'] = 21;      //21: Rol por defecto
 
             //Insert user
                 $data = $this->User_model->save(NULL, $arr_row);
@@ -142,7 +147,7 @@ class Accounts extends CI_Controller {
         }
 
         //reCAPTCHA V3 validation
-        if ( $recaptcha->score < 0.5 ) { $data['recaptcha_valid'] = FALSE; }
+        if ( $recaptcha->score <= 0.5 ) { $data['recaptcha_valid'] = FALSE; }
 
         $this->output->set_content_type('application/json')->set_output(json_encode($data));
     }
@@ -230,7 +235,7 @@ class Accounts extends CI_Controller {
             $data['head_title'] = 'Accounts recovery';
             $data['view_a'] = 'accounts/recovery_v';
             $data['recaptcha_sitekey'] = K_RCSK;    //config/constants.php
-            $this->load->view('templates/apanel4/start_v', $data);
+            $this->load->view('templates/apanel4/start', $data);
         }
     }
 
@@ -247,13 +252,13 @@ class Accounts extends CI_Controller {
         $recaptcha = $this->Validation_model->recaptcha(); //Validación Google ReCaptcha V3
 
         //Identificar usuario
-        $row = $this->Db_model->row('users', "email = '{$this->input->post('email')}'");
+        $user = $this->Db_model->row('users', "email = '{$this->input->post('email')}'");
 
-        if ( ! is_null($row) && $recaptcha->score > 0.5 ) 
+        if ( ! is_null($user) && $recaptcha->score > 0.5 ) 
         {
             //Usuario existe, se envía email para restaurar constraseña
-            $this->Account_model->activation_key($row->id);
-            if ( ENV == 'production') $this->Account_model->email_activation($row->id, 'recovery');
+            $this->Account_model->activation_key($user->id);
+            if ( ENV == 'production') $this->Account_model->email_activation($user->id, 'recovery');
             $data = ['status' => 1, 'recaptcha_valid' => TRUE];
         }
 
@@ -296,7 +301,7 @@ class Accounts extends CI_Controller {
 
         //Cargar vista
             $data['view_a'] = 'accounts/recover_v';
-            $this->load->view('templates/apanel4/start_v', $data);
+            $this->load->view('templates/apanel4/start', $data);
     }
 
     /**
@@ -384,11 +389,8 @@ class Accounts extends CI_Controller {
     function validate_form()
     {
         $user_id = $this->session->userdata('user_id');
-
-        $this->load->model('Account_model');
         $data = $this->Account_model->validate_form($user_id);
         
-        //Enviar result
         $this->output->set_content_type('application/json')->set_output(json_encode($data));
     }
 
@@ -399,7 +401,7 @@ class Accounts extends CI_Controller {
     function update()
     {
         $arr_row = $this->input->post();
-        $arr_row['display_name'] = $this->input->post('first_name') . ' ' . $this->input->post('last_name');
+        //$arr_row['display_name'] = $this->input->post('first_name') . ' ' . $this->input->post('last_name');
         $user_id = $this->session->userdata('user_id');
 
         $data = $this->User_model->save($user_id, $arr_row);

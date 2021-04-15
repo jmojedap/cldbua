@@ -160,8 +160,6 @@ class Account_model extends CI_Model{
         
         $this->load->model('Validation_model');
         $email_validation = $this->Validation_model->email($user_id);
-
-        $this->load->model('Validation_model');
         $username_validation = $this->Validation_model->username($user_id);
 
         $validation = array_merge($email_validation, $username_validation);
@@ -243,8 +241,7 @@ class Account_model extends CI_Model{
             $arr_row['password'] = $this->crypt_pw($this->input->post('password'));
 
         //Update
-            $this->db->where('id', $row_user->id);
-            $this->db->update('users', $arr_row);
+            $this->db->where('id', $row_user->id)->update('users', $arr_row);
             
         return $row_user;
     }
@@ -264,17 +261,12 @@ class Account_model extends CI_Model{
             'password'  => $this->crypt_pw($password)
         );
         
-        $this->db->where('id', $user_id);
-        $this->db->update('users', $arr_row);
+        $this->db->where('id', $user_id)->update('users', $arr_row);
     }
 
     /**
      * Verificar la contraseña de users. Verifica que la combinación de
      * user y contraseña existan en un mismo registro en la tabla users.
-     * 
-     * @param type $userlogin
-     * @param type $password
-     * @return boolean
      */
     function validate_password($userlogin, $password)
     {
@@ -375,7 +367,7 @@ class Account_model extends CI_Model{
 
     /**
      * Envía e-mail de activación o restauración de cuenta
-     * 
+     * 2021-04-15
      */
     function email_activation($user_id, $activation_type = 'activation')
     {
@@ -384,22 +376,20 @@ class Account_model extends CI_Model{
         //Establecer código de activación
             $this->activation_key($user_id);
             
-        //Asunto de mensaje
-            $subject = APP_NAME . ': Activate your account';
-            if ( $activation_type == 'recovery' ) {
-                $subject = APP_NAME . ' Recover your account';
-            }
+        //Asuntos de mensaje según tipo
+            $subjects['activation'] = APP_NAME . ': Activa tu cuenta';
+            $subjects['recovery'] = APP_NAME . ': Asigna nueva contraseña';
         
         //Enviar Email
             $this->load->library('email');
             $config['mailtype'] = 'html';
 
             $this->email->initialize($config);
+            $this->email->subject($subjects[$activation_type]);
             $this->email->from('accounts@' . APP_DOMAIN, APP_NAME);
             $this->email->to($row_user->email);
-            $this->email->bcc('jmojedap@gmail.com');
+            $this->email->bcc('jmojedap@gmail.com');    //Para pruebas
             $this->email->message($this->activation_message($user_id, $activation_type));
-            $this->email->subject($subject);
             
             $this->email->send();   //Enviar
     }

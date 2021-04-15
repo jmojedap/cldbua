@@ -8,24 +8,14 @@
     <div class="card center_box_750">
         <div class="card-body">
             <form id="edit_form" accept-charset="utf-8" @submit.prevent="validate_send">
-                
-
                 <div class="form-group row">
-                    <label for="first_name" class="col-md-4 col-form-label text-right">Nombre y Apellidos <span class="text-danger">*</span></label>
-                    <div class="col-md-4">
+                    <label for="display_name" class="col-md-4 col-form-label text-right">Nombre y Apellidos <span class="text-danger">*</span></label>
+                    <div class="col-md-8">
                         <input
-                            name="first_name" class="form-control"
-                            placeholder="Nombres" title="Nombres del usuario"
+                            name="display_name" class="form-control"
+                            placeholder="Nombres y apellidos" title="Nombres y apellidos"
                             required
-                            v-model="form_values.first_name"
-                            >
-                    </div>
-                    <div class="col-md-4">
-                        <input
-                            name="last_name" class="form-control"
-                            placeholder="Apellidos" title="Apellidos del usuario"
-                            required
-                            v-model="form_values.last_name"
+                            v-model="form_values.display_name"
                             >
                     </div>
                 </div>
@@ -37,7 +27,7 @@
                         <input
                             name="email" class="form-control"
                             placeholder="Correo electrónico" title="Correo electrónico"
-                            v-bind:class="{ 'is-invalid': validation.email_unique == 0, 'is-valid': validation.email_unique == 1 }"
+                            v-bind:class="{ 'is-invalid': validation.email_unique == 0 }"
                             v-model="form_values.email"
                             v-on:change="validate_form"
                             >
@@ -56,7 +46,7 @@
                                 id="field-username"
                                 name="username"
                                 class="form-control"
-                                v-bind:class="{ 'is-invalid': validation.username_unique == 0, 'is-valid': validation.username_unique == 1 }"
+                                v-bind:class="{ 'is-invalid': validation.username_unique == 0 }"
                                 placeholder="username"
                                 title="Puede contener letras y números, entre 5 y 25 caractéres, no debe contener espacios ni caracteres especiales"
                                 required
@@ -105,8 +95,7 @@
 // Variables
 //-----------------------------------------------------------------------------
 var form_values = {
-    first_name: '<?= $row->first_name ?>',
-    last_name: '<?= $row->last_name ?>',
+    display_name: '<?= $row->display_name ?>',
     email: '<?= $row->email ?>',
     username: '<?= $row->username ?>',
     about: '<?= $row->about ?>',
@@ -118,7 +107,6 @@ var app_edit = new Vue({
 el: '#app_edit',
     data: {
         form_values: form_values,
-        row_id: '<?= $row->id ?>',
         validation: {
             username_unique: -1,
             email_unique: -1
@@ -134,12 +122,12 @@ el: '#app_edit',
             .catch(function (error) { console.log(error) })
         },
         validate_send: function () {
-            axios.post(url_api + 'accounts/validate_form/' + this.row_id, $('#edit_form').serialize())
+            axios.post(url_api + 'accounts/validate_form/', $('#edit_form').serialize())
             .then(response => {
                 if (response.data.status == 1) {
-                this.send_form();
+                    this.send_form();
                 } else {
-                toastr['error']('Revise las casillas en rojo');
+                    toastr['error']('Revise las casillas en rojo');
                 }
             })
             .catch(function (error) { console.log(error) })
@@ -156,11 +144,9 @@ el: '#app_edit',
                 .catch(function (error) { console.log(error) }) 
         },
         generate_username: function() {
-            const params = new URLSearchParams();
-            params.append('first_name', this.form_values.first_name)
-            params.append('last_name', this.form_values.last_name)
-            
-            axios.post(url_app + 'users/username/', params)
+            var form_data = new FormData
+            form_data.append('display_name', this.form_values.display_name)
+            axios.post(url_app + 'users/username/', form_data)
             .then(response => {
                 this.form_values.username = response.data
             })
