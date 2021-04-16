@@ -283,7 +283,7 @@ class Post_model extends CI_Model{
     function type_folder($type_id)
     {
         $type_folder = 'posts/';
-        $special_types = array(4110, 4124, 4130, 4140);
+        $special_types = array(4110, 4124, 4126, 4130, 4140);
 
         if ( in_array($type_id, $special_types) ) { $type_folder = "posts/types/{$type_id}/"; }
 

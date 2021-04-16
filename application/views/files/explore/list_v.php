@@ -39,9 +39,8 @@
 
                 <td>
                     <a v-bind:href="element.url" class="btn btn-sm btn-light" target="_blank">Abrir</a>
-                    <a v-bind:href="element.url_thumbnail" class="btn btn-sm btn-light" target="_blank">Mini</a>
+                    <a v-bind:href="element.url_thumbnail" class="btn btn-sm btn-light" target="_blank" v-show="element.is_image == 1">Mini</a>
                 </td>
-
                 
                 <td>
                     <button class="a4" data-toggle="modal" data-target="#detail_modal" @click="set_current(key)">

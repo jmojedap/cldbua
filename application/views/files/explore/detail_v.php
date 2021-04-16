@@ -11,21 +11,21 @@
             <div class="modal-body">
                 <table class="table table-borderless table-sm">
                     <tr>
-                        <td>ID</td>
+                        <td class="td-title">ID</td>
                         <td>{{ element.id }}</td>
                     </tr>
                     <tr>
-                        <td>Nombre</td>
+                        <td class="td-title">Nombre</td>
                         <td>
                             {{ element.title }}
                         </td>
                     </tr>
                     <tr>
-                        <td>Nombre archivo</td>
+                        <td class="td-title">Nombre archivo</td>
                         <td>{{ element.file_name }}</td>
                     </tr>
                     <tr>
-                        <td>Creado</td>
+                        <td class="td-title">Creado</td>
                         <td>{{ element.created_at }}</td>
                     </tr>
                 </table>

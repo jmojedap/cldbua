@@ -2,7 +2,7 @@
     <div class="form-group row">
         <div class="col-md-8">
             <input
-                type="file" id="field-file"
+                type="file"
                 ref="file_field" name="file_field"
                 required class="form-control"
                 v-on:change="handle_file_upload()"

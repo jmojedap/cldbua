@@ -62,25 +62,6 @@ class File_model extends CI_Model{
 
         return $data;
     }
-    
-    /**
-     * String con condición WHERE SQL para filtrar post
-     */
-    function search_condition_org($filters)
-    {
-        $condition = NULL;
-        
-        //Tipo de post
-        if ( $filters['type'] != '' ) { $condition .= "type_id = {$filters['type']} AND "; }
-        if ( $filters['condition'] != '' ) { $condition .= "{$filters['condition']} AND "; }
-        
-        if ( strlen($condition) > 0 )
-        {
-            $condition = substr($condition, 0, -5);
-        }
-        
-        return $condition;
-    }
 
     /**
      * Segmento Select SQL, con diferentes formatos, consulta de products
@@ -202,8 +183,8 @@ class File_model extends CI_Model{
 //---------------------------------------------------------------------------------------------------
     
     /**
-     * Realiza el upload de un file al servidor, crea el registro asociado en
-     * la tabla "file".
+     * Realiza el upload de un file al servidor, crea el registro asociado en la tabla files
+     * 2021-04-16
      */
     function upload($file_id = NULL)
     {
@@ -213,7 +194,12 @@ class File_model extends CI_Model{
         if ( $this->upload->do_upload('file_field') )  //Campo "file_field" del formulario
         {
             $upload_data = $this->upload->data();
-            $this->mod_original($upload_data['full_path']);          //Modificar imagen original
+
+            if ( $upload_data['is_image'] )
+            {
+                //Modificar imagen original
+                $this->mod_original($upload_data['full_path']);
+            }
 
             //Guardar registro en la tabla "file"
                 $row = $this->save($file_id, $upload_data);
@@ -222,12 +208,10 @@ class File_model extends CI_Model{
                 if ( $row->is_image ) { $this->create_thumbnails($row); }
             
             //Array resultado
-                $data = array('status' => 1);
-                $data['row'] = $row;
-        }
-        else    //No se cargó
-        {
-            $data = array('status' => 0);
+                $data = array('status' => 1, 'saved_id' => $row->id, 'row' => $row);
+        } else {
+            //No se cargó
+            $data = array('status' => 0, 'saved_id' => 0);
             $data['html'] = $this->upload->display_errors('<div role="alert" class="alert alert-danger"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button><i class="fa fa-warning"></i> ', '</div>');
         }
         
@@ -237,14 +221,15 @@ class File_model extends CI_Model{
     /**
      * Configuración para cargue de files, algunas propiedades solo se aplican
      * para files de imagen.
+     * 2021-04-16
      */
     function config_upload()
     {
         $this->load->helper('string');  //Para activar función random_string
         
         $config['upload_path'] = PATH_UPLOADS . date('Y/m');    //Carpeta año y mes
-        $config['allowed_types'] = 'zip|gif|jpg|png|jpeg|pdf|json';
-        $config['max_size']	= '5000';       //Tamaño máximo en Kilobytes
+        $config['allowed_types'] = 'zip|gif|jpg|png|jpeg|pdf|json|mp3';
+        $config['max_size']	= '50000';       //Tamaño máximo en Kilobytes
         $config['max_width']  = '10000';     //Ancho máxima en pixeles
         $config['max_height']  = '10000';    //Altura máxima en pixeles
         $config['file_name']  = $this->session->userdata('user_id') . '_' . date('YmdHis') . '_' . random_string('numeric', 2);
@@ -280,9 +265,11 @@ class File_model extends CI_Model{
             $arr_row['created_at'] = date('Y-m-d H:i:s');
             $arr_row['creator_id'] = $this->session->userdata('user_id');
 
-        //Obtener dimensiones
-            $arr_dimensions = $this->arr_dimensions($upload_data['full_path']);
-            $arr_row = array_merge($arr_row, $arr_dimensions);
+        //Obtener dimensiones si es imagen
+            if ( $upload_data['is_image']  ) {
+                $arr_dimensions = $this->arr_dimensions($upload_data['full_path']);
+                $arr_row = array_merge($arr_row, $arr_dimensions);
+            }
             
         //Insertar
             $this->db->insert('files', $arr_row);

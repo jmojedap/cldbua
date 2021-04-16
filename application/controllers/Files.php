@@ -93,9 +93,8 @@ class Files extends CI_Controller{
     function add()
     {
         $data['head_title'] = 'Archivos';
-        $data['view_a'] = 'files/add_v';
         $data['nav_2'] = 'files/explore/menu_v';
-        $data['head_subtitle'] = 'Cargar';
+        $data['view_a'] = 'files/add_v';
         $this->App_model->view(TPL_ADMIN, $data);
     }
 

@@ -2,12 +2,9 @@
     <div class="col-md-3">
         <?php if ( $row->is_image ) { ?>
             <img class="rounded mb-2 w100pc" alt="imagen archivo" src="<?= $row->url ?>">
-        <?php } ?>
-
-        
+        <?php } ?>    
     </div>
     <div class="col-md-9">
-        <h3 class="mb-2"><?= $row->title ?></h3>
         <table class="table bg-white">
             <tbody>
                 <tr>
@@ -43,11 +40,25 @@
                     <td><?= $row->file_name ?></td>
                 </tr>
                 <tr>
-                    <td class="td-title">Es imagen</td>
+                    <td class="td-title">URL</td>
+                    <td>
+                        <a href="<?= $row->url ?>" target="_blank"><?= $row->url ?></a>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="td-title">URL Miniatura</td>
                     <td>
                         <?php if ( $row->is_image ) : ?>
-                            Sí
+                            <a href="<?= $row->url_thumbnail ?>" target="_blank"><?= $row->url_thumbnail ?></a>
+                        <?php else: ?>
+                            NA
                         <?php endif; ?>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="td-title">Es imagen</td>
+                    <td>
+                        <?php if ( $row->is_image ) : ?>Sí<?php else: ?>No<?php endif; ?>
                     </td>
                 </tr>
                 <tr>
