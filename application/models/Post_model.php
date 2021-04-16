@@ -283,7 +283,7 @@ class Post_model extends CI_Model{
     function type_folder($type_id)
     {
         $type_folder = 'posts/';
-        $special_types = array(4110, 4130, 4140);
+        $special_types = array(4110, 4124, 4130, 4140);
 
         if ( in_array($type_id, $special_types) ) { $type_folder = "posts/types/{$type_id}/"; }
 
@@ -388,8 +388,8 @@ class Post_model extends CI_Model{
             $arr_row['url_image'] = $row_file->url;
             $arr_row['url_thumbnail'] = $row_file->url_thumbnail;
 
-            $this->db->where('id', $post_id);
-            $this->db->update('posts', $arr_row);
+            //Actualizar
+            $this->db->where('id', $post_id)->update('posts', $arr_row);
 
             $data['status'] = 1;
         }

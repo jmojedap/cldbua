@@ -1,8 +1,4 @@
-<?php
-    $options_gender = $this->Item_model->options('category_id = 59 AND cod <= 2', 'Sexo');
-    $options_city = $this->App_model->options_place('type_id = 4', 'cr', 'Ciudad');
-    $options_document_type = $this->Item_model->options('category_id = 53', 'Tipo documento');
-?>
+<?php $this->load->view('assets/bs4_chosen') ?>
 
 <div id="app_edit">
     <div class="card center_box_750">
@@ -68,6 +64,15 @@
                 </div>
 
                 <div class="form-group row">
+                    <label for="city_id" class="col-md-4 col-form-label text-right">País residencia</label>
+                    <div class="col-md-8">
+                        <select name="city_id" v-model="form_values.city_id" class="form-control">
+                            <option v-for="(option_city_id, key_city_id) in options_city_id" v-bind:value="key_city_id">{{ option_city_id }}</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group row">
                     <label for="about" class="col-md-4 col-form-label text-right">Acerca de mí</label>
                     <div class="col-md-8">
                         <textarea
@@ -99,6 +104,7 @@ var form_values = {
     email: '<?= $row->email ?>',
     username: '<?= $row->username ?>',
     about: '<?= $row->about ?>',
+    city_id: '0<?= $row->city_id ?>',
 };
 
 // App VueJS
@@ -110,7 +116,8 @@ el: '#app_edit',
         validation: {
             username_unique: -1,
             email_unique: -1
-        }
+        },
+        options_city_id: <?= json_encode($options_city_id) ?>,
     },
     methods: {
         validate_form: function() {
@@ -138,7 +145,7 @@ el: '#app_edit',
                     console.log('status: ' + response.data.message);
                     if (response.data.status == 1)
                     {
-                    toastr['success']('Datos actualizados');
+                    toastr['success']('Guardado');
                     }
                 })
                 .catch(function (error) { console.log(error) }) 

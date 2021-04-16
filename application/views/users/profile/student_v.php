@@ -1,35 +1,4 @@
-<script>
-// Variables
-//-----------------------------------------------------------------------------
-    user_id = '<?= $row->id ?>';
-
-// Document Ready
-//-----------------------------------------------------------------------------
-
-    $(document).ready(function(){
-        $('#btn_set_activation_key').click(function(){
-            set_activation_key();
-        });
-    });
-
-// Functions
-//-----------------------------------------------------------------------------
-
-    function set_activation_key(){
-        $.ajax({        
-            type: 'POST',
-            url: url_app + 'users/set_activation_key/' + user_id,
-            success: function(response){
-                link_content = url_app + 'accounts/recover/' + response
-                link_content += '<br> <span class="text-muted"></span>'
-                $('#activation_key').html(link_content)
-                toastr['success']('Copie el link y ábralo en otro navegador para establecer una nueva contraseña')
-            }
-        });
-    }
-</script>
-
-<div class="container">
+<div class="container" id="profile_app">
     <div class="row">
         <div class="col col-md-4">
             <!-- Page Widget -->
@@ -95,13 +64,13 @@
                     <?php if ( $this->session->userdata('role') <= 2  ) { ?>
                         <tr>
                             <td class="td-title">
-                                <button class="btn btn-primary btn-sm" id="btn_set_activation_key">
+                                <button class="btn btn-primary btn-sm" v-on:click="setActivationKey">
                                     <i class="fa fa-redo-alt"></i>
                                 </button>
                                 <span class="text-muted"></span>
                             </td>
                             <td>
-                                <span id="activation_key">Restaurar contraseña</span>
+                                <span id="activation_key" class="text-info">{{ activation_link }}</span>
                             </td>
                         </tr>
                     <?php } ?>
@@ -110,3 +79,23 @@
         </div>
     </div>
 </div>
+
+<script>
+var profile_app = new Vue({
+    el: '#profile_app',
+    data: {
+        user_id: <?= $row->id ?>,
+        activation_link: 'Restaurar contraseña'
+    },
+    methods: {
+        setActivationKey: function(){
+            axios.get(url_api + 'users/set_activation_key/' + this.user_id)
+            .then(response => {
+                this.activation_link = url_app + 'users/recover/' + response.data
+                toastr['success']('Copie el link y ábralo en otro navegador para establecer una nueva contraseña')
+            })
+            .catch(function(error) { console.log(error) })   
+        },
+    }
+})
+</script>

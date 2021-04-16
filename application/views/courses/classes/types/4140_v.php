@@ -1,14 +1,13 @@
 <div id="exam_class_app">
-    <div class="center_box_750">
+    <div class="center_box_920">
         <div class="card mb-2">
             <div class="card-body">
                 <h3>{{ exam.title }}</h3>
                 <p>{{ exam.description }}</p>
                 <hr>
 
-                Iniciará a responder el cuestionario. Tiene <strong class="text-primary">{{ exam.minutes }}</strong> minutos para responderlo.
                 
-                <div v-show="answer != null">
+                <div v-show="answer.id > 0">
                     <hr>
                     <h4><i class="fa fa-info-circle text-info"></i> Respuesta previa</h4>
                     <table class="table">
@@ -57,18 +56,20 @@
                     </p>
                 </div>
 
-                <p class="text-center">
-                    <button class="btn btn-success btn-lg" v-on:click="start">
-                        <span v-show="qty_attempts > 1">REINICIAR Y</span>
-                        RESPONDER
-                    </button>
-                </p>
+                <div class="text-center">
+                    <p>
+                        Iniciará a responder el cuestionario. Tiene <strong class="text-primary">{{ exam.minutes }}</strong> minutos para completarlo.
+                    </p>
+
+                    <p class="text-center">
+                        <button class="btn btn-success btn-lg" v-on:click="start">
+                            <span v-show="qty_attempts > 1">REINICIAR Y</span>
+                            RESPONDER
+                        </button>
+                    </p>
+                </div>
 
             </div>
-        </div>
-        <div class="d-flex justify-content-between mb-2">
-            <a class="btn btn-secondary w120p" title="Clase anterior" href="<?= base_url("courses/open_element/{$course->id}/") . ($index - 1) ?>"><i class="fa fa-chevron-left"></i></a>
-            <a class="btn btn-secondary w120p" title="Clase siguiente"  href="<?= base_url("courses/open_element/{$course->id}/") . ($index + 1) ?>"><i class="fa fa-chevron-right"></i></a>
         </div>
     </div>
 </div>
@@ -92,7 +93,9 @@ var exam_class_app = new Vue({
         enrolling_id: <?= $enrolling_id ?>,
         exam_id: <?= $row->related_2 ?>,
         exam: {},
-        answer: {},
+        answer: {
+            id: 0, updated_at: '', pct_correct: 0
+        },
         qty_attempts: 0,
         loading: false,
     },
@@ -101,7 +104,7 @@ var exam_class_app = new Vue({
             axios.get(url_api + 'exams/get_preparation_info/' + this.exam_id)
             .then(response => {
                 this.exam = response.data.row
-                this.answer = response.data.row_eu
+                if ( response.data.row_eu != null ) this.answer = response.data.row_eu
                 this.qty_attempts = response.data.qty_attempts
             })
             .catch(function(error) { console.log(error) })
@@ -109,25 +112,17 @@ var exam_class_app = new Vue({
         start: function(){
             var form_data = new FormData
             form_data.append('exam_id', this.exam_id)
+            form_data.append('enrolling_id', this.enrolling_id)
             form_data.append('qty_attempts', this.qty_attempts)
+            
             axios.post(url_api + 'exams/start/', form_data)
             .then(response => {
                 if ( response.data.saved_id > 0 ) {
                     window.location = url_app + 'exams/resolve/' + this.exam_id + '/' + response.data.saved_id + '/' + this.enrolling_id
                 }
             })
-            .catch(function(error) {console.log(error)})  
+            .catch(function(error) { console.log(error)} )
         },
     }
 })
 </script>
-
-<div class="center_box_750">
-    <!-- Menú Tab Contenido -->
-    <ul class="nav nav-tabs mb-2" id="nav-tab" role="tablist">
-        <li class="nav-item">
-            <a class="nav-link active" id="nav-classes-list-tab" data-toggle="tab" href="#nav-classes-list" role="tab" aria-controls="nav-comments" aria-selected="false">Clases</a>
-        </li>
-    </ul>
-    <?php $this->load->view('courses/classes/read/classes_list_v') ?>
-</div>

@@ -46,7 +46,7 @@
 <script>
 // Variables
 //-----------------------------------------------------------------------------
-let enrolling_status = <?= json_encode($arr_enrolling_status) ?>;
+var enrolling_status = <?= json_encode($arr_enrolling_status) ?>;
 
 // Filtros
 //-----------------------------------------------------------------------------

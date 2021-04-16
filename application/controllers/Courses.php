@@ -345,7 +345,7 @@ class Courses extends CI_Controller{
         $data['num_class'] = $num_class;
         $data['index'] = $num_class - 1;
         $data['head_title'] = $course->post_name;
-        $data['view_a'] = "courses/classes/read/type_{$row->type_id}_v";
+        $data['view_a'] = "courses/classes/read_v";
 
         $this->App_model->view(TPL_ADMIN, $data);
     }

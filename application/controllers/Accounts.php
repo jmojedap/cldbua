@@ -357,6 +357,7 @@ class Accounts extends CI_Controller {
         $user_id = $this->session->userdata('user_id');
 
         $data = $this->User_model->basic($user_id);
+        $data['options_city_id'] = $this->App_model->options_place('type_id = 2');
         
         $view_a = "accounts/edit/{$section}_v";
         if ( $section == 'cropping' )

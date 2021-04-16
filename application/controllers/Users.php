@@ -164,7 +164,7 @@ class Users extends CI_Controller{
         //Opciones Select
         $data['options_role'] = $this->Item_model->options('category_id = 58', 'Rol de usuario');
         $data['options_gender'] = $this->Item_model->options('category_id = 59 AND cod <= 2', 'Sexo');
-        $data['options_city'] = $this->App_model->options_place('type_id = 4', 'cr', 'Ciudad');
+        $data['options_city'] = $this->App_model->options_place('type_id = 2'); //País para CB Uniandes
         
         $view_a = "users/edit/{$section}_v";
         if ( $section == 'cropping' )

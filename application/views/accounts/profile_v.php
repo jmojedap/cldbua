@@ -9,7 +9,7 @@
                 <?php if ($this->session->userdata('role') <= 1) { ?>
                     <a href="<?= base_url("admin/ml/{$row->id}") ?>" role="button" class="btn btn-primary" title="Ingresar como este usuario">
                         <i class="fa fa-sign-in"></i>
-                        Accetd-title
+                        Acceder
                     </a>
                 <?php } ?>
             </div>
@@ -20,22 +20,32 @@
         <table class="table bg-white">
             <tbody>
                 <tr>
-                    <td class="td-title"><span class="text-muted">Nombre</span></td>
+                    <td class="td-title">Nombre</td>
                     <td><?= $row->display_name ?></td>
                 </tr>
 
                 <tr>
-                    <td class="td-title"><span class="text-muted">Nombre de usuario</span></td>
+                    <td class="td-title">Nombre de usuario</td>
                     <td><?= $row->username ?></td>
                 </tr>
 
                 <tr>
-                    <td class="td-title"><span class="text-muted">Correo electrónico</span></td>
+                    <td class="td-title">Correo electrónico</td>
                     <td><?= $row->email ?></td>
                 </tr>
 
                 <tr>
-                    <td class="td-title"><span class="text-muted">Rol de usuario</span></td>
+                    <td class="td-title">País residencia</td>
+                    <td><?= $this->App_model->place_name($row->city_id); ?></td>
+                </tr>
+
+                <tr>
+                    <td class="td-title">Acerca de mí</td>
+                    <td><?= $row->about; ?></td>
+                </tr>
+
+                <tr>
+                    <td class="td-title">Rol de usuario</td>
                     <td><?= $this->Item_model->name(58, $row->role) ?></td>
                 </tr>
             </tbody>

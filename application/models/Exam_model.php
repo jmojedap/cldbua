@@ -408,7 +408,7 @@ class Exam_model extends CI_Model{
         return $data;
     }
 
-// Ejecución del examen
+// PROCESO DE RESPUESTA DEL EXAMEN
 //-----------------------------------------------------------------------------
 
     /**
@@ -422,6 +422,7 @@ class Exam_model extends CI_Model{
         $arr_row = $this->Db_model->arr_row();
         $arr_row['exam_id'] = $this->input->post('exam_id');
         $arr_row['user_id'] = $this->session->userdata('user_id');
+        $arr_row['enrolling_id'] = $this->input->post('enrolling_id');
         $arr_row['status'] = 3; //Inicializado
         $arr_row['qty_attempts'] = $this->input->post('qty_attempts');
         $arr_row['answer_start'] = date('Y-m-d H:i:s');
@@ -496,7 +497,7 @@ class Exam_model extends CI_Model{
 
     /**
      * Marcar una respuesta de cuestionario (tabla exam_user) como finalizada (status 1)
-     * 2021-03-23
+     * 2021-04-16
      */
     function finalize()
     {
@@ -508,9 +509,10 @@ class Exam_model extends CI_Model{
 
         if ( ! is_null($row_eu) )
         {
-            $arr_row['status'] = 1; //Respuestas finalizado
+            $arr_row['status'] = 1;                         //Finalizado
+            $arr_row['answer_end'] = date('Y-m-d H:i:s');   //Finalización respuesta
+            $arr_row['seconds'] = $this->pml->seconds($row_eu->answer_start, $arr_row['answer_end']);   //Tiempo de respuesta, en segundos
             $arr_row['updated_at'] = date('Y-m-d H:i:s');
-            $arr_row['user_id'] = $this->session->userdata('user_id');
     
             $data['saved_id'] = $this->Db_model->save('exam_user', "id = {$row_eu->id}", $arr_row);
 

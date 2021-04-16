@@ -1,12 +1,3 @@
-<?php $this->load->view('assets/bs4_chosen') ?>
-
-<?php
-    $options_role = $this->Item_model->options('category_id = 58', 'Rol de usuario');
-    $options_gender = $this->Item_model->options('category_id = 59 AND cod <= 2', 'Sexo');
-    $options_city = $this->App_model->options_place('type_id = 4', 'cr', 'Ciudad');
-    $options_document_type = $this->Item_model->options('category_id = 53', 'Tipo documento');
-?>
-
 <div id="app_edit">
     <div class="card" style="max-width: 800px; margin: 0 auto;">
         <div class="card-body">
@@ -21,21 +12,13 @@
                 </div>
 
                 <div class="form-group row">
-                    <label for="first_name" class="col-md-4 col-form-label text-right">Nombre y Apellidos <span class="text-danger">*</span></label>
-                    <div class="col-md-4">
+                    <label for="display_name" class="col-md-4 col-form-label text-right">Nombre y Apellidos <span class="text-danger">*</span></label>
+                    <div class="col-md-8">
                         <input
-                            name="first_name" class="form-control"
+                            name="display_name" class="form-control"
                             placeholder="Nombres" title="Nombres del usuario"
                             required autofocus
-                            v-model="form_values.first_name"
-                            >
-                    </div>
-                    <div class="col-md-4">
-                        <input
-                            name="last_name" class="form-control"
-                            placeholder="Apellidos" title="Apellidos del usuario"
-                            required
-                            v-model="form_values.last_name"
+                            v-model="form_values.display_name"
                             >
                     </div>
                 </div>
@@ -88,7 +71,7 @@
                 </div>
 
                 <div class="form-group row">
-                    <label for="city_id" class="col-md-4 col-form-label text-right">Ciudad residencia</label>
+                    <label for="city_id" class="col-md-4 col-form-label text-right">País residencia</label>
                     <div class="col-md-8">
                         <select name="city_id" v-model="form_values.city_id" class="form-control form-control-chosen">
                             <option v-for="(option_city, key_city) in options_city" v-bind:value="key_city">{{ option_city }}</option>
@@ -121,8 +104,6 @@
 // Variables
 //-----------------------------------------------------------------------------
     var form_values = {
-        first_name: '<?= $row->first_name ?>',
-        last_name: '<?= $row->last_name ?>',
         display_name: '<?= $row->display_name ?>',
         username: '<?= $row->username ?>',
         email: '<?= $row->email ?>',
@@ -152,8 +133,6 @@
             },
             options_role: <?= json_encode($options_role) ?>,
             options_city: <?= json_encode($options_city) ?>,
-            options_gender: <?= json_encode($options_gender) ?>,
-            options_document_type: <?= json_encode($options_document_type) ?>
         },
         methods: {
             validate_form: function() {
@@ -193,17 +172,14 @@
                 });
             },
             generate_username: function() {
-                const params = new URLSearchParams();
-                params.append('first_name', this.form_values.first_name);
-                params.append('last_name', this.form_values.last_name);
+                var form_data = new FormData
+                form_data.append('display_name', this.form_values.display_name)
                 
-                axios.post(url_app + 'users/username/', params)
+                axios.post(url_app + 'users/username/', form_data)
                 .then(response => {
-                    this.form_values.username = response.data;
+                    this.form_values.username = response.data
                 })
-                .catch(function (error) {
-                     console.log(error);
-                });
+                .catch(function (error) { console.log(error) })
             }
         }
     });
