@@ -11,8 +11,8 @@
     </div>
     
     <h3>
-        <span v-show="row_answer.approved == 0"><i class="fa fa-info-circle text-warning"></i> Exámen No aprobado</span>
-        <span v-show="row_answer.approved == 1"><i class="fa fa-check text-success"></i> Exámen Aprobado</span>
+        <span v-show="row_answer.approved == 0"><i class="fa fa-exclamation-triangle text-warning"></i> Examen No aprobado</span>
+        <span v-show="row_answer.approved == 1"><i class="fa fa-check text-success"></i> Examen Aprobado</span>
     </h3>
     <div class="progress">
         <div class="progress-bar"
@@ -31,7 +31,7 @@
                 <h3 class="text-success">¡Muchas felicidades!</h3>
                 <p style="font-size: 1.2em;">Has finalizado y aprobado: <strong><?= $course->post_name ?></strong></p>
                 <p>
-                    <a href="<?= base_url("courses/certificate/{$course->id}/{$row_enrolling->user_id}/{$row_enrolling->id}") ?>" class="btn btn-success btn-sm">
+                    <a href="<?= base_url("courses/enrolling_status/{$course->id}/{$row_enrolling->user_id}/{$row_enrolling->id}") ?>" class="btn btn-success btn-sm">
                         VER CERTIFICADO
                     </a>
                 </p>
@@ -57,12 +57,13 @@
             <div v-show="answers[kq] == 2">{{ question.option_2 }}</div>
             <div v-show="answers[kq] == 3">{{ question.option_3 }}</div>
             <div v-show="answers[kq] == 4">{{ question.option_4 }}</div>
+            <div v-show="answers[kq] == 0"> <span class="text-muted">(NR)</span> </div>
         </div>
         <hr>
     </div>
 
     <div class="text-center" v-show="row_answer.approved == 0">
-        <a href="<?= base_url("exams/preparation/{$row->id}") ?>" class="btn btn-primary">
+        <a href="<?= base_url("exams/preparation/{$row->id}/{$course->id}") ?>" class="btn btn-secondary">
             INTENTARLO DE NUEVO
         </a>
     </div>

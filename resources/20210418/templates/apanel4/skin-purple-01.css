@@ -127,6 +127,20 @@ a:hover { color:#3F78FF; }
     color: #333;
 }
 
+/* Texto */
+/*-----------------------------------------------------------------------------*/
+
+.text-success{
+	color: #72d521!important;
+}
+
+/* BackGrounds */
+/*-----------------------------------------------------------------------------*/
+
+.bg-success{
+	background-color: #72d521!important;
+}
+
 /* Adaptación Bootstrap */
 /*-----------------------------------------------------------------------------*/
 
@@ -157,8 +171,13 @@ a:hover { color:#3F78FF; }
 	color: #AAA;
 }
 
-.btn-main{ background-color:#FECD19 }
-.btn-main:hover{ background-color:#ffd545; }
+.btn-main{
+	border: transparent;
+	background: #FDCD27;
+}
+.btn-main:hover{
+	background-color:#f7d043;
+}
 
 .btn-primary{ background-color:#2B91FF; border-color: #2B91FF }
 .btn-primary:hover{ background-color:#4FA4FF; border-color: #4FA4FF }

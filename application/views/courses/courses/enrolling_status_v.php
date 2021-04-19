@@ -1,25 +1,15 @@
-<style>
-    .diploma {
-        border: 1px solid #CCC;
-        background-color: white;
-        text-align: center;
-        height: 580px;
-        padding: 50px 10px 10px 10px;
-    }
-</style>
-
 <div id="enrolling_status_app">
     <div class="center_box_750">
-        <div class="row">
-            <div class="col-md-4">
+        <div class="row mb-2">
+            <div class="col-sm-2 text-center">
                 <img
-                    v-bind:src="user.url_image"
-                    class="rounded rounded-circle border w100pc"
-                    v-bind:alt="`Imagen de usuario` + user.display_name"
-                    onerror="this.src='<?= URL_IMG ?>users/user.png'"
+                v-bind:src="user.url_image"
+                class="rounded rounded-circle border w120p mb-2"
+                v-bind:alt="`Imagen de usuario` + user.display_name"
+                onerror="this.src='<?= URL_IMG ?>users/user.png'"
                 >
             </div>
-            <div class="col-md-8">
+            <div class="col-sm-10">
                 <h4>{{ user.display_name }}</h4>
                 <h4 class="text-success">¡Muchas felicidades!</h4>
                 <p>
@@ -32,14 +22,13 @@
                 </p>
             </div>
         </div>
-        <hr>
         <div>
             <div class="diploma">
-                <h3>Universidad de los Andes</h3>
+                <img src="<?= URL_RESOURCES ?>brands/pacarina/logo-front.png" alt="Escudo instutición" class="w120p">
+                <h3 style="color: #FF0CA6;">Pacarina Media Lab</h3>
                 <p>Certifica a</p>
-                <h4>{{ user.display_name }}</h4>
+                <h4 style="font-weight: bold;">{{ user.display_name }}</h4>
                 <p>Por participar y aprobar el</p>
-                <h4>Curso</h4>
                 <h2>{{ course.post_name }}</h2>
                 <div class="row text-center">
                     <div class="col-md-4">

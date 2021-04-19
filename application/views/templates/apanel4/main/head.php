@@ -38,6 +38,7 @@
         
         <!-- Template apanel4 -->
         <link type="text/css" rel="stylesheet" href="<?= URL_RESOURCES ?>templates/apanel4/style.css">
+        <link type="text/css" rel="stylesheet" href="<?= URL_RESOURCES ?>templates/apanel4/style-mobile.css">
         <link type="text/css" rel="stylesheet" href="<?= URL_RESOURCES ?>templates/apanel4/skin-purple-01.css">
         <script type="text/javascript" src="<?= URL_RESOURCES ?>templates/apanel4/actions.js"></script>
 

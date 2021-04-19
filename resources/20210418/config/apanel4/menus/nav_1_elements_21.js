@@ -12,7 +12,7 @@ var nav_1_elements = [
         active: false,
         icon: 'bi-book',
         cf: 'courses/my_courses',
-        sections: ['courses/my_courses'],
+        sections: ['courses/my_courses', 'courses/class', 'courses/certificate', 'exams/resolve', 'exams/results', 'courses/enrolling_status'],
         subelements: []
     },
     {

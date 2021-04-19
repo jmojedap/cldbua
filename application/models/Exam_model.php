@@ -30,7 +30,7 @@ class Exam_model extends CI_Model{
             $data['num_page'] = $num_page;                      //Número de la página
             
         //Vistas
-            $data['head_title'] = 'Cuestionarios';
+            $data['head_title'] = 'Exámenes';
             $data['head_subtitle'] = $data['search_num_rows'];
             $data['view_a'] = $data['views_folder'] . 'explore_v';
             $data['nav_2'] = $data['views_folder'] . 'menu_v';
@@ -201,7 +201,7 @@ class Exam_model extends CI_Model{
     {
         $order_options = array(
             '' => '[ Ordenar por ]',
-            'id' => 'ID Cuestionario',
+            'id' => 'ID Examen',
             'title' => 'Nombre'
         );
         
@@ -520,7 +520,7 @@ class Exam_model extends CI_Model{
             if ( $data['saved_id'] > 0 )
             {
                 $data['status'] = 1;
-                $data['message'] = 'Cuestionario guardado y finalizado';
+                $data['message'] = 'Examen guardado y finalizado';
             }
         }
 

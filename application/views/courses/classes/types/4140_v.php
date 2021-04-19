@@ -4,13 +4,11 @@
             <div class="card-body">
                 <h3>{{ exam.title }}</h3>
                 <p>{{ exam.description }}</p>
-                <hr>
-
                 
                 <div v-show="answer.id > 0">
                     <hr>
-                    <h4><i class="fa fa-info-circle text-info"></i> Respuesta previa</h4>
-                    <table class="table">
+                    <h4><i class="fa fa-info-circle text-warning"></i> Respuesta previa</h4>
+                    <table class="table table-borderless">
                         <tbody>
                             <tr>
                                 <td class="td-title">Fecha respuesta</td>
@@ -44,25 +42,24 @@
                             <tr>
                                 <td class="td-title"></td>
                                 <td>
-                                    <a href="<?= base_url("exams/results/{$row->id}/{$answer->id}") ?>" class="btn btn-light">Ver detalle</a>
+                                    <a v-bind:href="`<?= base_url("exams/results/") ?>` + exam_id + '/' + answer.id + `/` + enrolling_id" class="btn btn-light">Ver detalle</a>
                                 </td>
                             </tr>
                         </tbody>
                     </table>
                     <hr>
-                    <p><strong>Información</strong></p>
-                    <p>
-                        Usted ya respondió este cuestionario. Si continúa sus respuestas previas serán reemplazadas.
+                    <p class="text-center">
+                        <strong>Advertencia:</strong>  Ya respondiste este cuestionario. Si continúas tus respuestas previas serán reemplazadas.
                     </p>
                 </div>
 
                 <div class="text-center">
                     <p>
-                        Iniciará a responder el cuestionario. Tiene <strong class="text-primary">{{ exam.minutes }}</strong> minutos para completarlo.
+                        Iniciará a responder el cuestionario. Tienes <strong class="text-primary">{{ exam.minutes }}</strong> minutos para completarlo.
                     </p>
 
                     <p class="text-center">
-                        <button class="btn btn-success btn-lg" v-on:click="start">
+                        <button class="btn btn-main btn-lg" v-on:click="start">
                             <span v-show="qty_attempts > 1">REINICIAR Y</span>
                             RESPONDER
                         </button>

@@ -3,15 +3,38 @@
         <div class="card">
             <div class="card-body">
                 <form accept-charset="utf-8" method="POST" id="question_form" @submit.prevent="send_form">
+
+                    <div class="form-group row">
+                        <label for="exam_id" class="col-md-4 col-form-label text-right">ID Examen</label>
+                        <div class="col-md-8">
+                            <input
+                                name="exam_id" type="number" class="form-control"
+                                required min="1"
+                                title="ID Examen" placeholder="ID Examen"
+                                v-model="form_values.exam_id"
+                            >
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="position" class="col-md-4 col-form-label text-right">Orden</label>
+                        <div class="col-md-8">
+                            <input
+                                name="position" type="number" class="form-control"
+                                required min="0"
+                                title="Orden" placeholder="Orden"
+                                v-model="form_values.position"
+                            >
+                        </div>
+                    </div>
                     
                     <div class="form-group row">
-                        <label for="question_text" class="col-md-4 col-form-label text-right">Descripción</label>
+                        <label for="question_text" class="col-md-4 col-form-label text-right">Texto pregunta</label>
                         <div class="col-md-8">
                             <textarea
-                                name="question_text" type="text" class="form-control" maxlength=280 rows="5" required
+                                name="question_text" type="text" class="form-control" rows="5" required
                                 v-model="form_values.question_text"
                             ></textarea>
-                            <small class="form-text text-muted">Disponibles: {{ 280 - form_values.question_text.length }}</small>
                         </div>
                     </div>
 
@@ -39,9 +62,16 @@
                         <div class="col-md-8">
                             <textarea name="option_4" class="form-control" rows="2" v-model="form_values.option_4"></textarea>
                         </div>
-                    </div>
+                    </div>                
 
-                    
+                    <div class="form-group row">
+                        <label for="correct_option" class="col-md-4 col-form-label text-right">Respuesta correcta</label>
+                        <div class="col-md-8">
+                            <select name="correct_option" v-model="form_values.correct_option" class="form-control" required>
+                                <option v-for="(option_correct_option, key_correct_option) in options_correct_option" v-bind:value="key_correct_option">{{ option_correct_option }}</option>
+                            </select>
+                        </div>
+                    </div>    
 
                     <div class="form-group row">
                         <div class="col-md-8 offset-md-4">
@@ -61,13 +91,16 @@ var add_question_app = new Vue({
     el: '#add_question_app',
     data: {
         form_values: {
-            question_text: '¿Esta es la primera pregunta?',
-            option_1: 'Respuesta A',
-            option_2: 'Respuesta B',
-            option_3: 'Respuesta C',
-            option_4: 'Respuesta D',
+            exam_id: 0,
+            position: 0,
+            question_text: '',
+            option_1: '',
+            option_2: '',
+            option_3: '',
+            option_4: '',
             correct_option: '',
-        }
+        },
+        options_correct_option: {'01': 'Opción A', '02': 'Opción B', '03': 'Opción C', '04': 'Opción D'},
     },
     methods: {
         send_form: function(){

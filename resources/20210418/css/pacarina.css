@@ -83,15 +83,15 @@ a.a4{
 }
 
 /* DISPLAY PANTALLAS GRANES Y PEQUEÑAS */
-/* 2020-05-23 */
+/* 2021-04-19 */
 /*-----------------------------------------------------------------------------*/
 
 /* Grandes */
-@media (min-width: 731px) {
+@media (min-width: 768px) {
     .only-sm { display: none; }
 }
 
 /* Pantallas pequeñas */
-@media (max-width: 730px) {
+@media (max-width: 767px) {
     .only-lg { display: none; }
 }

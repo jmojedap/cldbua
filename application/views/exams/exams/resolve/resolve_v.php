@@ -3,7 +3,9 @@
 <div id="resolve_app" class="exam center_box_750">
     <div class="row">
         <div class="col-md-8">
-            <p>{{ exam.title }}</p>
+            <p>
+                {{ exam.title }}
+            </p>
         </div>
         <div class="col-md-4 text-right">
             Pregunta {{ num_question }} de {{ questions.length + 1 }}
@@ -43,16 +45,16 @@
 
 
         <div class="d-flex justify-content-between mb-2">
-            <button class="btn btn-secondary w120p" v-on:click="change_question(-1)" v-bind:disabled="num_question == 1">
+            <button class="btn btn-secondary w75p" v-on:click="change_question(-1)" v-bind:disabled="num_question == 1">
                 <i class="fa fa-chevron-left"></i>
             </button>
-            <button class="btn btn-secondary w120p" v-on:click="change_question(1)" v-bind:disabled="num_question == questions.length">
+            <button class="btn btn-secondary w75p" v-on:click="change_question(1)" v-bind:disabled="num_question == questions.length">
                 <i class="fa fa-chevron-right"></i>
             </button>
         </div>
 
-        <div>
-            <button class="btn btn-warning w120p" v-on:click="set_step('check')">
+        <div class="text-center">
+            <button class="btn btn-warning" v-on:click="set_step('check')">
                 Finalizar...
             </button>
         </div>
@@ -61,12 +63,13 @@
 
     <!-- Sección resumen de respuestas -->
     <div v-show="step == 'check'">
-        <div class="text-center mb-3">
+        <div class="text-left mb-3">
             <button class="btn btn-secondary" v-on:click="set_step('resolve')">
-                <i class="fa fa-arrow-left"></i> REGRESAR
+                <i class="fa fa-arrow-left"></i> Atrás
             </button>
         </div>
-        <h3>Estas son sus respuestas</h3>
+        <p style="font-size: 1.2em;">Revisa tus respuestas y presiona el botón "<strong>Enviar respuestas</strong>".</p>
+        <hr>
 
         <div v-for="(question, kq) in questions">
             <p class="mb-2">
@@ -83,12 +86,11 @@
                 <div v-show="answers[kq] == 3">{{ question.option_3 }}</div>
                 <div v-show="answers[kq] == 4">{{ question.option_4 }}</div>
             </div>
-            <hr>
         </div>
 
         <div class="text-center">
-            <button class="btn btn-primary btn-lg" v-on:click="finalize">
-                CALIFICAR RESPUESTAS
+            <button class="btn btn-main btn-lg" v-on:click="finalize">
+                ENVIAR RESPUESTAS
             </button>
         </div>
     </div>

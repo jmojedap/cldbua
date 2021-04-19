@@ -52,11 +52,7 @@ function success_load_sections(result, menu_type)
     //Si se requirió desde Nav 2
     if ( menu_type == 'nav_2' )
     {
-        console.log('soy nav 2, actualizo al 3')
-        //console.log(result.nav_3)
         $('#nav_3').html(result.nav_3)
-        console.log('el nuevo valor:')
-        console.log($('#nav_3').html())
 
     }
 }

@@ -31,7 +31,7 @@
                             Continuar
                         </a>
                         <a class="btn btn-success btn-block"
-                            v-bind:href="`<?= base_url("courses/certificate/") ?>` + element.id + `/` + user_id + `/` + element.enrolling_id"
+                            v-bind:href="`<?= base_url("courses/enrolling_status/") ?>` + element.id + `/` + user_id + `/` + element.enrolling_id"
                             v-show="element.enrolling_status == 1"
                             >
                             Certificado

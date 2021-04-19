@@ -222,24 +222,24 @@ class Exams extends CI_Controller{
     }
 
     /**
-     * Vista preliminar informativa antes de iniciar a responder un examen
-     * 2021-03-23
+     * Dirige a vista de clase-examen de un curso, identifica el índice correspondiente
+     * 2021-04-19
      */
-    function preparation($exam_id)
+    function preparation($exam_id, $course_id)
     {
-        $data = $this->Exam_model->basic($exam_id);
-        
-        //Respuesta previa, si es que existe
-        $data['row_eu'] = $this->Db_model->row('exam_user', "exam_id = {$exam_id} AND user_id = {$this->session->userdata('user_id')}");
-        
-        //Cantidad de intentos
-        $data['qty_attempts'] = 1;
-        if ( ! is_null($data['row_eu']) ) $data['qty_attempts'] = $data['row_eu']->qty_attempts + 1;
+        $index = 0;
 
-        $data['head_subtitle'] = 'Empezando';
-        $data['view_a'] = 'exams/exams/preparation_v';
-        unset($data['nav_2']);
-        $this->App_model->view(TPL_ADMIN, $data);
+        $this->load->model('Course_model');
+        $classes = $this->Course_model->classes($course_id);
+
+        //Identificar index de clase-examen en curso
+        foreach( $classes->result() as $row_class )
+        {
+            if ( $row_class->type_id == 4140 && $row_class->related_2 == $exam_id ) { break; }
+            $index += 1;    //No coincide con característcas, siguiente clae
+        }
+
+        redirect("courses/open_element/{$course_id}/{$index}");
     }
 
     function get_preparation_info($exam_id)
@@ -278,6 +278,14 @@ class Exams extends CI_Controller{
         $data['questions'] = $this->Exam_model->questions($exam_id);
         $data['enrolling_id'] = $enrolling_id;
         $data['num_question'] = $num_question;
+        $data['row_enrolling'] = $this->Db_model->row_id('users_meta', $enrolling_id);
+        
+        //Identificar curso
+        $data['course'] = NULL;
+        if ( ! is_null($data['row_enrolling']) ) {
+            $data['course'] = $this->Db_model->row_id('posts', $data['row_enrolling']->related_1);
+            $data['head_title'] = $data['course']->post_name;
+        }
 
         $data['view_a'] = 'exams/exams/resolve/resolve_v';
         unset($data['nav_2']);
@@ -341,6 +349,7 @@ class Exams extends CI_Controller{
         $data['course'] = null;
         if ( ! is_null($data['row_enrolling']) ) {
             $data['course'] = $this->Db_model->row_id('posts', $data['row_enrolling']->related_1);
+            $data['head_title'] = $data['course']->post_name;
         }
 
         $data['view_a'] = 'exams/exams/results/results_v';

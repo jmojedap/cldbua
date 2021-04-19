@@ -11,7 +11,7 @@
                 ></textarea>
             </div>
             <div class="form-group text-right">
-                <button class="btn btn-primary w120p" type="submit">Comentar</button>
+                <button class="btn btn-main w120p" type="submit">Comentar</button>
             </div>
         <fieldset>
     </form>

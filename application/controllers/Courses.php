@@ -236,7 +236,7 @@ class Courses extends CI_Controller{
      * Vista certificado de aprobación de un curso, link para descarga del certificado
      * 2021-04-13
      */
-    function certificate($course_id, $user_id, $enrolling_id)
+    function enrolling_status($course_id, $user_id, $enrolling_id)
     {
         //Si es estudiante, solo ve sus cursos e inscripciones
         if ( $this->session->userdata('role') >= 20 ) {
