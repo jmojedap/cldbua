@@ -3,6 +3,7 @@ var preview_app = new Vue({
     el: '#resolve_app',
     created: function(){
         this.set_question(<?= $num_question ?>)
+        this.autoFinalize()
     },
     data: {
         enrolling_id: <?= $enrolling_id ?>,
@@ -83,6 +84,13 @@ var preview_app = new Vue({
 
             }).catch(function(error) {console.log(error)})  
         },
+        autoFinalize(){
+            var miliseconds = <?= $seconds * 1000 ?>
+            ;setTimeout(() => {
+                $('#modalTimeOver').modal('show')
+                this.finalize()
+            }, miliseconds)
+        }
     },
 })
 </script>

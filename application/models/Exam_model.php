@@ -423,6 +423,7 @@ class Exam_model extends CI_Model{
         $arr_row['exam_id'] = $this->input->post('exam_id');
         $arr_row['user_id'] = $this->session->userdata('user_id');
         $arr_row['enrolling_id'] = $this->input->post('enrolling_id');
+        $arr_row['start'] = date('Y-m-d H:i:s');
         $arr_row['status'] = 3; //Inicializado
         $arr_row['qty_attempts'] = $this->input->post('qty_attempts');
         $arr_row['answer_start'] = date('Y-m-d H:i:s');

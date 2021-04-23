@@ -279,6 +279,11 @@ class Exams extends CI_Controller{
         $data['enrolling_id'] = $enrolling_id;
         $data['num_question'] = $num_question;
         $data['row_enrolling'] = $this->Db_model->row_id('users_meta', $enrolling_id);
+
+        //Segundos disponibles
+        $mkt1 = strtotime($data['row_eu']->start);
+        $mkt2 = $mkt1 + ( $data['row']->minutes * 60 );
+        $data['seconds'] = $mkt2 - time();
         
         //Identificar curso
         $data['course'] = NULL;

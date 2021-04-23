@@ -1,3 +1,12 @@
+<?php $this->load->view('assets/countdown'); ?>
+<script>
+    $(document).ready(function ()
+    {
+        //Tiempo restante
+        $('#the_final_countdown').countdown({until: +<?= $seconds ?>, format: 'MS'});
+    });
+</script>
+
 <link rel="stylesheet" href="<?= URL_RESOURCES ?>templates/admin_pml/css/skins/skin-blue-exams.css">
 
 <div id="resolve_app" class="exam center_box_750">
@@ -95,8 +104,12 @@
         </div>
     </div>
 
-    <div>
-        
+    <div class="mt-2">
+        <div id="the_final_countdown"></div>
     </div>
+
+    <?php $this->load->view('exams/exams/resolve/modal_time_over_v') ?>
+    
+
 </div>
 <?php $this->load->view('exams/exams/resolve/vue_v') ?>
