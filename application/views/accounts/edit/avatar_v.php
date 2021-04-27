@@ -3,9 +3,9 @@
         <h3>Elige tu avatar</h3>
         <img
             v-for="avatar in avatars"
-            v-bind:src="`<?= URL_IMG ?>avatars/` + avatar"
+            v-bind:src="`<?= URL_CONTENT ?>avatars/` + avatar"
             class="rounded border w50p pointer mr-1 mb-1 bg-white"
-            v-bind:class="{'border-primary': url_avatar == '<?= URL_IMG ?>avatars/' + avatar }"
+            v-bind:class="{'border-primary': url_avatar == '<?= URL_CONTENT ?>avatars/' + avatar }"
             alt="Avatar opción"
             v-on:click="set_avatar(avatar)"
             onerror="this.src='<?= URL_IMG ?>users/user.png'"

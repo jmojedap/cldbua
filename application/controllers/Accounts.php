@@ -372,7 +372,7 @@ class Accounts extends CI_Controller {
         if ( $section == 'avatar' )
         {
             $this->load->helper('file');
-            $data['avatars'] = get_filenames(PATH_RESOURCES . 'images/avatars/');
+            $data['avatars'] = get_filenames(PATH_CONTENT . 'avatars/');
         }
         
         //Array data espefícicas

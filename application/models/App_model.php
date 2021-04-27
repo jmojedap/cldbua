@@ -219,8 +219,8 @@ class App_model extends CI_Model{
         $data = array('status' => 0, 'url_avatar' => '');
 
         //Constriur registro
-        $arr_row['url_image'] = URL_IMG . 'avatars/' . $this->input->post('file_name');
-        $arr_row['url_thumbnail'] = URL_IMG . 'avatars/' . $this->input->post('file_name');
+        $arr_row['url_image'] = URL_CONTENT . 'avatars/' . $this->input->post('file_name');
+        $arr_row['url_thumbnail'] = URL_CONTENT . 'avatars/' . $this->input->post('file_name');
 
         //Actualizar
         $this->db->where('id', $this->session->userdata('user_id'));

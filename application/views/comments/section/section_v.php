@@ -20,7 +20,7 @@
 
     <!-- Listado de comentarios -->
     <div class="media mb-1" v-for="(comment, kc) in comments" v-bind:id="`comment_` + comment.id">
-        <img v-bind:src="comment.user_thumbnail" class="w40p rounded rounded-circle mr-3" alt="Imagen de usuario">
+        <img v-bind:src="comment.user_thumbnail" class="w40p rounded rounded-circle mr-3" alt="Imagen de usuario" onerror="this.src='<?= URL_IMG ?>users/sm_user.png'">
         <div class="media-body">
             <p>
                 <strong>{{ comment.display_name }}</strong>

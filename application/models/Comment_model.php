@@ -191,7 +191,7 @@ class Comment_model extends CI_Model{
     
     /**
      * Insertar un registro en la tabla comment.
-     * 2020-06-08
+     * 2021-04-27
      */
     function save($table_id, $element_id)
     {
@@ -203,6 +203,7 @@ class Comment_model extends CI_Model{
             $arr_row['table_id'] = $table_id;       //Tabla del elemento comentado
             $arr_row['element_id'] = $element_id;   //ID del elemento comentado
             $arr_row['creator_id'] = $this->session->userdata('user_id');
+            $arr_row['created_at'] = date('Y-m-d H:i:s');
 
             //Insertar en la tabla
                 $this->db->insert('comments', $arr_row);
@@ -237,16 +238,6 @@ class Comment_model extends CI_Model{
 
 // INFO
 //-----------------------------------------------------------------------------
-
-    function element_comments_ant($table_id, $element_id, $parent_id, $num_page, $per_page)
-    {
-        $comments = $this->element_comments_query($table_id, $element_id, $parent_id, $num_page, $per_page);
-
-        $data = $this->element_comments_meta($table_id, $element_id, $parent_id, $per_page);
-        $data['comments'] = $comments->result();
-
-        return $data;
-    }
 
     /**
      * Query con listado de comentarios, si se agrega $parent_id se filtran los subcomentarios
