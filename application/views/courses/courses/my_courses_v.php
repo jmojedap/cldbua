@@ -5,20 +5,30 @@
                 <div class="row" v-for="(element, ke) in list">
                     <div class="col-md-9">
                         <div class="media">
-                            <img v-bind:src="element.url_thumbnail" class="w75p mr-3 rounded" alt="...">
+                            <a v-bind:href="`<?= base_url("courses/open_element/") ?>` + element.id + `/` + element.current_element_index">
+                                <img v-bind:src="element.url_thumbnail" class="w75p mr-3 rounded" alt="...">
+                            </a>
                             <div class="media-body">
                                 <h5 class="mt-0">{{ element.post_name }}</h5>
                                 <div class="progress my-3" style="height: 3px;">
-                                    <div class="progress-bar" role="progressbar" v-bind:style="`width: ` + element.user_progress + `%;`" v-bind:aria-valuenow="element.user_progress" aria-valuemin="0" aria-valuemax="100"></div>
+                                    <div class="progress-bar" role="progressbar"
+                                        v-bind:style="`width: ` + element.user_progress + `%;`"
+                                        v-bind:class="{'bg-success': element.user_progress == 100 }"
+                                        v-bind:aria-valuenow="element.user_progress" aria-valuemin="0" aria-valuemax="100"></div>
                                 </div>
                                 <p>
-                                    <strong class="text-success" v-if="element.enrolling_status == 1">
-                                        <i class="fa fa-check"></i>
-                                        {{ element.enrolling_status | enrolling_status_name }}
-                                    </strong>
-                                    <strong class="text-info" v-else>
-                                        {{ element.enrolling_status | enrolling_status_name }}
-                                    </strong>
+                                    <span v-if="element.enrolling_status == 1">
+                                        <strong class="text-success">
+                                            <i class="fa fa-check"></i>
+                                            {{ element.enrolling_status | enrolling_status_name }}
+                                        </strong>
+                                    </span>
+                                    <span v-else>
+                                        <strong class="text-info">
+                                            {{ element.enrolling_status | enrolling_status_name }}
+                                        </strong>
+                                        <span class="text-muted" v-if="element.user_progress == 100">&middot; Examen final pendiente</span>
+                                    </span>
                                 </p>
                             </div>
                         </div>

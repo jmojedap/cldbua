@@ -131,14 +131,14 @@ a:hover { color:#3F78FF; }
 /*-----------------------------------------------------------------------------*/
 
 .text-success{
-	color: #72d521!important;
+	color: #61bf14!important;
 }
 
 /* BackGrounds */
 /*-----------------------------------------------------------------------------*/
 
 .bg-success{
-	background-color: #72d521!important;
+	background-color: #61bf14!important;
 }
 
 /* Adaptación Bootstrap */
@@ -185,8 +185,8 @@ a:hover { color:#3F78FF; }
 .btn-secondary{ background-color:#9C0092; border-color: #9C0092 }
 .btn-secondary:hover{ background-color:#C530BA; border-color: #C530BA }
 
-.btn-success{ background-color:#77E021; border-color: #77E021 }
-.btn-success:hover{ background-color:#8DF539; border-color: #8DF539 }
+.btn-success{ background-color:#61bf14; border-color: #61bf14 }
+.btn-success:hover{ background-color:#6fcf21; border-color: #6fcf21 }
 
 .btn-danger{ background-color:#FE3A6A; border-color: #FE3A6A }
 .btn-danger:hover{ background-color:#FF527D; border-color: #FF527D }

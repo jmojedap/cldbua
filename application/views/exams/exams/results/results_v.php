@@ -25,7 +25,7 @@
     </div>
     
 
-    <?php if ( $row_enrolling->score_2 == 1 ) : ?>
+    <?php if ( $row_enrolling->status == 1 ) : ?>
         <div class="mt-2 card text-center">
             <div class="card-body">
                 <h3 class="text-success">¡Muchas felicidades!</h3>

@@ -312,8 +312,7 @@ class Courses extends CI_Controller{
             if ( ! is_null($row_enrolling) )
             {
                 //Actualizar registro inscripción a curso
-                $arr_row = array('integer_1' => $index, 'updated_at' => date('Y-m-d H:i:s'));
-                $this->db->where('id', $row_enrolling->id)->update('users_meta', $arr_row);
+                $this->Course_model->update_enrolling($row_enrolling, $classes->num_rows(), $index);
 
                 //Crear evento de apertura de clase, tabla events
                 $event_id = $this->Course_model->save_open_class_event($row_class, $row_enrolling);

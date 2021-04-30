@@ -328,7 +328,7 @@ class Course_model extends CI_Model{
      */
     function user_courses($user_id)
     {
-        $this->db->select('posts.*, users_meta.id AS enrolling_id, users_meta.user_id, users_meta.integer_1 AS current_element_index, users_meta.score_1 AS user_score, users_meta.score_2 AS enrolling_status, users_meta.score_3 AS user_progress');
+        $this->db->select('posts.*, users_meta.id AS enrolling_id, users_meta.user_id, users_meta.integer_1 AS current_element_index, users_meta.score_1 AS user_score, users_meta.status AS enrolling_status, users_meta.score_3 AS user_progress');
         $this->db->join('users_meta', 'posts.id = users_meta.related_1', 'left');    
         $this->db->where('users_meta.user_id', $user_id);
         $this->db->where('users_meta.type_id', 411010); //Inscripción a curso
@@ -403,14 +403,43 @@ class Course_model extends CI_Model{
         return $event_id;
     }
 
+    /**
+     * Registrar y actualizar el avance de un curso por un usuario.
+     * 2021-04-03
+     */
+    function update_enrolling($row_enrolling, $qty_classes, $index)
+    {
+        $qty_updated = 0;
+
+        //Si el curso no ha sido finalizado
+        if ( $row_enrolling->status > 1 )
+        {
+            $arr_row = array('integer_1' => $index, 'updated_at' => date('Y-m-d H:i:s'));
+            $arr_row['score_3'] = $this->pml->percent($index + 1, $qty_classes, 0); //Porcentaje de avance
+            $arr_row['status'] = ($arr_row['score_3'] == 100 ) ? 4 : 6 ;    //4 si ya finalizó las clases.
+    
+            $this->db->where('id', $row_enrolling->id);
+            $this->db->update('users_meta', $arr_row);
+            
+            $qty_updated = $this->db->affected_rows();
+        }
+
+        return $qty_updated;
+    }
+
+    /**
+     * Actualiza registro en la tabla users_meta correspondiente a la inscripción de un usuario en un curso
+     * en los datos concernientes a aprovación del curso.
+     * 2021-04-30
+     */
     function update_approval_status($enrolling_id)
     {
         //Obtener información sobre aprobación del curso
         $approval_info = $this->approval_info($enrolling_id);
 
         //Construir array para actualizar registro en tabla users_meta
+        $arr_row['status'] = $approval_info['enrolling_status'];
         $arr_row['score_1'] = $approval_info['score'];
-        $arr_row['score_2'] = $approval_info['enrolling_status'];
         $arr_row['updated_at'] = date('Y-m-d');
         $arr_row['updater_id'] = $this->session->userdata('user_id');
 
