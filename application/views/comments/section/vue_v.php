@@ -70,6 +70,14 @@ var comments_section = new Vue({
             })
             .catch(function (error) { console.log(error) })
         },
+        alt_like: function(key){
+            axios.get(url_api + 'comments/alt_like/' + this.comments[key].id)
+            .then(response => {
+                this.comments[key].liked = response.data.like_status
+                this.comments[key].score = parseInt(this.comments[key].score) + parseInt(response.data.qty_sum)
+            })
+            .catch(function(error) { console.log(error) })
+        },
     }
 })
 </script>

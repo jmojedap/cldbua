@@ -236,14 +236,76 @@ class Comment_model extends CI_Model{
         return $insertable;
     }
 
+    /**
+     * Proceso alternado, like o unlike de un comentario
+     * 2021-05-18
+     */
+    function alt_like($comment_id)
+    {
+        //Condición
+        $condition = "user_id = {$this->session->userdata('user_id')} AND related_1 = {$comment_id} AND type_id = 1063";
+
+        $row_meta = $this->Db_model->row('users_meta', $condition);
+
+        $data = array();
+
+        if ( is_null($row_meta) )
+        {
+            //No existe, crear like
+            $arr_row['user_id'] = $this->session->userdata('user_id');
+            $arr_row['related_1'] = $comment_id;
+            $arr_row['type_id'] = 1063; //Like comment
+            $arr_row['updater_id'] = $this->session->userdata('user_id');
+            $arr_row['creator_id'] = $this->session->userdata('user_id');
+
+            $this->db->insert('users_meta', $arr_row);
+            
+            $data['saved_id'] = $this->db->insert_id();
+            $data['qty_sum'] = 1;
+            $data['like_status'] = 1;
+        } else {
+            //Existe, eliminar like
+            $this->db->where('id', $row_meta->id)->delete('users_meta');
+            
+            $data['qty_sum'] = -1;
+            $data['like_status'] = 0;
+        }
+
+        //Actualizar contador en registro tabla post
+        $this->db->query("UPDATE comments SET score = (score + ({$data['qty_sum']})) WHERE id = {$comment_id}");
+
+        return $data;
+    }
+
 // INFO
 //-----------------------------------------------------------------------------
+
+    /**
+     * Array con listado de comentarios
+     */
+    function element_comments($table_id, $element_id, $parent_id, $num_page, $per_page)
+    {
+        $query_comments = $this->element_comments_pre($table_id, $element_id, $parent_id, $num_page, $per_page);
+
+        $comments = array();
+
+        foreach ($query_comments->result() as $comment)
+        {
+            //Identificar si al usuario en sesión le gusta el comentario.
+            $condition = "user_id = {$this->session->userdata('user_id')} AND type_id = 1063 AND related_1 = {$comment->id}";
+            $comment->liked = $this->Db_model->num_rows('users_meta', $condition);
+
+            $comments[] = $comment;
+        }
+
+        return $comments;
+    }
 
     /**
      * Query con listado de comentarios, si se agrega $parent_id se filtran los subcomentarios
      * hechos al comentario con ID = $parent_id.
      */
-    function element_comments($table_id, $element_id, $parent_id, $num_page, $per_page)
+    function element_comments_pre($table_id, $element_id, $parent_id, $num_page, $per_page)
     {
         $offset = $per_page * ($num_page - 1);
 
@@ -259,8 +321,9 @@ class Comment_model extends CI_Model{
     }
 
     /**
-     * Cantidad máxima de páginas en las que se podrían separar los comentarios de un elemento
-     * teniendo en cuenta una cantidad de comentarios por página ($per_page)
+     * Array, información adicional sobre listado de comentarios de un elemento:
+     * Cantidad de comentarios y cantidad máxima de páginas en las que se podrían separar los comentarios 
+     * de un elemento teniendo en cuenta una cantidad de comentarios por página ($per_page)
      * 2021-04-06
      */
     function element_comments_meta($table_id, $element_id, $parent_id, $per_page)
@@ -280,7 +343,6 @@ class Comment_model extends CI_Model{
         }
 
         return $data;
-
     }
 
     /**

@@ -150,13 +150,27 @@ class Comments extends CI_Controller{
         //Datos básicos
         $data = $this->Comment_model->basic($comment_id);
 
-        $data['subcomments'] = $this->Comment_model->element_comments($data['row']->table_id, $data['row']->element_id, $comment_id, 1); 
+        $data['subcomments'] = $this->Comment_model->element_comments($data['row']->table_id, $data['row']->element_id, $comment_id, 1, 100); 
         
         //Variables específicas
         $data['nav_2'] = 'comments/menu_v';
         $data['view_a'] = 'comments/info_v';
         
         $this->App_model->view(TPL_ADMIN, $data);
+    }
+
+// PROCESOS
+//-----------------------------------------------------------------------------
+
+    /**
+     * Alternar like and unlike a un comment por parte del usuario en sesión
+     * 2021-05-18
+     */
+    function alt_like($comment_id)
+    {
+        $data = $this->Comment_model->alt_like($comment_id);
+        //Salida JSON
+        $this->output->set_content_type('application/json')->set_output(json_encode($data));
     }
 
 // INFO 
@@ -174,11 +188,9 @@ class Comments extends CI_Controller{
 
         if ( $num_page <= $data['max_page'] )
         {
-            $comments = $this->Comment_model->element_comments($table_id, $element_id, $parent_id, $num_page, $per_page);
-            $data['comments'] = $comments->result();
+            $data['comments'] = $this->Comment_model->element_comments($table_id, $element_id, $parent_id, $num_page, $per_page);
         }
 
         $this->output->set_content_type('application/json')->set_output(json_encode($data));
     }
-
 }

@@ -28,8 +28,13 @@
             </p>
             <p>{{ comment.comment_text }}</p>
             <p>
+                <button class="btn btn-sm btn-light" type="button" v-on:click="alt_like(kc)">
+                    <i v-show="!comment.liked" class="far fa-heart"></i>
+                    <i v-show="comment.liked" class="fa fa-heart text-danger"></i>
+                    <span class="ml-1">{{ comment.score }}</span>
+                </button>
                 <button class="btn btn-sm btn-light" type="button" data-toggle="modal" data-target="#delete_comment_modal" v-on:click="set_current(kc)" v-if="app_uid == comment.creator_id">
-                    Eliminar
+                    <i class="fa fa-trash"></i>
                 </button>
             </p>
         </div>
