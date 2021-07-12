@@ -366,7 +366,6 @@ class Comment_model extends CI_Model{
         }
 
         return $max_page;
-
     }
 
 // ELIMINACIÓN DE COMENTARIOS

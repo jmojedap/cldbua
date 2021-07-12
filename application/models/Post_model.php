@@ -8,7 +8,7 @@ class Post_model extends CI_Model{
         $data['row'] = $row;
         $data['type_folder'] = $this->type_folder($row->type_id);
         $data['head_title'] = $data['row']->post_name;
-        $data['view_a'] = 'posts/post_v';
+        $data['view_a'] = $this->views_folder . 'post_v';
         $data['nav_2'] = $data['type_folder'] . 'menu_v';
 
         return $data;
@@ -28,7 +28,7 @@ class Post_model extends CI_Model{
         //Elemento de exploración
             $data['controller'] = 'posts';                      //Nombre del controlador
             $data['cf'] = 'posts/explore/';                      //Nombre del controlador
-            $data['views_folder'] = 'posts/explore/';           //Carpeta donde están las vistas de exploración
+            $data['views_folder'] = 'admin/posts/explore/';      //Carpeta donde están las vistas de exploración
             $data['num_page'] = $num_page;                      //Número de la página
             
         //Vistas
@@ -278,14 +278,14 @@ class Post_model extends CI_Model{
     /**
      * Nombre de la vista con el formulario para la edición del post. Puede cambiar dependiendo
      * del tipo (type_id).
-     * 2021-03-26
+     * 2021-07-12
      */
     function type_folder($type_id)
     {
-        $type_folder = 'posts/';
         $special_types = array(4110, 4124, 4126, 4130, 4140);
+        $type_folder = $this->views_folder;
 
-        if ( in_array($type_id, $special_types) ) { $type_folder = "posts/types/{$type_id}/"; }
+        if ( in_array($type_id, $special_types) ) { $type_folder = "{$this->views_folder}/types/{$type_id}/"; }
 
         return $type_folder;
     }

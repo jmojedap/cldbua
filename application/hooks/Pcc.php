@@ -10,7 +10,7 @@ class Pcc {
             $this->CI = &get_instance();
         
         //Identificar controlador/función, y allow
-            $cf = $this->CI->uri->segment(1) . '/' . $this->CI->uri->segment(2);
+            $cf = $this->CI->uri->segment(2) . '/' . $this->CI->uri->segment(3);
             $allow_cf = $this->allow_cf($cf);    //Permisos de acceso al recurso controlador/función
         
         //Verificar allow

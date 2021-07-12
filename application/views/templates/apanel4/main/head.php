@@ -32,23 +32,22 @@
         <!-- Google Analytics -->
         <?php //$this->load->view('head_includes/google_analytics'); ?>
 
-        <!-- Recursos PML -->
-        <link type="text/css" rel="stylesheet" href="<?= URL_RESOURCES ?>css/pacarina.css">
-        <script src="<?= URL_RESOURCES . 'js/pcrn.js' ?>"></script>
         
         <!-- Template apanel4 -->
         <link type="text/css" rel="stylesheet" href="<?= URL_RESOURCES ?>templates/apanel4/style.css">
         <link type="text/css" rel="stylesheet" href="<?= URL_RESOURCES ?>templates/apanel4/style-mobile.css">
         <link type="text/css" rel="stylesheet" href="<?= URL_RESOURCES ?>templates/apanel4/skin-purple-01.css">
         <script type="text/javascript" src="<?= URL_RESOURCES ?>templates/apanel4/actions.js"></script>
-
+        
         <link type="text/css" rel="stylesheet" href="<?= URL_RESOURCES ?>css/courses.css">
-
-        <!-- App General Vars -->
+        
+        <!-- Recursos PML -->
+        <link type="text/css" rel="stylesheet" href="<?= URL_RESOURCES ?>css/pacarina.css">
+        <script src="<?= URL_RESOURCES . 'js/pcrn.js' ?>"></script>
         <script>
-            const url_app = '<?= URL_APP ?>';
-            const url_api = '<?= URL_API ?>';
-            var app_cf = '<?= $this->uri->segment(1) . '/' . $this->uri->segment(2); ?>';
+            const url_app = '<?= URL_ADMIN ?>'; const url_admin = '<?= URL_ADMIN ?>'; const url_api = '<?= URL_API ?>'; const url_front = '<?= URL_FRONT ?>';
+            const url_base = '<?= base_url() ?>';
+            var app_cf = '<?= $this->uri->segment(2) . '/' . $this->uri->segment(3); ?>';
         </script>
 
         <!-- Usuario con sesión iniciada -->

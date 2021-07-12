@@ -3,13 +3,10 @@ class User_model extends CI_Model{
 
     function basic($user_id)
     {
-        $data['user_id'] = $user_id;
         $data['row'] = $this->Db_model->row_id('users', $user_id);
         $data['head_title'] = $data['row']->display_name;
-        $data['view_a'] = 'users/user_v';
-        $data['nav_2'] = 'users/menus/user_v';
-
-        if ( $data['row']->role == 13 ) { $data['nav_2'] = 'users/menus/model_v'; }
+        $data['role_folder'] = $this->role_folder($data['row']->role);
+        $data['nav_2'] = $data['role_folder'] . 'menu_v';
 
         return $data;
     }
@@ -28,7 +25,7 @@ class User_model extends CI_Model{
         //Elemento de exploración
             $data['controller'] = 'users';                      //Nombre del controlador
             $data['cf'] = 'users/explore/';                      //Nombre del controlador
-            $data['views_folder'] = 'users/explore/';           //Carpeta donde están las vistas de exploración
+            $data['views_folder'] = 'admin/users/explore/';           //Carpeta donde están las vistas de exploración
             $data['num_page'] = $num_page;                      //Número de la página
             
         //Vistas
@@ -233,6 +230,18 @@ class User_model extends CI_Model{
         $query = $this->db->get('users', $limit); //Resultados por página
         
         return $query;
+    }
+
+// INFORMACIÓN
+//-----------------------------------------------------------------------------
+
+    function role_folder($role)
+    {
+        $role_folder ='admin/users/roles/user/';
+
+        if ( $role == 21 ) $role_folder = 'admin/users/roles/student/';
+
+        return $role_folder;
     }
 
 // GUARDAR
@@ -501,60 +510,60 @@ class User_model extends CI_Model{
 // GENERAL
 //-----------------------------------------------------------------------------
 
-function generate_username($first_name, $last_name)
-{
-    //Sin espacios iniciales o finales
-    $first_name = trim($first_name);
-    $last_name = trim($last_name);
-    
-    //Sin acentos
-    $this->load->helper('text');
-    $first_name = convert_accented_characters($first_name);
-    $last_name = convert_accented_characters($last_name);
-    
-    //Arrays con partes
-    $arr_last_name = explode(" ", $last_name);
-    $arr_first_name = explode(" ", $first_name);
-    
-    //Construyendo por partes
-        $username = $arr_first_name[0];
-        //if ( isset($arr_first_name[1]) ){ $username .= substr($arr_first_name[1], 0, 2);}
-        
-        //Apellidos
-        $username .= '_' . $arr_last_name[0];
-        //if ( isset($arr_last_name[1]) ){ $username .= substr($arr_last_name[1], 0, 2); }    
-    
-    //Reemplazando caracteres
-        $username = str_replace (' ', '', $username); //Quitando espacios en blanco
-        $username = strtolower($username); //Se convierte a minúsculas    
-    
-    //Verificar, si el username requiere un suffix numérico para hacerlo único
-        $suffix = $this->username_suffix($username);
-        $username .= $suffix;
-    
-    return $username;
-}
-
-/**
- * Devuelve un entero aleatorio de tres cifras cuando el username generado inicialmente (generate_username)
- * ya exista dentro de la plataforma.
- * 2019-11-05
- */
-function username_suffix($username)
-{
-    $suffix = '';
-    
-    $condition = "username = '{$username}'";
-    $qty_users = $this->Db_model->num_rows('users', $condition);
-
-    if ( $qty_users > 0 )
+    function generate_username($first_name, $last_name)
     {
-        $this->load->helper('string');
-        $suffix = random_string('numeric', 4);
+        //Sin espacios iniciales o finales
+        $first_name = trim($first_name);
+        $last_name = trim($last_name);
+        
+        //Sin acentos
+        $this->load->helper('text');
+        $first_name = convert_accented_characters($first_name);
+        $last_name = convert_accented_characters($last_name);
+        
+        //Arrays con partes
+        $arr_last_name = explode(" ", $last_name);
+        $arr_first_name = explode(" ", $first_name);
+        
+        //Construyendo por partes
+            $username = $arr_first_name[0];
+            //if ( isset($arr_first_name[1]) ){ $username .= substr($arr_first_name[1], 0, 2);}
+            
+            //Apellidos
+            $username .= '_' . $arr_last_name[0];
+            //if ( isset($arr_last_name[1]) ){ $username .= substr($arr_last_name[1], 0, 2); }    
+        
+        //Reemplazando caracteres
+            $username = str_replace (' ', '', $username); //Quitando espacios en blanco
+            $username = strtolower($username); //Se convierte a minúsculas    
+        
+        //Verificar, si el username requiere un suffix numérico para hacerlo único
+            $suffix = $this->username_suffix($username);
+            $username .= $suffix;
+        
+        return $username;
     }
-    
-    return $suffix;
-}
+
+    /**
+     * Devuelve un entero aleatorio de tres cifras cuando el username generado inicialmente (generate_username)
+     * ya exista dentro de la plataforma.
+     * 2019-11-05
+     */
+    function username_suffix($username)
+    {
+        $suffix = '';
+        
+        $condition = "username = '{$username}'";
+        $qty_users = $this->Db_model->num_rows('users', $condition);
+
+        if ( $qty_users > 0 )
+        {
+            $this->load->helper('string');
+            $suffix = random_string('numeric', 4);
+        }
+        
+        return $suffix;
+    }
 
 // CONTENIDOS VIRUTALES ASIGNADOS
 //-----------------------------------------------------------------------------
