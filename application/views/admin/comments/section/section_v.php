@@ -42,6 +42,6 @@
 
     <button class="btn btn-light btn-block" v-on:click="get_more_comments" type="button" v-show="num_page < max_page">Más</button>
 
-    <?php $this->load->view('comments/section/modal_delete_comment_v') ?>
+    <?php $this->load->view('admin/comments/section/modal_delete_comment_v') ?>
 </div>
-<?php $this->load->view('comments/section/vue_v') ?>
+<?php $this->load->view('admin/comments/section/vue_v') ?>

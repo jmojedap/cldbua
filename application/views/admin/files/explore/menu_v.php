@@ -2,7 +2,6 @@
     $app_cf_index = $this->uri->segment(2) . '_' . $this->uri->segment(3);
     
     $cl_nav_2['files_explore'] = '';
-    $cl_nav_2['files_process'] = '';
     $cl_nav_2['files_add'] = '';
     
     $cl_nav_2[$app_cf_index] = 'active';
@@ -21,13 +20,6 @@
         cf: 'files/explore'
     };
 
-    sections.process = {
-        icon: '',
-        text: 'Procesos',
-        class: '<?= $cl_nav_2['files_process'] ?>',
-        cf: 'files/process'
-    };
-
     sections.add = {
         icon: 'fa fa-upload',
         text: 'Cargar',
@@ -36,7 +28,7 @@
     };
     
     //Secciones para cada rol
-    sections_role[1] = ['explore', 'process', 'add'];
+    sections_role[1] = ['explore', 'add'];
     sections_role[2] = ['explore', 'add'];
     sections_role[3] = ['explore', 'add'];
     

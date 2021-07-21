@@ -2,6 +2,14 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Exams extends CI_Controller{
+
+// Variables generales
+//-----------------------------------------------------------------------------
+    public $views_folder = 'admin/exams/';
+    public $url_controller = URL_ADMIN . 'exams/';
+
+// Constructor
+//-----------------------------------------------------------------------------
     
     function __construct() 
     {
@@ -112,7 +120,7 @@ class Exams extends CI_Controller{
     {        
         //Datos básicos
         $data = $this->Exam_model->basic($exam_id);
-        $data['view_a'] = 'exams/exams/info_v';
+        $data['view_a'] = $this->views_folder . 'exams/info_v';
 
         $this->App_model->view(TPL_ADMIN, $data);
     }
@@ -132,7 +140,7 @@ class Exams extends CI_Controller{
     {        
         //Datos básicos
         $data = $this->Exam_model->basic($exam_id);
-        $data['view_a'] = 'exams/details_v';
+        $data['view_a'] = $this->views_folder . 'details_v';
         $data['fields'] = $this->db->list_fields('exams');
 
         $this->App_model->view(TPL_ADMIN, $data);
@@ -148,9 +156,8 @@ class Exams extends CI_Controller{
     {
         //Variables generales
             $data['head_title'] = 'Cuestionarios';
-            $data['head_subtitle'] = 'Nuevo';
-            $data['nav_2'] = 'exams/exams/explore/menu_v';
-            $data['view_a'] = 'exams/exams/add_v';
+            $data['nav_2'] = $this->views_folder . 'exams/explore/menu_v';
+            $data['view_a'] = $this->views_folder . 'exams/add_v';
 
         $this->App_model->view(TPL_ADMIN, $data);
     }
@@ -165,9 +172,8 @@ class Exams extends CI_Controller{
         $data = $this->Exam_model->basic($exam_id);
         
         //Array data espefícicas
-            $data['nav_2'] = 'exams/exams/menu_v';
-            $data['head_subtitle'] = 'Editar';
-            $data['view_a'] = 'exams/exams/edit_v';
+            $data['nav_2'] = $this->views_folder . 'exams/menu_v';
+            $data['view_a'] = $this->views_folder . 'exams/edit_v';
         
         $this->App_model->view(TPL_ADMIN, $data);
     }
@@ -193,9 +199,8 @@ class Exams extends CI_Controller{
     function questions($exam_id)
     {
         $data = $this->Exam_model->basic($exam_id);
-        $data['view_a'] = 'exams/exams/questions/questions_v';
-        $data['nav_2'] = 'exams/exams/menu_v';
-        $data['head_subtitle'] = 'Preguntas';
+        $data['view_a'] = $this->views_folder . 'exams/questions/questions_v';
+        $data['nav_2'] = $this->views_folder . 'exams/menu_v';
         $this->App_model->view(TPL_ADMIN, $data);
     }
 
@@ -215,9 +220,7 @@ class Exams extends CI_Controller{
         $data['questions'] = $this->Exam_model->questions($exam_id);
         $data['num_question'] = $num_question;
 
-        $data['head_subtitle'] = 'Vista previa';
-        $data['view_a'] = 'exams/exams/preview/preview_v';
-        //$data['view_a'] = 'exams/exams/test_v';
+        $data['view_a'] = $this->views_folder . 'exams/preview/preview_v';
         $this->App_model->view(TPL_ADMIN, $data);
     }
 
@@ -239,7 +242,7 @@ class Exams extends CI_Controller{
             $index += 1;    //No coincide con característcas, siguiente clae
         }
 
-        redirect("courses/open_element/{$course_id}/{$index}");
+        redirect("app/courses/abrir_elemento/{$course_id}/{$index}");
     }
 
     function get_preparation_info($exam_id)
@@ -292,7 +295,7 @@ class Exams extends CI_Controller{
             $data['head_title'] = $data['course']->post_name;
         }
 
-        $data['view_a'] = 'exams/exams/resolve/resolve_v';
+        $data['view_a'] = $this->views_folder . 'exams/resolve/resolve_v';
         unset($data['nav_2']);
         $this->App_model->view(TPL_ADMIN, $data);
     }
@@ -357,7 +360,7 @@ class Exams extends CI_Controller{
             $data['head_title'] = $data['course']->post_name;
         }
 
-        $data['view_a'] = 'exams/exams/results/results_v';
+        $data['view_a'] = $this->views_folder . 'exams/results/results_v';
         unset($data['nav_2']);
         $this->App_model->view(TPL_ADMIN, $data);
     }

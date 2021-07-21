@@ -7,7 +7,8 @@ class Exam_model extends CI_Model{
 
         $data['row'] = $row;
         $data['head_title'] = $data['row']->title;
-        $data['nav_2'] = 'exams/exams/menu_v';
+        $data['nav_2'] = $this->views_folder . 'exams/menu_v';
+        $data['back_link'] = $this->url_controller . 'explore';
 
         return $data;
     }
@@ -26,12 +27,11 @@ class Exam_model extends CI_Model{
         //Elemento de exploración
             $data['controller'] = 'exams';                      //Nombre del controlador
             $data['cf'] = 'exams/explore/';                      //Nombre del controlador
-            $data['views_folder'] = 'exams/exams/explore/';           //Carpeta donde están las vistas de exploración
+            $data['views_folder'] = $this->views_folder . 'exams/explore/';           //Carpeta donde están las vistas de exploración
             $data['num_page'] = $num_page;                      //Número de la página
             
         //Vistas
             $data['head_title'] = 'Exámenes';
-            $data['head_subtitle'] = $data['search_num_rows'];
             $data['view_a'] = $data['views_folder'] . 'explore_v';
             $data['nav_2'] = $data['views_folder'] . 'menu_v';
         

@@ -15,14 +15,6 @@
     var nav_2 = [];
     var sections_role = [];
     var element_id = '<?= $file_id ?>';
-    
-    sections.explore = {
-        icon: 'fa fa-arrow-left',
-        text: 'Explorar',
-        class: '<?= $cl_nav_2['files_explore'] ?>',
-        cf: 'files/explore/',
-        anchor: true
-    };
 
     sections.info = {
         icon: '',
@@ -53,8 +45,8 @@
     };
     
     //Secciones para cada rol
-    sections_role[1] = ['explore', 'info', 'cropping', 'change', 'edit'];
-    sections_role[2] = ['explore', 'info', 'cropping', 'change', 'edit'];
+    sections_role[1] = ['info', 'cropping', 'change', 'edit'];
+    sections_role[2] = ['info', 'cropping', 'change', 'edit'];
     
     //Recorrer el sections del rol actual y cargarlos en el menú
     for ( key_section in sections_role[app_rid]) 

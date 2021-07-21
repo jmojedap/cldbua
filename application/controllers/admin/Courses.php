@@ -2,6 +2,13 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Courses extends CI_Controller{
+// Variables generales
+//-----------------------------------------------------------------------------
+    public $views_folder = 'admin/courses/';
+    public $url_controller = URL_ADMIN . 'courses/';
+
+// Constructor
+//-----------------------------------------------------------------------------
     
     function __construct() 
     {
@@ -13,9 +20,9 @@ class Courses extends CI_Controller{
     function index($post_id = NULL)
     {
         if ( is_null($post_id) ) {
-            redirect("courses/explore/");
+            redirect("admin/courses/explore/");
         } else {
-            redirect("courses/info/{$post_id}");
+            redirect("app/courses/info/{$post_id}");
         }
     }
     
@@ -115,21 +122,22 @@ class Courses extends CI_Controller{
         //Datos básicos
         $data = $this->Course_model->basic($post_id);
         unset($data['nav_2']);
-        $data['view_a'] = 'courses/courses/' . 'read_v';
+        $data['view_a'] = $this->views_folder . 'courses/courses/' . 'read_v';
 
         $this->App_model->view(TPL_ADMIN, $data);
     }
 
     /**
-     * Información general del post
+     * Información general del curso
      */
     function info($post_id)
     {        
         //Datos básicos
         $data['row'] = $this->Course_model->row($post_id);
         $data['head_title'] = $data['row']->post_name;
-        $data['view_a'] = 'courses/courses/info_v';
-        if ( $this->session->userdata('role') <= 1 ) { $data['nav_2'] = 'courses/courses/menu_v'; }
+        $data['view_a'] = $this->views_folder . 'courses/info_v';
+        $data['back_link'] = $this->url_controller . 'explore';
+        if ( $this->session->userdata('role') <= 1 ) { $data['nav_2'] = $this->views_folder . 'courses/menu_v'; }
 
         $this->App_model->view(TPL_ADMIN, $data);
     }
@@ -157,9 +165,8 @@ class Courses extends CI_Controller{
     {
         //Variables generales
             $data['head_title'] = 'courses';
-            $data['head_subtitle'] = 'Nuevo';
-            $data['nav_2'] = 'courses/explore/menu_v';
-            $data['view_a'] = 'courses/add/add_v';
+            $data['nav_2'] = $this->views_folder . 'explore/menu_v';
+            $data['view_a'] = $this->views_folder . 'add/add_v';
 
         $this->App_model->view(TPL_ADMIN, $data);
     }
@@ -186,8 +193,7 @@ class Courses extends CI_Controller{
         $data['options_type'] = $this->Item_model->options('category_id = 33', 'Todos');
         
         //Array data espefícicas
-            $data['head_subtitle'] = 'Editar';
-            $data['view_a'] = 'posts/types/4110/edit_v';
+            $data['view_a'] = 'admin/posts/types/4110/edit_v';
         
         $this->App_model->view(TPL_ADMIN, $data);
     }
@@ -202,8 +208,7 @@ class Courses extends CI_Controller{
         $data['arr_types'] = $this->Item_model->arr_cod('category_id = 33');
         
         //Array data espefícicas
-            $data['head_subtitle'] = 'Editar clases';
-            $data['view_a'] = 'courses/courses/edit_classes_v';
+            $data['view_a'] = $this->views_folder . 'courses/edit_classes_v';
         
         $this->App_model->view(TPL_ADMIN, $data);
     }
@@ -225,7 +230,7 @@ class Courses extends CI_Controller{
     function my_courses()
     {
         $data['head_title'] = 'Mis cursos';
-        $data['view_a'] = 'courses/courses/my_courses_v';
+        $data['view_a'] = $this->views_folder . 'courses/my_courses_v';
         $data['courses'] = $this->Course_model->user_courses($this->session->userdata('user_id'));
         $data['arr_enrolling_status'] = $this->Item_model->arr_cod('category_id = 401');
 
@@ -248,7 +253,7 @@ class Courses extends CI_Controller{
         $data['user'] = $this->Db_model->row_id('users', $user_id);
 
         $data['head_title'] = $data['course']->post_name;
-        $data['view_a'] = 'courses/courses/enrolling_status_v';
+        $data['view_a'] = $this->views_folder . 'courses/enrolling_status_v';
 
         $this->App_model->view(TPL_ADMIN, $data);
     }
@@ -344,7 +349,7 @@ class Courses extends CI_Controller{
         $data['num_class'] = $num_class;
         $data['index'] = $num_class - 1;
         $data['head_title'] = $course->post_name;
-        $data['view_a'] = "courses/classes/read_v";
+        $data['view_a'] = $this->views_folder . "classes/read_v";
 
         $this->App_model->view(TPL_ADMIN, $data);
     }

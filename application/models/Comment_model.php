@@ -9,6 +9,7 @@ class Comment_model extends CI_Model{
         $data['row'] = $row;
         $data['head_title'] = substr($data['row']->comment_text,0,50);
         $data['nav_2'] = 'comments/menu_v';
+        $data['back_link'] = $this->url_controller . 'explore/';
 
         return $data;
     }
@@ -26,13 +27,12 @@ class Comment_model extends CI_Model{
         
         //Elemento de exploración
             $data['controller'] = 'comments';                      //Nombre del controlador
-            $data['cf'] = 'comments/explore/';                      //Nombre del controlador
-            $data['views_folder'] = 'comments/explore/';           //Carpeta donde están las vistas de exploración
+            $data['cf'] = $this->views_folder . 'explore/';                      //Nombre del controlador
+            $data['views_folder'] = $this->views_folder . 'explore/';           //Carpeta donde están las vistas de exploración
             $data['num_page'] = $num_page;                      //Número de la página
             
         //Vistas
             $data['head_title'] = 'Comentarios';
-            $data['head_subtitle'] = $data['search_num_rows'];
             $data['view_a'] = $data['views_folder'] . 'explore_v';
             $data['nav_2'] = $data['views_folder'] . 'menu_v';
         
@@ -283,7 +283,7 @@ class Comment_model extends CI_Model{
     /**
      * Array con listado de comentarios
      */
-    function element_comments($table_id, $element_id, $parent_id, $num_page, $per_page)
+    function element_comments($table_id, $element_id, $parent_id, $num_page, $per_page = 10)
     {
         $query_comments = $this->element_comments_pre($table_id, $element_id, $parent_id, $num_page, $per_page);
 

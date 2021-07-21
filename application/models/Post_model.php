@@ -10,6 +10,7 @@ class Post_model extends CI_Model{
         $data['head_title'] = $data['row']->post_name;
         $data['view_a'] = $this->views_folder . 'post_v';
         $data['nav_2'] = $data['type_folder'] . 'menu_v';
+        $data['back_link'] = $this->url_controller . 'explore/';
 
         return $data;
     }

@@ -24,4 +24,4 @@
     </div>
 </div>
 
-<?php $this->load->view('exams/exams/questions/vue_v') ?>
+<?php $this->load->view('admin/exams/exams/questions/vue_v') ?>

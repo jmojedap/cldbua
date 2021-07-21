@@ -2,6 +2,14 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Files extends CI_Controller{
+        
+// Variables generales
+//-----------------------------------------------------------------------------
+    public $views_folder = 'admin/files/';
+    public $url_controller = URL_ADMIN . 'files/';
+
+// Constructor
+//-----------------------------------------------------------------------------
     
     function __construct() {
         parent::__construct();
@@ -82,8 +90,8 @@ class Files extends CI_Controller{
     function info($file_id)
     {
         $data = $this->File_model->basic($file_id);
-        $data['view_a'] = 'files/info_v';
-        $data['nav_2'] = 'files/menu_v';
+        $data['view_a'] = $this->views_folder . 'info_v';
+        $data['nav_2'] = $this->views_folder . 'menu_v';
         $this->App_model->view(TPL_ADMIN, $data);
     }
 
@@ -93,8 +101,8 @@ class Files extends CI_Controller{
     function add()
     {
         $data['head_title'] = 'Archivos';
-        $data['nav_2'] = 'files/explore/menu_v';
-        $data['view_a'] = 'files/add_v';
+        $data['nav_2'] = $this->views_folder . 'explore/menu_v';
+        $data['view_a'] = $this->views_folder . 'add_v';
         $this->App_model->view(TPL_ADMIN, $data);
     }
 
@@ -120,8 +128,8 @@ class Files extends CI_Controller{
         //Variables generales
             $data['file_id'] = $file_id;
             $data['head_subtitle'] = $data['row']->file_name;
-            $data['nav_2'] = 'files/menu_v';
-            $data['view_a'] = 'files/edit_v';
+            $data['nav_2'] = $this->views_folder . 'menu_v';
+            $data['view_a'] = $this->views_folder . 'edit_v';
             
         //Variables generales
         
@@ -150,9 +158,8 @@ class Files extends CI_Controller{
         $data['url_image'] = $data['row']->url;
         $data['back_destination'] = "files/edit/{$file_id}";
 
-        $data['view_a'] = 'files/cropping_v';
-        $data['nav_2'] = 'files/menu_v';
-        $data['head_subtitle'] = 'Recortar';
+        $data['view_a'] = $this->views_folder . 'cropping_v';
+        $data['nav_2'] = $this->views_folder . 'menu_v';
         $this->App_model->view(TPL_ADMIN, $data);
     }
 
@@ -185,10 +192,8 @@ class Files extends CI_Controller{
         
         //Variables generales
             $data['file_id'] = $file_id;
-            $data['subtitulo_pagina'] = 'Cambiar archivo';
-            $data['nav_2'] = 'files/menu_v';
-            $data['view_a'] = 'files/change_v';
-            //$data['vista_b'] = 'files/cambiar_v';       
+            $data['nav_2'] = $this->views_folder . 'menu_v';
+            $data['view_a'] = $this->views_folder . 'change_v';     
             
         //Variables generales
             $this->App_model->view(TPL_ADMIN, $data);
@@ -221,15 +226,6 @@ class Files extends CI_Controller{
 
 // PROCESOS MASIVOS
 //-----------------------------------------------------------------------------
-
-    function process()
-    {
-        
-        $data['head_title'] = 'Procesos masivos';
-        $data['view_a'] = 'files/process_v';
-        $data['nav_2'] = 'files/explore/menu_v';
-        $this->App_model->view(TPL_ADMIN, $data);
-    }
 
     function update_url()
     {

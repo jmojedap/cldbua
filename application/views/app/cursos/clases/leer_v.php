@@ -12,11 +12,11 @@
 ?>
 
 <div class="center_box_920">
-    <?php $this->load->view("courses/classes/types/{$clase->type_id}_v") ?>
+    <?php $this->load->view("app/cursos/clases/tipos/{$clase->type_id}_v") ?>
 
     <div class="d-flex justify-content-between mb-2">
-        <a class="btn btn-secondary w120p" title="Clase anterior" href="<?= URL_ADMIN . "courses/open_element/{$course->id}/" . ($index - 1) ?>"><i class="fa fa-chevron-left"></i></a>
-        <a class="btn btn-secondary w120p" title="Clase siguiente"  href="<?= URL_ADMIN . "courses/open_element/{$course->id}/" . ($index + 1) ?>"><i class="fa fa-chevron-right"></i></a>
+        <a class="btn btn-secondary w120p" title="Clase anterior" href="<?= URL_APP . "cursos/abrir_elemento/{$course->id}/" . ($index - 1) ?>"><i class="fa fa-chevron-left"></i></a>
+        <a class="btn btn-secondary w120p" title="Clase siguiente"  href="<?= URL_APP . "cursos/abrir_elemento/{$course->id}/" . ($index + 1) ?>"><i class="fa fa-chevron-right"></i></a>
     </div>
 
     <h2><?= $clase->post_name ?></h2>
@@ -45,10 +45,10 @@
             </div>
         </div>
         <div class="tab-pane fade <?= $cl_sections['comments'] ?>" id="nav-comments" role="tabpanel" aria-labelledby="nav-comments-tab">
-            <?php $this->load->view('comments/section/section_v') ?>
+            <?php $this->load->view('admin/comments/section/section_v') ?>
         </div>
         <div class="tab-pane fade <?= $cl_sections['classes'] ?>" id="nav-classes-list" role="tabpanel" aria-labelledby="nav-classes-list">
-            <?php $this->load->view('courses/classes/classes_list_v') ?>
+            <?php $this->load->view('app/cursos/clases/clases_lista_v') ?>
         </div>
     </div>
 </div>

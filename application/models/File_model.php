@@ -14,6 +14,7 @@ class File_model extends CI_Model{
         $data['url_thumbnail'] = URL_UPLOADS . $row->folder . 'sm_' . $row->file_name;
         $data['path_file'] = PATH_UPLOADS . $row->folder . $row->file_name;
         $data['head_title'] = substr($data['row']->title, 0, 50);
+        $data['back_link'] = $this->url_controller . 'explore/';
 
         return $data;
     }
@@ -31,13 +32,12 @@ class File_model extends CI_Model{
         
         //Elemento de exploración
             $data['controller'] = 'files';                      //Nombre del controlador
-            $data['cf'] = 'files/explore/';                      //Nombre del controlador
-            $data['views_folder'] = 'files/explore/';           //Carpeta donde están las vistas de exploración
+            $data['cf'] = $this->views_folder . 'explore/';                      //Nombre del controlador
+            $data['views_folder'] = $this->views_folder . 'explore/';           //Carpeta donde están las vistas de exploración
             $data['num_page'] = $num_page;                      //Número de la página
             
         //Vistas
             $data['head_title'] = 'Archivos';
-            $data['head_subtitle'] = $data['search_num_rows'];
             $data['view_a'] = $data['views_folder'] . 'explore_v';
             $data['nav_2'] = $data['views_folder'] . 'menu_v';
         

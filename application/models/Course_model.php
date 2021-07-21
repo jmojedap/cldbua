@@ -7,8 +7,9 @@ class Course_model extends CI_Model{
 
         $data['row'] = $row;
         $data['head_title'] = $data['row']->post_name;
-        $data['view_a'] = 'courses/course_v';
-        $data['nav_2'] = 'courses/courses/menu_v';
+        $data['view_a'] = $this->views_folder . 'course_v';
+        $data['nav_2'] = $this->views_folder . 'courses/menu_v';
+        $data['back_link'] = $this->url_controller . 'explore';
 
         return $data;
     }
@@ -27,7 +28,7 @@ class Course_model extends CI_Model{
         //Elemento de exploración
             $data['controller'] = 'courses';                      //Nombre del controlador
             $data['cf'] = 'courses/explore/';                      //Nombre del controlador
-            $data['views_folder'] = 'courses/courses/explore/';           //Carpeta donde están las vistas de exploración
+            $data['views_folder'] = $this->views_folder . 'courses/explore/';           //Carpeta donde están las vistas de exploración
             $data['num_page'] = $num_page;                      //Número de la página
             
         //Vistas
@@ -210,13 +211,12 @@ class Course_model extends CI_Model{
         
         //Elemento de exploración
             $data['controller'] = 'courses';                      //Nombre del controlador
-            $data['cf'] = 'courses/browse/';                      //Nombre del controlador
-            $data['views_folder'] = 'courses/courses/browse/';           //Carpeta donde están las vistas de exploración
+            $data['cf'] = 'cursos/catalogo/';                      //Nombre del controlador
+            $data['views_folder'] = 'app/cursos/cursos/catalogo/';           //Carpeta donde están las vistas de exploración
             $data['num_page'] = $num_page;                      //Número de la página
             
         //Vistas
             $data['head_title'] = 'Cursos';
-            $data['head_subtitle'] = $data['search_num_rows'];
             $data['view_a'] = $data['views_folder'] . 'explore_v';
         
         return $data;

@@ -24,7 +24,7 @@
                     <span v-show="element.type_id == 4140">{{ element.integer_1 }}%</span>
                 </td>
                 <td>
-                    <a v-bind:href="`<?= URL_ADMIN . "courses/open_element/{$row->id}/" ?>` + key" class="a4" target="_blank">
+                    <a v-bind:href="`<?= URL_APP . "cursos/abrir_elemento/{$row->id}/" ?>` + key" class="a4" target="_blank">
                         <i class="fas fa-external-link-alt"></i>
                     </a>
                     <a v-bind:href="`<?= URL_ADMIN . "posts/edit/" ?>` + element.id" class="a4" target="_blank">

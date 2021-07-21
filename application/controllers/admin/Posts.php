@@ -197,8 +197,7 @@ public $url_controller = URL_ADMIN . 'posts/';
         $data['form_table_id'] = 2000;
         $data['form_related_1'] = $post_id;
 
-        $data['view_a'] = 'posts/images/images_v';
-        $data['subtitle_head'] = 'Images';
+        $data['view_a'] = $this->views_folder . 'images/images_v';
         $this->App_model->view(TPL_ADMIN, $data);
     }
 

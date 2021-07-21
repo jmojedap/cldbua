@@ -2,6 +2,14 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Comments extends CI_Controller{
+            
+// Variables generales
+//-----------------------------------------------------------------------------
+    public $views_folder = 'admin/comments/';
+    public $url_controller = URL_ADMIN . 'comments/';
+
+// Constructor
+//-----------------------------------------------------------------------------
     
     function __construct() 
     {
@@ -93,8 +101,8 @@ class Comments extends CI_Controller{
 
         //Variables generales
             $data['head_title'] = 'Crear comentario';
-            $data['nav_2'] = 'comments/explore/menu_v';
-            $data['view_a'] = 'comments/add_v';
+            $data['nav_2'] = $this->views_folder . 'explore/menu_v';
+            $data['view_a'] = $this->views_folder . 'add_v';
 
         $this->App_model->view(TPL_ADMIN, $data);
     }
@@ -123,7 +131,7 @@ class Comments extends CI_Controller{
         
         //Array data espefícicas
             //$data['form_values'] = $this->Pcrn->valores_form($data['row'], 'comment');
-            $data['nav_2'] = 'comments/menu_v';
+            $data['nav_2'] = $this->views_folder . 'menu_v';
             //$data['nav_3'] = 'comments/edit/menu_v';
         
         $this->App_model->view(TPL_ADMIN, $data);
@@ -132,8 +140,6 @@ class Comments extends CI_Controller{
 
     /**
      * POST JSON
-     * 
-     * @param type $comment_id
      */
     function update($comment_id)
     {
@@ -141,7 +147,6 @@ class Comments extends CI_Controller{
         
         $this->output->set_content_type('application/json')->set_output(json_encode($result));
     }
-
     
     function info($comment_id)
     {
@@ -151,8 +156,8 @@ class Comments extends CI_Controller{
         $data['subcomments'] = $this->Comment_model->element_comments($data['row']->table_id, $data['row']->element_id, $comment_id, 1, 100); 
         
         //Variables específicas
-        $data['nav_2'] = 'comments/menu_v';
-        $data['view_a'] = 'comments/info_v';
+        $data['nav_2'] = $this->views_folder . 'menu_v';
+        $data['view_a'] = $this->views_folder . 'info_v';
         
         $this->App_model->view(TPL_ADMIN, $data);
     }
@@ -184,10 +189,10 @@ class Comments extends CI_Controller{
         $data = array('qty_comments' => 0, 'comments' => array());
         $comments = $this->Comment_model->element_comments($table_id, $element_id, $parent_id, $num_page);
 
-        if ( $comments->num_rows() > 0 )
+        if ( count($comments) > 0 )
         {
-            $data['qty_comments'] = $comments->num_rows();
-            $data['comments'] = $comments->result();
+            $data['qty_comments'] = count($comments);
+            $data['comments'] = $comments;
         }
 
         $this->output->set_content_type('application/json')->set_output(json_encode($data));
