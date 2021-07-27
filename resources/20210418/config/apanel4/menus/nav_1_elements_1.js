@@ -3,8 +3,8 @@ var nav_1_elements = [
         text: 'Inicio',
         active: false,
         icon: 'bi-house',
-        cf: 'courses/browse',
-        sections: [],
+        cf: 'app/dashboard',
+        sections: ['app/dashboard'],
         subelements: [],
         anchor: true
     },
@@ -79,11 +79,11 @@ var nav_1_elements = [
         style: '',
         icon: 'bi-sliders',
         cf: '',
-        sections: ['admin/options'],
+        sections: [],
         subelements: [
             {
-                text: 'General', active: false, icon: 'bi-gear', cf: 'admin/options',
-                sections: ['admin/options']
+                text: 'General', active: false, icon: 'bi-gear', cf: 'config/options',
+                sections: ['config/options', 'config/processes', 'config/colors']
             },
             {
                 text: 'Ítems', active: false, icon: 'bi-list', cf: 'items/manage',

@@ -1,6 +1,6 @@
 <div class="courses_list center_box_920">
     <div class="card course" v-for="(element, key) in list">
-        <a v-bind:href="`<?= URL_ADMIN . "courses/info/" ?>` + element.id">
+        <a v-bind:href="`<?= URL_APP . "cursos/info/" ?>` + element.id">
             <img
                 v-bind:src="element.url_image"
                 class="card-img-top"
@@ -10,7 +10,7 @@
         </a>
         <div class="card-body">
             <div>
-                <a v-bind:href="`<?= URL_ADMIN . "courses/info/" ?>` + element.id">
+                <a v-bind:href="`<?= URL_APP . "cursos/info/" ?>` + element.id">
                     <h3 class="card-title">
                         {{ element.post_name }}
                     </h3>

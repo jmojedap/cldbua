@@ -255,8 +255,8 @@ public $url_controller = URL_ADMIN . 'posts/';
 
         $data['url_file'] = URL_RESOURCES . 'import_templates/' . $data['template_file_name'];
 
-        $data['head_title'] = 'Posts';
-        $data['nav_2'] = 'posts/explore/menu_v';
+        $data['head_title'] = 'Importar posts';
+        $data['nav_2'] = $this->views_folder . 'explore/menu_v';
         $data['view_a'] = 'common/import_v';
         
         $this->App_model->view(TPL_ADMIN, $data);

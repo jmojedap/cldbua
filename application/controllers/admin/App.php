@@ -2,6 +2,14 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class App extends CI_Controller {
+
+// Variables generales
+//-----------------------------------------------------------------------------
+public $views_folder = 'admin/app/';
+public $url_controller = URL_ADMIN . 'app/';
+
+// Constructor
+//-----------------------------------------------------------------------------
     
     function __construct()
     {
@@ -22,6 +30,16 @@ class App extends CI_Controller {
         } else {
             redirect('accounts/login');
         }    
+    }
+
+    function dashboard()
+    {
+        $data['summary'] = $this->App_model->summary();
+        $data['head_title'] = APP_NAME;
+        $data['view_a'] = $this->views_folder . 'dashboard_v';
+        $this->App_model->view(TPL_ADMIN, $data);
+
+        //$this->output->enable_profiler(TRUE);
     }
 
     function denied()
@@ -63,46 +81,5 @@ class App extends CI_Controller {
     {
         $data = $this->App_model->set_avatar();
         $this->output->set_content_type('application/json')->set_output(json_encode($data));
-    }
-
-// PRUEBAS Y EXPERIMENTACIÓN
-//-----------------------------------------------------------------------------
-
-    function test()
-    {
-        $data['head_title'] = 'Template Logistic';
-        $data['view_a'] = 'templates/logistic/test_content';
-        //$this->load->view('templates/logistic/test_v', $data);
-        $this->load->view('templates/logistic/main', $data);
-    }
-
-    
-
-    function test_recaptcha()
-    {
-        $recaptcha = $this->App_model->recaptcha();
-
-        $data = array('status' => 0, 'message' => 'No aprobado por RC');
-        if ( $recaptcha->score > 0.5 )
-        {
-            $data = array('status' => 1, 'message' => 'SÍ APROBADO POR RC: ' . $recaptcha->score);
-        }
-
-        $this->output->set_content_type('application/json')->set_output(json_encode($data));
-    }
-
-    function maps()
-    {
-        $this->load->view('app/map_v');
-    }
-
-    function vuesortable()
-    {
-        $this->load->view('app/test/vuesortable');
-    }
-
-    function grid()
-    {
-        $this->load->view('tests/grid');
     }
 }

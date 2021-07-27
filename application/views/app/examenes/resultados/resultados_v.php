@@ -31,7 +31,7 @@
                 <h3 class="text-success">¡Muchas felicidades!</h3>
                 <p style="font-size: 1.2em;">Has finalizado y aprobado: <strong><?= $course->post_name ?></strong></p>
                 <p>
-                    <a href="<?= URL_ADMIN . "courses/enrolling_status/{$course->id}/{$row_enrolling->user_id}/{$row_enrolling->id}" ?>" class="btn btn-success btn-sm">
+                    <a href="<?= URL_FRONT . "cursos/estado_inscripcion/{$course->id}/{$row_enrolling->user_id}/{$row_enrolling->id}" ?>" class="btn btn-success btn-sm">
                         VER CERTIFICADO
                     </a>
                 </p>
@@ -63,7 +63,7 @@
     </div>
 
     <div class="text-center" v-show="row_answer.approved == 0">
-        <a href="<?= URL_ADMIN . "exams/preparation/{$row->id}/{$course->id}" ?>" class="btn btn-secondary">
+        <a href="<?= URL_FRONT . "examenes/preparacion/{$row->id}/{$course->id}" ?>" class="btn btn-secondary">
             INTENTARLO DE NUEVO
         </a>
     </div>

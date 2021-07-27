@@ -95,9 +95,9 @@ public $url_controller = URL_APP . 'accounts/';
         if ( $this->session->userdata('logged') )
         {
             $arr_destination = array(
-                0 => 'admin/users/explore/',  //Desarrollador
-                1 => 'admin/users/explore/',  //Administrador
-                21 => 'app/accounts/edit/basic'     //Cliente
+                1 => 'admin/app/dashboard/',  //Desarrollador
+                2 => 'admin/app/dashboard/',  //Administrador
+                21 => 'app/accounts/edit/basic'     //Estudiante
             );
                 
             $destination = $arr_destination[$this->session->userdata('role')];
@@ -367,10 +367,10 @@ public $url_controller = URL_APP . 'accounts/';
         $data = $this->User_model->basic($this->session->userdata('user_id'));
         
         //Variables específicas
-        $data['nav_2'] = 'accounts/menu_v';
-        $data['view_a'] = 'accounts/profile_v';
+        $data['nav_2'] = $this->views_folder . 'menu_v';
+        $data['view_a'] = $this->views_folder.  'profile_v';
         
-        $this->App_model->view('templates/apanel4/main', $data);
+        $this->App_model->view('templates/apanel4/student', $data);
     }
 
 // ACTUALIZACIÓN DE DATOS
@@ -388,7 +388,7 @@ public $url_controller = URL_APP . 'accounts/';
         $data = $this->User_model->basic($user_id);
         $data['options_city_id'] = $this->App_model->options_place('type_id = 2');
         
-        $view_a = "accounts/edit/{$section}_v";
+        $view_a = $this->views_folder . "edit/{$section}_v";
         if ( $section == 'cropping' )
         {
             $view_a = 'files/cropping_v';
@@ -405,11 +405,11 @@ public $url_controller = URL_APP . 'accounts/';
         }
         
         //Array data espefícicas
-            $data['nav_2'] = 'accounts/menu_v';
-            $data['nav_3'] = 'accounts/edit/menu_v';
+            $data['nav_2'] = $this->views_folder . 'menu_v';
+            $data['nav_3'] = $this->views_folder.  'edit/menu_v';
             $data['view_a'] = $view_a;
         
-        $this->App_model->view('templates/apanel4/main', $data);
+        $this->App_model->view('templates/apanel4/student', $data);
     }
 
     /**

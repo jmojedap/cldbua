@@ -91,8 +91,8 @@
             </form>
         </div>
     </div>
-    <?php $this->load->view('users/add/modal_created_v') ?>
+    <?php $this->load->view($this->views_folder . 'add/modal_created_v') ?>
 </div>
 
 <?php
-$this->load->view('users/add/student/vue_v');
+$this->load->view($this->views_folder . 'add/student/vue_v');

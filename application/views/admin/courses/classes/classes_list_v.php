@@ -10,7 +10,7 @@
         <?php if ( $class->related_1 != $num_modulo ) : ?>
             <a href="#" class="list-group-item list-group-item-action disabled" tabindex="-1" aria-disabled="true">Módulo <?= $class->related_1 ?></a>
         <?php endif; ?>
-        <a href="<?= URL_ADMIN . "courses/open_element/{$course->id}/{$index_class}" ?>" class="list-group-item list-group-item-action <?= $cl_class ?>">
+        <a href="<?= URL_FRONT . "cursos/abrir_elemento/{$course->id}/{$index_class}" ?>" class="list-group-item list-group-item-action <?= $cl_class ?>">
             <span class="badge badge-secondary mr-2"><?= $num_class_list ?></span>
             <?= $class->post_name ?>
         </a>

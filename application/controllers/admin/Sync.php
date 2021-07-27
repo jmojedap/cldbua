@@ -3,6 +3,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Sync extends CI_Controller {
 
+// Variables generales
+//-----------------------------------------------------------------------------
+    public $views_folder = 'admin/sync/';
+    public $url_controller = URL_ADMIN . 'sync/';
+
+// Constructor
+//-----------------------------------------------------------------------------
+
     function __construct()
     {
         parent::__construct();
@@ -39,7 +47,7 @@ class Sync extends CI_Controller {
             $data['limit'] = 5000;             //Número máximo de rows a transferir por ciclo
             
         //Se puede sincronizar solo si es versión local, backup
-            $view_a = 'system/sync/panel_v'; 
+            $view_a = $this->views_folder . 'panel_v'; 
             if ( strlen(URL_SYNC) == 0 ) 
             {
                 $view_a = 'app/message_v';
@@ -49,7 +57,6 @@ class Sync extends CI_Controller {
         //Variables vista
             $data['head_title'] = 'Sincronización DB';
             $data['view_a'] = $view_a;
-            //$data['nav_2'] = 'system/admin/database_menu_v';
         
         //load vista
             $this->App_model->view(TPL_ADMIN, $data);   
@@ -71,9 +78,7 @@ class Sync extends CI_Controller {
 
         $data = array('status' => 1, 'message' => 'Sincro iniciada: ' . $table);
         
-        $this->output
-        ->set_content_type('application/json')
-        ->set_output(json_encode($data));
+        $this->output->set_content_type('application/json')->set_output(json_encode($data));
     }
     
     /**
@@ -93,9 +98,7 @@ class Sync extends CI_Controller {
         //Eliminar los data de table
             $data = $this->Sync_model->clean_table($table);
 
-        $this->output
-        ->set_content_type('application/json')
-        ->set_output(json_encode($data));
+        $this->output->set_content_type('application/json')->set_output(json_encode($data));
     }
     
     /**
@@ -113,9 +116,7 @@ class Sync extends CI_Controller {
         $download = json_decode($this->input->post('json_download'));
         $data = $this->Sync_model->insert_rows($table, $download);
         
-        $this->output
-        ->set_content_type('application/json')
-        ->set_output(json_encode($data));
+        $this->output->set_content_type('application/json')->set_output(json_encode($data));
     }
     
     /**
@@ -127,9 +128,7 @@ class Sync extends CI_Controller {
         $arr_tables_status = $this->input->post('json_tables_status');
         $this->Sync_model->save_server_status($arr_tables_status);
         
-        $this->output
-        ->set_content_type('application/json')
-        ->set_output(count($arr_tables_status));
+        $this->output->set_content_type('application/json')->set_output(count($arr_tables_status));
     }
     
     /**

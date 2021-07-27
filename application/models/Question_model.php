@@ -7,7 +7,7 @@ class Question_model extends CI_Model{
 
         $data['row'] = $row;
         $data['head_title'] = 'Pregunta' . $data['row']->id;
-        $data['nav_2'] = 'exams/questions/menu_v';
+        $data['nav_2'] = 'admin/exams/questions/menu_v';
 
         return $data;
     }
@@ -26,7 +26,7 @@ class Question_model extends CI_Model{
         //Elemento de exploración
             $data['controller'] = 'questions';                      //Nombre del controlador
             $data['cf'] = 'questions/explore/';                      //Nombre del controlador
-            $data['views_folder'] = 'exams/questions/explore/';           //Carpeta donde están las vistas de exploración
+            $data['views_folder'] = 'admin/exams/questions/explore/';           //Carpeta donde están las vistas de exploración
             $data['num_page'] = $num_page;                      //Número de la página
             
         //Vistas

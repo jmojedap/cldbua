@@ -21,8 +21,6 @@
         cf: 'events/explore'
     };
 
-    
-
     sections.summary = {
         icon: '',
         text: 'Resumen',

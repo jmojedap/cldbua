@@ -2,6 +2,14 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Items extends CI_Controller{
+
+// Variables generales
+//-----------------------------------------------------------------------------
+    public $views_folder = 'admin/items/';
+    public $url_controller = URL_ADMIN . 'items/';
+
+// Constructor
+//-----------------------------------------------------------------------------
     
     function __construct() 
     {
@@ -27,9 +35,8 @@ class Items extends CI_Controller{
         
         //Array data generales
             $data['head_title'] = 'Ítems';
-            $data['head_subtitle'] = 'parámetros del sistema';
-            $data['view_a'] = 'system/items/manage/manage_v';
-            $data['nav_2'] = 'system/items/menu_v';
+            $data['view_a'] = $this->views_folder . 'manage/manage_v';
+            $data['nav_2'] = $this->views_folder . 'menu_v';
             
         //Cargar vista
             $this->App_model->view(TPL_ADMIN, $data);
@@ -122,8 +129,8 @@ class Items extends CI_Controller{
         $data['url_file'] = URL_RESOURCES . 'import_templates/' . $data['template_file_name'];
         
 
-        $data['head_title'] = 'Items';
-        $data['nav_2'] = 'system/items/menu_v';
+        $data['head_title'] = 'Ítems';
+        $data['nav_2'] = $this->views_folder . 'menu_v';
         $data['view_a'] = 'common/import_v';
         
         $this->App_model->view(TPL_ADMIN, $data);
@@ -152,7 +159,7 @@ class Items extends CI_Controller{
             $data['head_title'] = 'Items';
             $data['head_subtitle'] = 'Import result';
             $data['view_a'] = 'common/import_result_v';
-            $data['nav_2'] = 'system/items/menu_v';
+            $data['nav_2'] = $this->views_folder . 'menu_v';
 
         $this->App_model->view(TPL_ADMIN, $data);
     }

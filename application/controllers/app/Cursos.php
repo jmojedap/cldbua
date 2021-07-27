@@ -45,7 +45,7 @@ class Cursos extends CI_Controller{
             $data['arr_types'] = $this->Item_model->arr_cod('category_id = 33');
             
         //Cargar vista
-            $this->App_model->view(TPL_ADMIN, $data);
+            $this->App_model->view(TPL_FRONT, $data);
     }
     
 // INFORMACÍON LECTURA Y APERTURA
@@ -73,7 +73,7 @@ class Cursos extends CI_Controller{
         unset($data['nav_2']);
         $data['view_a'] = $this->views_folder . 'courses/courses/' . 'read_v';
 
-        $this->App_model->view(TPL_ADMIN, $data);
+        $this->App_model->view(TPL_FRONT, $data);
     }
 
     /**
@@ -84,11 +84,11 @@ class Cursos extends CI_Controller{
         //Datos básicos
         $data['row'] = $this->Course_model->row($post_id);
         $data['head_title'] = $data['row']->post_name;
-        $data['view_a'] = $this->views_folder . 'courses/info_v';
+        $data['view_a'] = $this->views_folder . 'cursos/info_v';
         $data['back_link'] = $this->url_controller . 'explore';
         if ( $this->session->userdata('role') <= 1 ) { $data['nav_2'] = $this->views_folder . 'courses/menu_v'; }
 
-        $this->App_model->view(TPL_ADMIN, $data);
+        $this->App_model->view(TPL_FRONT, $data);
     }
 
 // Asignación a usuario
@@ -105,7 +105,7 @@ class Cursos extends CI_Controller{
         $data['courses'] = $this->Course_model->user_courses($this->session->userdata('user_id'));
         $data['arr_enrolling_status'] = $this->Item_model->arr_cod('category_id = 401');
 
-        $this->App_model->view(TPL_ADMIN, $data);
+        $this->App_model->view(TPL_FRONT, $data);
     }
 
     /**
@@ -126,7 +126,7 @@ class Cursos extends CI_Controller{
         $data['head_title'] = $data['course']->post_name;
         $data['view_a'] = $this->views_folder . 'cursos/estado_inscripcion_v';
 
-        $this->App_model->view(TPL_ADMIN, $data);
+        $this->App_model->view(TPL_FRONT, $data);
     }
 
 // Ejecución del curso por parte de un usuario
@@ -196,6 +196,6 @@ class Cursos extends CI_Controller{
         $data['head_title'] = $course->post_name;
         $data['view_a'] = $this->views_folder . "clases/leer_v";
 
-        $this->App_model->view(TPL_ADMIN, $data);
+        $this->App_model->view(TPL_FRONT, $data);
     }
 }

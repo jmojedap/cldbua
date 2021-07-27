@@ -322,7 +322,6 @@ class Item_model extends CI_Model{
         $data['help_tips'] = array();
         $data['template_file_name'] = 'f60_items.xlsx';
         $data['sheet_name'] = 'items';
-        $data['head_subtitle'] = 'Importar items';
         $data['destination_form'] = "items/import_e/";
 
         return $data;

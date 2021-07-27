@@ -3,6 +3,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Questions extends CI_Controller{
     
+// Variables generales
+//-----------------------------------------------------------------------------
+public $views_folder = 'admin/exams/questions/';
+public $url_controller = URL_ADMIN . 'questions/';
+
+// Constructor
+//-----------------------------------------------------------------------------
+    
     function __construct() 
     {
         parent::__construct();
@@ -13,9 +21,9 @@ class Questions extends CI_Controller{
     function index($question_id = NULL)
     {
         if ( is_null($question_id) ) {
-            redirect("questions/explore/");
+            redirect("admin/questions/explore/");
         } else {
-            redirect("questions/info/{$question_id}");
+            redirect("admin/questions/info/{$question_id}");
         }
     }
     
@@ -82,6 +90,7 @@ class Questions extends CI_Controller{
     {        
         //Datos básicos
         $data = $this->Question_model->basic($question_id);
+        $data['back_link'] = $this->url_controller . 'explore';
         $data['view_a'] = 'common/row_details_v';
 
         $this->App_model->view(TPL_ADMIN, $data);
@@ -110,11 +119,8 @@ class Questions extends CI_Controller{
     {
         //Variables generales
             $data['head_title'] = 'Preguntas';
-            $data['head_subtitle'] = 'Nueva';
-            $data['nav_2'] = 'exams/questions/explore/menu_v';
-            $data['view_a'] = 'exams/questions/add_v';
-
-            
+            $data['nav_2'] = $this->views_folder . 'explore/menu_v';
+            $data['view_a'] = $this->views_folder . 'add_v';
 
         $this->App_model->view(TPL_ADMIN, $data);
     }
@@ -129,9 +135,9 @@ class Questions extends CI_Controller{
         $data = $this->Question_model->basic($question_id);
         
         //Array data espefícicas
-            $data['nav_2'] = 'exams/questions/menu_v';
-            $data['head_subtitle'] = 'Editar';
-            $data['view_a'] = 'exams/questions/edit_v';
+            $data['nav_2'] = $this->views_folder . 'menu_v';
+            $data['back_link'] = $this->url_controller . 'explore';
+            $data['view_a'] = $this->views_folder . 'edit_v';
         
         $this->App_model->view(TPL_ADMIN, $data);
     }
@@ -164,8 +170,7 @@ class Questions extends CI_Controller{
         $data['form_table_id'] = 2000;
         $data['form_related_1'] = $question_id;
 
-        $data['view_a'] = 'questions/images/images_v';
-        $data['subtitle_head'] = 'Images';
+        $data['view_a'] = $this->views_folder .  'images/images_v';
         $this->App_model->view(TPL_ADMIN, $data);
     }
 
@@ -208,8 +213,8 @@ class Questions extends CI_Controller{
 
         $data['url_file'] = URL_RESOURCES . 'import_templates/' . $data['template_file_name'];
 
-        $data['head_title'] = 'Questions';
-        $data['nav_2'] = 'exams/questions/explore/menu_v';
+        $data['head_title'] = 'Preguntas';
+        $data['nav_2'] = $this->views_folder . 'explore/menu_v';
         $data['view_a'] = 'common/import_v';
         
         $this->App_model->view(TPL_ADMIN, $data);
@@ -235,13 +240,10 @@ class Questions extends CI_Controller{
             $data['back_destination'] = "questions/explore/";
         
         //Cargar vista
-            $data['head_title'] = 'Questions';
-            $data['head_subtitle'] = 'Resultado importación';
+            $data['head_title'] = 'Preguntas';
             $data['view_a'] = 'common/import_result_v';
-            $data['nav_2'] = 'exams/questions/explore/menu_v';
+            $data['nav_2'] = $data['nav_2'] = $this->views_folder . 'explore/menu_v';
 
         $this->App_model->view(TPL_ADMIN, $data);
-        //Salida JSON
-        //$this->output->set_content_type('application/json')->set_output(json_encode($data));
     }
 }

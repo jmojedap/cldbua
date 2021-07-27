@@ -2,6 +2,14 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Places extends CI_Controller{
+
+// Variables generales
+//-----------------------------------------------------------------------------
+    public $views_folder = 'admin/places/';
+    public $url_controller = URL_ADMIN . 'places/';
+
+// Constructor
+//-----------------------------------------------------------------------------
     
     function __construct() 
     {
@@ -13,9 +21,13 @@ class Places extends CI_Controller{
         date_default_timezone_set("America/Bogota");
     }
     
-    function index($user_id)
+    function index($place_id = null)
     {
-        redirect('places/explore');
+        if ( is_null($place_id) ) {
+            redirect('admin/places/explore');
+        } else {
+            redirect("admin/places/details/{$place_id}");
+        }
     }
     
 //EXPLORE
@@ -36,6 +48,7 @@ class Places extends CI_Controller{
         
         //Opciones de filtros de búsqueda
             $data['options_type'] = $this->Item_model->options('category_id = 70', 'Todos');
+            $data['options_status'] = array('' => '[ Todos los status ]', '00' => 'Inactivo', '01' => 'Activo');
             
         //Arrays con valores para contenido en lista
             $data['arr_types'] = $this->Item_model->arr_cod('category_id = 70');
@@ -79,8 +92,18 @@ class Places extends CI_Controller{
     function info($place_id)
     {
         $data = $this->Place_model->basic($place_id);
-        $data['view_a'] = 'system/places/info_v';
-        $data['nav_2'] = 'system/places/menu_v';
+        $data['view_a'] = $this->views_folder . 'info_v';
+        $data['nav_2'] = $this->views_folder . 'menu_v';
+        $data['back_link'] = $this->url_controller . 'explore';
+        $this->App_model->view(TPL_ADMIN, $data);
+    }
+
+    function details($place_id)
+    {
+        $data = $this->Place_model->basic($place_id);
+        $data['view_a'] = 'common/row_details_v';
+        $data['nav_2'] = $this->views_folder . 'menu_v';
+        $data['back_link'] = $this->url_controller . 'explore';
         $this->App_model->view(TPL_ADMIN, $data);
     }
 
@@ -93,10 +116,11 @@ class Places extends CI_Controller{
         $data['options_type'] = $this->Item_model->options('category_id = 70');
         $data['options_country'] = $this->App_model->options_place('type_id = 2');
         $data['options_region'] = $this->App_model->options_place('type_id = 3 AND country_id = 51', 'place_name');
+        $data['options_status'] = array('00' => 'Inactivo', '01' => 'Activo');
 
         //Vista
-        $data['view_a'] = 'system/places/add_v';
-        $data['nav_2'] = 'system/places/explore/menu_v';
+        $data['view_a'] = $this->views_folder . 'add_v';
+        $data['nav_2'] = $this->views_folder . 'explore/menu_v';
         $data['head_title'] = 'Nuevo lugar';
         $this->App_model->view(TPL_ADMIN, $data);
     }
@@ -109,10 +133,12 @@ class Places extends CI_Controller{
         $data['options_type'] = $this->Item_model->options('category_id = 70');
         $data['options_country'] = $this->App_model->options_place('type_id = 2');
         $data['options_region'] = $this->App_model->options_place('type_id = 3 AND country_id = 51', 'place_name');
+        $data['options_status'] = array('00' => 'Inactivo', '01' => 'Activo');
 
         //Vista
-        $data['view_a'] = 'system/places/edit_v';
-        $data['nav_2'] = 'system/places/menu_v';
+        $data['view_a'] = $this->views_folder . 'edit_v';
+        $data['nav_2'] = $this->views_folder . 'menu_v';
+        $data['back_link'] = $this->url_controller . 'explore';
         $this->App_model->view(TPL_ADMIN, $data);
     }
 
@@ -126,6 +152,17 @@ class Places extends CI_Controller{
         $data['saved_id'] = $this->Place_model->save($arr_row, $place_id);
 
         //Salida JSON
+        $this->output->set_content_type('application/json')->set_output(json_encode($data));
+    }
+
+    /**
+     * Cambiar el estado de un lugar, campo places.status
+     * 2021-05-18
+     */
+    function set_status()
+    {
+        $arr_row = $this->input->post();
+        $data['saved_id'] = $this->Db_model->save_id('places', $arr_row);
         $this->output->set_content_type('application/json')->set_output(json_encode($data));
     }
 

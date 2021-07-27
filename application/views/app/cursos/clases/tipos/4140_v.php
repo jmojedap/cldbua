@@ -42,7 +42,7 @@
                             <tr>
                                 <td class="td-title"></td>
                                 <td>
-                                    <a v-bind:href="`<?= URL_ADMIN . "exams/results/" ?>` + exam_id + '/' + answer.id + `/` + enrolling_id" class="btn btn-light">Ver detalle</a>
+                                    <a v-bind:href="`<?= URL_FRONT . "examenes/resultados/" ?>` + exam_id + '/' + answer.id + `/` + enrolling_id" class="btn btn-light">Ver detalle</a>
                                 </td>
                             </tr>
                         </tbody>

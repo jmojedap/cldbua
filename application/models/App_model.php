@@ -67,6 +67,18 @@ class App_model extends CI_Model{
         return $data;
     }
 
+    //Resumen para dashboard
+    function summary()
+    {
+        $summary = array();
+
+        $summary['users']['num_rows'] = $this->Db_model->num_rows('users', 'id > 0');
+        $summary['students']['num_rows'] = $this->Db_model->num_rows('users', 'role = 21');
+        $summary['courses']['num_rows'] = $this->Db_model->num_rows('posts', 'type_id = 4110');
+    
+        return $summary;
+    }
+
 // NOMBRES
 //-----------------------------------------------------------------------------
 
@@ -233,6 +245,18 @@ class App_model extends CI_Model{
         }
 
         return $data;
+    }
+
+// Procesos del sistema para la aplicación
+//-----------------------------------------------------------------------------
+
+    function processes()
+    {
+        $this->db->select('id, post_name AS process_name, content AS description, text_2 AS module, text_1 AS process_link');
+        $this->db->where('type_id', 10);
+        $processes = $this->db->get('posts');
+
+        return $processes;
     }
 
 }

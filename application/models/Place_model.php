@@ -6,8 +6,8 @@ class   Place_model extends CI_Model{
         $data['place_id'] = $place_id;
         $data['row'] = $this->Db_model->row_id('places', $place_id);
         $data['head_title'] = $data['row']->place_name;
-        $data['view_a'] = 'system/places/info_v';
-        $data['nav_2'] = 'system/places/menu_v';
+        $data['view_a'] = $this->views_folder . 'info_v';
+        $data['nav_2'] = $this->views_folder . 'menu_v';
 
         return $data;
     }
@@ -26,7 +26,7 @@ class   Place_model extends CI_Model{
         //Elemento de exploración
             $data['controller'] = 'places';                      //Nombre del controlador
             $data['cf'] = 'places/explore/';                      //Nombre del controlador
-            $data['views_folder'] = 'system/places/explore/';           //Carpeta donde están las vistas de exploración
+            $data['views_folder'] = $this->views_folder . 'explore/';           //Carpeta donde están las vistas de exploración
             $data['num_page'] = $num_page;                      //Número de la página
             
         //Vistas
@@ -122,6 +122,7 @@ class   Place_model extends CI_Model{
         
         //Otros filtros
         if ( $filters['type'] != '' ) { $condition .= "places.type_id = {$filters['type']} AND "; }
+        if ( $filters['status'] != '' ) { $condition .= "places.status = {$filters['status']} AND "; }
         if ( $filters['fe1'] != '' ) { $condition .= "places.country_id = {$filters['fe1']} AND "; }
         if ( $filters['fe2'] != '' ) { $condition .= "places.region_id = {$filters['fe2']} AND "; }
         
@@ -198,7 +199,7 @@ class   Place_model extends CI_Model{
         $deletable = FALSE;
         
         //El user es aministrador
-        if ( $this->session->userdata('rol_id') == 0 ) { $deletable = TRUE; }
+        if ( $this->session->userdata('role') == 0 ) { $deletable = TRUE; }
             
         return $deletable;
     }
@@ -229,7 +230,9 @@ class   Place_model extends CI_Model{
     {
         //Complementar registro
         $arr_row['country'] = $this->Db_model->field_id('places', $arr_row['country_id'], 'place_name');
-        $arr_row['region'] = $this->Db_model->field_id('places', $arr_row['region_id'], 'place_name');
+        if ( isset($arr_row['region_id']) ) {
+            $arr_row['region'] = $this->Db_model->field_id('places', $arr_row['region_id'], 'place_name');
+        }
         $arr_row['slug'] = $this->Db_model->unique_slug($arr_row['place_name'], 'places');
 
         //Condición para identificar el registro del place

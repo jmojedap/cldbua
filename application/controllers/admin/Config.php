@@ -37,8 +37,8 @@ public $url_controller = URL_ADMIN . 'config/';
     function options()
     {
         $data['head_title'] = 'Opciones del sistema';
-        $data['nav_2'] = 'system/admin/menu_v';        
-        $data['view_a'] = 'system/admin/options_v';        
+        $data['nav_2'] = $this->views_folder . 'menu_v';        
+        $data['view_a'] = $this->views_folder . 'options_v';        
         $this->App_model->view(TPL_ADMIN, $data);
     }
 
@@ -79,6 +79,19 @@ public $url_controller = URL_ADMIN . 'config/';
         $this->output->set_content_type('application/json')->set_output(json_encode($data));
     }
 
+// Procesos
+//-----------------------------------------------------------------------------
+
+    function processes()
+    {    
+        $data['processes'] = $this->App_model->processes();
+
+        $data['head_title'] = 'Procesos del sistema';
+        $data['view_a'] = $this->views_folder .  'processes_v';
+        $data['nav_2'] = $this->views_folder .  'menu_v';        
+        $this->App_model->view(TPL_ADMIN, $data);
+    }
+
 // Colores
 //-----------------------------------------------------------------------------
 
@@ -89,28 +102,10 @@ public $url_controller = URL_ADMIN . 'config/';
     function colors()
     {
         $data['head_title'] = 'Colores';
-        $data['nav_2'] = 'system/admin/menu_v';
-        $data['view_a'] = 'system/admin/colors_v';
+        $data['nav_2'] = $this->views_folder . 'menu_v';
+        $data['view_a'] = $this->views_folder . 'colors_v';
         $this->App_model->view(TPL_ADMIN, $data);
     }
-    
-//Login maestro
-//---------------------------------------------------------------------------------------------------
-    
-    /**
-     * ml > master login
-     * Función para el login de administradores ingresando con otro user
-     * 
-     * @param type $user_id
-     */
-    function ml($user_id)
-    {
-        $this->load->model('Account_model');
-        $username = $this->Db_model->field_id('users', $user_id, 'username');
-        if ( $this->session->userdata('rol_id') <= 1 ) { $this->Account_model->create_session($username, FALSE); }
-        
-        redirect('app/accounts/logged');
-    }    
 
 // Pruebas y desarrollo
 //-----------------------------------------------------------------------------

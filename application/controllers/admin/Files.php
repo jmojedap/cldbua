@@ -227,6 +227,9 @@ class Files extends CI_Controller{
 // PROCESOS MASIVOS
 //-----------------------------------------------------------------------------
 
+    /**
+     * Actualizar campos de url de la tabla files, según CONSTANTES de la aplicación
+     */
     function update_url()
     {
         $data = $this->File_model->update_url();

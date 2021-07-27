@@ -1,5 +1,5 @@
 <?php
-    $app_cf_index = $this->uri->segment(1) . '_' . $this->uri->segment(2);
+    $app_cf_index = $this->uri->segment(2) . '_' . $this->uri->segment(3);
     
     $cl_nav_2['accounts_profile'] = '';
     $cl_nav_2['accounts_edit'] = '';

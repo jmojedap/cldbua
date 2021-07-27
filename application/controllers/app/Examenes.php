@@ -5,7 +5,7 @@ class Examenes extends CI_Controller{
 
 // Variables generales
 //-----------------------------------------------------------------------------
-    public $views_folder = 'app/examenes/examenes/';
+    public $views_folder = 'app/examenes/';
     public $url_controller = URL_ADMIN . 'examenes/';
 
 // Constructor
@@ -87,7 +87,7 @@ class Examenes extends CI_Controller{
             $data['head_title'] = $data['course']->post_name;
         }
 
-        $data['view_a'] = $this->views_folder . 'examens/resolver/resolver_v';
+        $data['view_a'] = $this->views_folder . 'resolver/resolver_v';
         unset($data['nav_2']);
         $this->App_model->view(TPL_ADMIN, $data);
     }

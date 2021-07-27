@@ -79,7 +79,7 @@ var preview_app = new Vue({
                 }
 
                 setTimeout(() => {
-                    window.location = url_app + 'exams/results/' + this.exam.id + '/' + this.eu_id + '/' + this.enrolling_id
+                    window.location = url_front + 'examenes/resultados/' + this.exam.id + '/' + this.eu_id + '/' + this.enrolling_id
                 }, 3000);
 
             }).catch(function(error) {console.log(error)})  

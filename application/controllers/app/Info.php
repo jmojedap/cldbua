@@ -22,6 +22,14 @@ class Info extends CI_Controller {
             
     }
 
+    function no_permitido()
+    {
+        $data['head_title'] = 'Acceso no permitido';
+        $data['view_a'] = 'app/info/no_permitido_v';
+
+        $this->load->view('templates/apanel4/start', $data);
+    }
+
 // FUNCIONES FRONT INFO
 //-----------------------------------------------------------------------------
 

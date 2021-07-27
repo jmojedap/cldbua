@@ -19,7 +19,7 @@
             <th width="50px"></th>
         </thead>
         <tbody>
-            <tr v-for="(element, key) in list" v-bind:id="`row_` + element.id" v-bind:class="{'table-warning': selected.includes(element.id) }">
+            <tr v-for="(element, key) in list" v-bind:id="`row_` + element.id" v-bind:class="{'table-info': selected.includes(element.id) }">
                 <td><input type="checkbox" v-bind:id="`check_` + element.id" v-model="selected" v-bind:value="element.id"></td>
                 <td class="text-muted">{{ element.id }}</td>
                 

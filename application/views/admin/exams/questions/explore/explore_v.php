@@ -29,7 +29,7 @@
         </div>
     </div>
 
-    <?php $this->load->view($views_folder . 'table_v'); ?>
+    <?php $this->load->view($views_folder . 'list_v'); ?>
     <?php $this->load->view($views_folder . 'detail_v'); ?>
     <?php $this->load->view('common/modal_delete_v'); ?>
 </div>

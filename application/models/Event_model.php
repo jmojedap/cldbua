@@ -15,7 +15,7 @@ class   Event_model extends CI_Model{
         //Elemento de exploración
             $data['controller'] = 'events';                      //Nombre del controlador
             $data['cf'] = 'events/explore/';                      //Nombre del controlador
-            $data['views_folder'] = 'events/explore/';           //Carpeta donde están las vistas de exploración
+            $data['views_folder'] = $this->views_folder . 'explore/';           //Carpeta donde están las vistas de exploración
             $data['num_page'] = $num_page;                      //Número de la página
             
         //Vistas
@@ -198,7 +198,7 @@ class   Event_model extends CI_Model{
         }
         
     //El user es aministrador
-        if ( $this->session->userdata('rol_id') <= 1 ) { $deletable = TRUE; }
+        if ( $this->session->userdata('role') <= 1 ) { $deletable = TRUE; }
             
         return $deletable;
     }
@@ -211,7 +211,7 @@ class   Event_model extends CI_Model{
      */
     function delete($event_id)
     {
-        $quan_deleted = 0;
+        $qty_deleted = 0;
         $deletable = $this->deletable($event_id);
         
         if ( $deletable ) 
@@ -220,10 +220,10 @@ class   Event_model extends CI_Model{
                 $this->db->where('id', $event_id);
                 $this->db->delete('events');
                 
-            $quan_deleted = $this->db->affected_rows();
+            $qty_deleted = $this->db->affected_rows();
         }
             
-        return $quan_deleted;
+        return $qty_deleted;
     }
     
     /**
@@ -244,7 +244,7 @@ class   Event_model extends CI_Model{
     
     /**
      * Guarda un registro en la tabla event
-     * 2021-04-08
+     * 2021-07-19
      */
     function save($arr_row, $condition_add = NULL)
     {

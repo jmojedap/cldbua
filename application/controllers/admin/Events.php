@@ -2,6 +2,14 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Events extends CI_Controller{
+
+// Variables generales
+//-----------------------------------------------------------------------------
+    public $views_folder = 'admin/events/';
+    public $url_controller = URL_ADMIN . 'events/';
+
+// Constructor
+//-----------------------------------------------------------------------------
     
     function __construct() 
     {
@@ -78,10 +86,9 @@ class Events extends CI_Controller{
         $data['events'] = $this->Event_model->summary($qty_days);
         $data['qty_days'] = $qty_days;
 
-        $data['view_a'] = 'events/summary_v';
-        $data['nav_2'] = 'events/explore/menu_v';
+        $data['view_a'] = $this->views_folder . 'summary_v';
+        $data['nav_2'] = $this->views_folder . 'explore/menu_v';
         $data['head_title'] = 'Eventos';
-        $data['head_subtitle'] = 'resumen';
 
         $this->App_model->view(TPL_ADMIN, $data);
     }

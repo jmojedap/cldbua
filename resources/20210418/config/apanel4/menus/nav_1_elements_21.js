@@ -3,16 +3,16 @@ var nav_1_elements = [
         text: 'Catálogo',
         active: false,
         icon: 'bi-grid',
-        cf: 'courses/browse',
-        sections: ['courses/browse', 'courses/info'],
+        cf: 'cursos/catalogo',
+        sections: ['cursos/catalogo', 'cursos/info'],
         subelements: []
     },
     {
         text: 'Mis cursos',
         active: false,
         icon: 'bi-book',
-        cf: 'courses/my_courses',
-        sections: ['courses/my_courses', 'courses/class', 'courses/certificate', 'exams/resolve', 'exams/results', 'courses/enrolling_status'],
+        cf: 'cursos/mis_cursos',
+        sections: ['cursos/mis_cursos', 'cursos/clase', 'cursos/certificado', 'examenes/resolver', 'examenes/resultadoss', 'cursos/estado_inscripcion'],
         subelements: []
     },
     {

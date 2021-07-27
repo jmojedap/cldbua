@@ -3,7 +3,7 @@
     $cl_nav_3['avatar'] = '';
     $cl_nav_3['password'] = '';
 
-    $app_cf_index = $this->uri->segment(3);
+    $app_cf_index = $this->uri->segment(4);
     if ( strlen($app_cf_index) == 0 ) { $app_cf_index = 'basic'; }
     
     $cl_nav_3[$app_cf_index] = 'active';
@@ -14,7 +14,7 @@
     var sections = [];
     var nav_3 = [];
     var sections_role = [];
-    var element_id = '<?= $this->uri->segment(3) ?>';
+    var element_id = '<?= $this->uri->segment(4) ?>';
     
     sections.basic = {
         icon: '',
